@@ -1,0 +1,2 @@
+name: Auto Deploy
+on: [push]
