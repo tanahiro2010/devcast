@@ -1,2 +1,48 @@
 name: Auto Deploy
-on: [push]
+on: 
+  push:
+    branches: main
+
+jobs:
+  LandingPage:
+    runs-on: ubuntu-latest
+    steps: # FTP Deploy
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./lp/dist
+          server-dir: /devcast.work/public_html
+
+  ServicePage:
+    runs-on: ubuntu-latest
+    steps: # FTP Deploy
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./frontend/dist
+          server-dir: /devcast.work/public_html/app.devcast.work
+
+  ServiceAPI:
+    runs-on: ubuntu-latest
+    steps: # FTP Deploy
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./backend/dist
+          server-dir: /devcast.work/public_html/api.devcast.work
+  
