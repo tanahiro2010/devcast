@@ -7,8 +7,11 @@ class Details {
   public $status;
 
   public function __construct(string $instance, string | null $date = null, int $status = 400) {
+    if ($date === null) {
+      $date = date('Y-m-d H:i:s');
+    }
     $this->instance = $instance;
-    $this->date = $date ?? date('Y-m-d H:i:s');
+    $this->date = $date;
     $this->status = $status;
   }
 
