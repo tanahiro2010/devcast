@@ -43,6 +43,6 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./backend/dist
+          local-dir: ./backend
           server-dir: /devcast.work/public_html/api.devcast.work
   
