@@ -45,3 +45,29 @@ body {
 .link-arrow:hover .arrow {
 	transform: translateX(4px);
 }
+
+/* FAQ accordion: animate <details> open/close via the CSS grid `fr` trick
+   instead of the browser's instant display:none toggle. */
+summary::-webkit-details-marker {
+	display: none;
+}
+.faq-answer {
+	display: grid;
+	grid-template-rows: 0fr;
+	overflow: hidden;
+	opacity: 0;
+	transition: grid-template-rows 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+.faq-answer > p {
+	overflow: hidden;
+	min-height: 0;
+}
+details[open] > .faq-answer {
+	grid-template-rows: 1fr;
+	opacity: 1;
+}
+/* Override the UA default (`details:not([open]) > *:not(summary){display:none}`)
+   so the collapse animates via grid-template-rows instead of vanishing instantly. */
+details:not([open]) > .faq-answer {
+	display: grid;
+}

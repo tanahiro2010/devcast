@@ -27,11 +27,13 @@ const faqStructuredData = {
 	<h2 class="text-3xl font-semibold text-center mb-12">{title}</h2>
 	<div class="space-y-4">
 		{faqs.map((faq, i) => (
-			<details class="group border border-hairline rounded-xl p-5" open={i === 0}>
-				<summary class="font-semibold cursor-pointer flex justify-between items-center">
+			<details class="group border border-hairline rounded-xl p-5 transition-colors hover:border-neutral-300" open={i === 0}>
+				<summary class="font-semibold cursor-pointer flex justify-between items-center list-none">
 					{faq.q}<span class="text-neutral-400 group-open:rotate-45 transition">+</span>
 				</summary>
-				<p class="mt-3 text-neutral-600 text-sm">{faq.a}</p>
+				<div class="faq-answer">
+					<p class="pt-3 text-neutral-600 text-sm">{faq.a}</p>
+				</div>
 			</details>
 		))}
 	</div>
