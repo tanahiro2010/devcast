@@ -1,7 +1,10 @@
-.PHONY: front back lp
+.PHONY: front back lp migrate
 
 db:
-  cd database && docker compose up
+	cd database && docker compose up
+
+migrate:
+	cd backend && php src/database/migrate.php
 
 front:
 	cd frontend && bun run dev
