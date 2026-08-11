@@ -1,0 +1,28 @@
+---
+import Layout from "./Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+	title: string;
+	description: string;
+	path: string;
+	heading: string;
+	updated: string;
+}
+
+const { title, description, path, heading, updated } = Astro.props;
+---
+
+<Layout title={title} description={description} path={path}>
+	<Header />
+	<main class="max-w-3xl mx-auto px-6 py-20">
+		<p class="kicker text-[12px] font-semibold text-accent uppercase mb-4">Legal</p>
+		<h1 class="text-3xl font-semibold tracking-tight mb-2">{heading}</h1>
+		<p class="text-sm text-neutral-400 mb-12">最終更新日：{updated}</p>
+		<div class="legal-content">
+			<slot />
+		</div>
+	</main>
+	<Footer />
+</Layout>
