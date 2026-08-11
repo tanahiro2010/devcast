@@ -62,6 +62,21 @@ const faqStructuredData = {
 			this.summary.addEventListener("click", (e) => this.onClick(e));
 		}
 
+		// The <details> element itself carries padding/border (p-5, border),
+		// which isn't part of summary/content's own box. Without adding it
+		// back, the animated target height falls short of (or short-cuts)
+		// the real layout height, so the box visibly jumps/snaps once the
+		// inline height style is cleared at animation end.
+		getBoxExtra() {
+			const cs = getComputedStyle(this.el);
+			return (
+				parseFloat(cs.paddingTop) +
+				parseFloat(cs.paddingBottom) +
+				parseFloat(cs.borderTopWidth) +
+				parseFloat(cs.borderBottomWidth)
+			);
+		}
+
 		onClick(e: MouseEvent) {
 			if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 			e.preventDefault();
@@ -76,7 +91,7 @@ const faqStructuredData = {
 		shrink() {
 			this.isClosing = true;
 			const startHeight = `${this.el.offsetHeight}px`;
-			const endHeight = `${this.summary.offsetHeight}px`;
+			const endHeight = `${this.summary.offsetHeight + this.getBoxExtra()}px`;
 			this.animation?.cancel();
 			this.animation = this.el.animate(
 				{ height: [startHeight, endHeight] },
@@ -95,7 +110,7 @@ const faqStructuredData = {
 		expand() {
 			this.isExpanding = true;
 			const startHeight = `${this.el.offsetHeight}px`;
-			const endHeight = `${this.summary.offsetHeight + this.content.offsetHeight}px`;
+			const endHeight = `${this.summary.offsetHeight + this.content.offsetHeight + this.getBoxExtra()}px`;
 			this.animation?.cancel();
 			this.animation = this.el.animate(
 				{ height: [startHeight, endHeight] },
