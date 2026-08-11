@@ -59,15 +59,21 @@ jobs:
 
   ServiceAPI:
     runs-on: ubuntu-latest
-    steps: # FTP Deploy
+    steps: # SSH + rsync Deploy
       - name: Checkout
         uses: actions/checkout@v3
-        
-      - name: FTP Deploy
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./backend/
-          server-dir: /devcast.work/public_html/api.devcast.work/
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add remote host key
+        run: ssh-keyscan -p 10022 ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Rsync Deploy
+        run: |
+          rsync -az --delete \
+            -e "ssh -p 10022" \
+            ./backend/ \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/devcast.work/public_html/api.devcast.work/
