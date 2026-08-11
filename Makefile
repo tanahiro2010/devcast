@@ -1,8 +1,8 @@
 .PHONY: front back lp migrate
 
 docker:
-	cd database && docker compose -d
-up
+	cd database && docker compose up -d
+
 migrate:
 	cd backend && php src/database/migrate.php
 
