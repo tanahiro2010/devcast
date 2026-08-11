@@ -1,7 +1,17 @@
 <?php
-define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
-define('DB_NAME', getenv('DB_NAME') ?: 'devcast');
-define('DB_USER', getenv('DB_USER') ?: 'admin');
-define('DB_PASSWORD', getenv('DB_PASSWORD') ?: 'admin');
+use Illuminate\Database\Capsule\Manager as Capsule;
 
-$db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+$capsule = new Capsule();
+$capsule->addConnection([
+  'driver' => 'mysql',
+  'host' => getenv('DB_HOST') ?: 'localhost',
+  'database' => getenv('DB_NAME') ?: 'devcast',
+  'username' => getenv('DB_USER') ?: 'admin',
+  'password' => getenv('DB_PASSWORD') ?: 'admin',
+  'charset' => 'utf8mb4',
+  'collation' => 'utf8mb4_unicode_ci'
+]);
+
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+
