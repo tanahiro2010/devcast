@@ -1,5 +1,6 @@
 ---
 import LegalLayout from "../layouts/LegalLayout.astro";
+import { business } from "../data/business";
 ---
 
 <LegalLayout
@@ -17,29 +18,39 @@ import LegalLayout from "../layouts/LegalLayout.astro";
 		<tbody>
 			<tr>
 				<th>販売事業者名</th>
-				<td>［事業者名を記載］</td>
+				<td>{business.legalName}</td>
 			</tr>
 			<tr>
 				<th>運営統括責任者</th>
-				<td>［運営責任者の氏名を記載］</td>
+				<td>{business.representative}</td>
 			</tr>
 			<tr>
 				<th>所在地</th>
 				<td>
-					［所在地を記載］<br />
-					（個人事業主の場合、請求があれば遅滞なく開示します。開示をご希望の場合は下記お問い合わせ先までご連絡ください。）
+					〒{business.postalCode} {business.address}
+					{business.disclosureOnRequest && (
+						<>
+							<br />
+							（個人事業主の場合、請求があれば遅滞なく開示します。開示をご希望の場合は下記お問い合わせ先までご連絡ください。）
+						</>
+					)}
 				</td>
 			</tr>
 			<tr>
 				<th>電話番号</th>
 				<td>
-					［電話番号を記載］<br />
-					（請求があれば遅滞なく開示します。開示をご希望の場合は下記お問い合わせ先までご連絡ください。）
+					{business.phone}
+					{business.disclosureOnRequest && (
+						<>
+							<br />
+							（請求があれば遅滞なく開示します。開示をご希望の場合は下記お問い合わせ先までご連絡ください。）
+						</>
+					)}
 				</td>
 			</tr>
 			<tr>
 				<th>メールアドレス</th>
-				<td>［お問い合わせ用メールアドレスを記載］</td>
+				<td>{business.email}</td>
 			</tr>
 			<tr>
 				<th>サービス名</th>

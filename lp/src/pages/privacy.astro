@@ -1,5 +1,6 @@
 ---
 import LegalLayout from "../layouts/LegalLayout.astro";
+import { business } from "../data/business";
 ---
 
 <LegalLayout
@@ -10,7 +11,7 @@ import LegalLayout from "../layouts/LegalLayout.astro";
 	updated="2026年8月11日"
 >
 	<p>
-		［事業者名を記載］（以下「当社」といいます）は、当社が提供する技術記事管理・配信サービス「DevCast」（以下「本サービス」といいます）における、ユーザーの個人情報の取扱いについて、以下のとおりプライバシーポリシー（以下「本ポリシー」といいます）を定めます。
+		{business.legalName}（以下「当社」といいます）は、当社が提供する技術記事管理・配信サービス「DevCast」（以下「本サービス」といいます）における、ユーザーの個人情報の取扱いについて、以下のとおりプライバシーポリシー（以下「本ポリシー」といいます）を定めます。
 	</p>
 
 	<h2>1. 取得する情報</h2>
@@ -102,11 +103,11 @@ import LegalLayout from "../layouts/LegalLayout.astro";
 		<tbody>
 			<tr>
 				<th>事業者名</th>
-				<td>［事業者名を記載］</td>
+				<td>{business.legalName}</td>
 			</tr>
 			<tr>
 				<th>お問い合わせ先</th>
-				<td>［お問い合わせ用メールアドレスを記載］</td>
+				<td>{business.email}</td>
 			</tr>
 		</tbody>
 	</table>
