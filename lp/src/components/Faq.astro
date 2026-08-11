@@ -52,6 +52,7 @@ const faqStructuredData = {
 		summary: HTMLElement;
 		content: HTMLElement;
 		animation: Animation | null = null;
+		contentAnimation: Animation | null = null;
 		isClosing = false;
 		isExpanding = false;
 
@@ -99,6 +100,13 @@ const faqStructuredData = {
 			);
 			this.animation.onfinish = () => this.onAnimationFinish(false);
 			this.animation.oncancel = () => (this.isClosing = false);
+
+			// Fade the text out well before the box finishes collapsing.
+			// With overflow:hidden alone, the ease-out height tween lingers
+			// near its target for a while, so a sliver of text stays visible
+			// (and readable) noticeably later than the box "looks" closed.
+			this.contentAnimation?.cancel();
+			this.contentAnimation = this.content.animate({ opacity: [1, 0] }, { duration: 120, easing: "ease-out", fill: "forwards" });
 		}
 
 		open() {
@@ -118,6 +126,11 @@ const faqStructuredData = {
 			);
 			this.animation.onfinish = () => this.onAnimationFinish(true);
 			this.animation.oncancel = () => (this.isExpanding = false);
+
+			// Fade the text back in as the box grows, starting from
+			// transparent so it doesn't just pop in at full opacity.
+			this.contentAnimation?.cancel();
+			this.contentAnimation = this.content.animate({ opacity: [0, 1] }, { duration: 200, easing: "ease-in", fill: "forwards" });
 		}
 
 		onAnimationFinish(open: boolean) {
@@ -127,6 +140,8 @@ const faqStructuredData = {
 			this.isExpanding = false;
 			this.el.style.height = "";
 			this.el.style.overflow = "";
+			this.contentAnimation = null;
+			this.content.style.opacity = "";
 		}
 	}
 
