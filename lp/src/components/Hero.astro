@@ -44,8 +44,20 @@
 					<div class="flex justify-between items-center">
 						<span>DEV.to</span><span class="text-emerald-600">✔ Latest</span>
 					</div>
-					<div class="flex justify-between items-center">
-						<span>はてなブログ</span><span class="text-accent">⚠ Update available</span>
+					<div class="group flex justify-between items-center cursor-default">
+						<span>はてなブログ</span>
+						<span class="relative inline-block h-[1.2em] w-[12.5em] whitespace-nowrap text-right">
+							<span
+								class="absolute inset-0 text-accent transition-all duration-300 ease-out group-hover:-translate-y-1.5 group-hover:opacity-0"
+							>
+								⚠ Update available
+							</span>
+							<span
+								class="absolute inset-0 text-emerald-600 opacity-0 translate-y-1.5 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100"
+							>
+								✔ Synced
+							</span>
+						</span>
 					</div>
 				</div>
 			</div>
