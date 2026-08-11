@@ -1,18 +1,13 @@
 ---
-const faqs = [
-	{
-		q: "Publisher連携はすべて無料ですか？",
-		a: "はい。Qiita・DEV.to・はてなブログへの接続と公開はFreeプランで無制限にご利用いただけます。",
-	},
-	{
-		q: "既存の記事をインポートできますか？",
-		a: "Qiita / DEV.to / はてなブログからの記事インポート機能を今後提供予定です。",
-	},
-	{
-		q: "AI翻訳の内容はそのまま公開されますか？",
-		a: "いいえ。翻訳結果は必ずユーザーが確認・編集してから公開する設計になっています。",
-	},
-];
+import { homeFaqs, type Faq } from "../data/pricing";
+
+interface Props {
+	faqs?: Faq[];
+	title?: string;
+	id?: string;
+}
+
+const { faqs = homeFaqs, title = "よくある質問", id = "faq" } = Astro.props;
 
 const faqStructuredData = {
 	"@context": "https://schema.org",
@@ -28,8 +23,8 @@ const faqStructuredData = {
 };
 ---
 
-<section id="faq" class="max-w-3xl mx-auto px-6 py-24">
-	<h2 class="text-3xl font-semibold text-center mb-12">よくある質問</h2>
+<section id={id} class="max-w-3xl mx-auto px-6 py-24">
+	<h2 class="text-3xl font-semibold text-center mb-12">{title}</h2>
 	<div class="space-y-4">
 		{faqs.map((faq, i) => (
 			<details class="group border border-hairline rounded-xl p-5" open={i === 0}>

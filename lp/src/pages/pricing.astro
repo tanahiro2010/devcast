@@ -1,0 +1,25 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import PricingHero from "../components/PricingHero.astro";
+import PricingPlans from "../components/PricingPlans.astro";
+import ComparisonTable from "../components/ComparisonTable.astro";
+import Faq from "../components/Faq.astro";
+import Cta from "../components/Cta.astro";
+import Footer from "../components/Footer.astro";
+import { pricingFaqs } from "../data/pricing";
+---
+
+<Layout
+	path="/pricing"
+	title="料金プラン | DevCast — Free / Pro / Business"
+	description="DevCastの料金プランはFree・Pro（¥980/月）・Business（¥2,980/月）の3種類。Publisher接続はどのプランでも無制限、AI翻訳やチーム機能など機能ごとの詳細な比較とよくある質問をまとめています。"
+>
+	<Header />
+	<PricingHero />
+	<PricingPlans />
+	<ComparisonTable />
+	<Faq faqs={pricingFaqs} title="料金に関するよくある質問" id="pricing-faq" />
+	<Cta />
+	<Footer />
+</Layout>
