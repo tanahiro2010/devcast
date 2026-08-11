@@ -1,0 +1,36 @@
+{
+    "name": "tanahiro2010/slim-router-dsl",
+    "description": "Slim Original DSL for router",
+    "type": "library",
+    "version": "1.4.0",
+    "bin": [
+        "bin/router-dsl"
+    ],
+    "require": {
+        "slim/slim": "^4.15"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0",
+        "slim/psr7": "^1.7"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Tanahiro2010\\SlimRouterDsl\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Hirohisa Tanaka(tanahiro2010)",
+            "email": "herentongkegu087@gmail.com"
+        }
+    ],
+    "scripts": {
+        "test": "phpunit"
+    }
+}

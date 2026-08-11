@@ -10,7 +10,8 @@
         "monolog/monolog": "^3.10",
         "guzzlehttp/guzzle": "^8.0",
         "illuminate/database": "^13.24",
-        "illuminate/events": "^13.24"
+        "illuminate/events": "^13.24",
+        "tanahiro2010/slim-router-dsl": "^1.4"
     },
     "license": "CC-BY-NC-ND-4.0",
     "autoload": {

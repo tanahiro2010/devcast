@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'voku\\' => array($vendorDir . '/voku/portable-ascii/src/voku'),
+    'Tanahiro2010\\SlimRouterDsl\\' => array($vendorDir . '/tanahiro2010/slim-router-dsl/src'),
     'Tanahiro2010\\Backend\\' => array($baseDir . '/src'),
     'Symfony\\Polyfill\\Php86\\' => array($vendorDir . '/symfony/polyfill-php86'),
     'Symfony\\Polyfill\\Php85\\' => array($vendorDir . '/symfony/polyfill-php85'),

@@ -1,0 +1,93 @@
+name: Deploy
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run test suite
+        run: composer test
+
+  release:
+    name: Create GitHub Release
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+
+  bump-composer-version:
+    name: Bump composer.json version
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Update composer.json version to match the pushed tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          php -r '
+            $file = "composer.json";
+            $data = json_decode(file_get_contents($file), true);
+            $data["version"] = $argv[1];
+            file_put_contents(
+                $file,
+                json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n"
+            );
+          ' "$VERSION"
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add composer.json
+          if git diff --cached --quiet; then
+            echo "composer.json version is already up to date."
+            exit 0
+          fi
+          git commit -m "chore: bump composer.json version to ${GITHUB_REF_NAME#v} [skip ci]"
+          git push origin HEAD:main
+
+  notify-packagist:
+    name: Notify Packagist
+    needs: release
+    runs-on: ubuntu-latest
+    # Only runs if the PACKAGIST_USERNAME repository variable is configured.
+    # Packagist normally auto-updates via its own GitHub webhook; this step is a
+    # fallback and is skipped entirely when Packagist integration isn't set up.
+    if: ${{ vars.PACKAGIST_USERNAME != '' }}
+    steps:
+      - name: Trigger Packagist update
+        run: |
+          curl -fsSL -XPOST -H "content-type:application/json" \
+            "https://packagist.org/api/update-package?username=${{ vars.PACKAGIST_USERNAME }}&apiToken=${{ secrets.PACKAGIST_TOKEN }}" \
+            -d "{\"repository\":{\"url\":\"https://github.com/${{ github.repository }}\"}}"
