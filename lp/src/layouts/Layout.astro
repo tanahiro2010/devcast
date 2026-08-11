@@ -1,23 +1,105 @@
+---
+import "../styles/global.css";
+
+interface Props {
+	title?: string;
+	description?: string;
+	path?: string;
+}
+
+const {
+	title = "DevCast | 技術記事を一括管理・複数プラットフォームへ配信できるHeadless CMS",
+	description = "DevCastは、技術記事を1箇所で管理し、Qiita・DEV Community・はてなブログなど複数の技術記事プラットフォームへ配信できる、技術者向けのHeadless CMS / Multi-Publisherです。Content APIでポートフォリオやブログからも記事を配信できます。",
+	path = "/",
+} = Astro.props;
+
+const siteUrl = "https://devcast.work";
+const canonicalUrl = new URL(path, siteUrl).toString();
+const ogImageUrl = new URL("/og-image.png", siteUrl).toString();
+
+const structuredData = {
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Organization",
+			"@id": `${siteUrl}/#organization`,
+			name: "DevCast",
+			url: siteUrl,
+			logo: `${siteUrl}/favicon.svg`,
+		},
+		{
+			"@type": "SoftwareApplication",
+			name: "DevCast",
+			applicationCategory: "DeveloperApplication",
+			operatingSystem: "Web",
+			description,
+			url: siteUrl,
+			offers: [
+				{
+					"@type": "Offer",
+					name: "Free",
+					price: "0",
+					priceCurrency: "JPY",
+				},
+				{
+					"@type": "Offer",
+					name: "Pro",
+					price: "980",
+					priceCurrency: "JPY",
+				},
+				{
+					"@type": "Offer",
+					name: "Business",
+					price: "2980",
+					priceCurrency: "JPY",
+				},
+			],
+		},
+	],
+};
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="ja-JP">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalUrl} />
+		<meta name="robots" content="index, follow" />
+		<meta name="theme-color" content="#171717" />
+
+		<!-- Open Graph -->
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="DevCast" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:image" content={ogImageUrl} />
+		<meta property="og:locale" content="ja_JP" />
+
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageUrl} />
+
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap"
+			rel="stylesheet"
+		/>
+
+		<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 	</head>
-	<body>
+	<body class="font-sans antialiased text-neutral-900 bg-white">
 		<slot />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

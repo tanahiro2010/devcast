@@ -1,0 +1,20 @@
+---
+const links = [
+	{ label: "Docs", href: "https://docs.devcast.work" },
+	{ label: "API", href: "https://docs.devcast.work/api" },
+	{ label: "Pricing", href: "/#pricing" },
+	{ label: "GitHub", href: "https://github.com/devcast" },
+];
+---
+
+<footer class="border-t border-hairline">
+	<div class="max-w-5xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-neutral-500">
+		<div class="font-semibold text-neutral-900">DevCast</div>
+		<div class="flex gap-6">
+			{links.map((link) => (
+				<a href={link.href} class="hover:text-neutral-900">{link.label}</a>
+			))}
+		</div>
+		<div>© 2026 DevCast</div>
+	</div>
+</footer>

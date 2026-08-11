@@ -1,0 +1,45 @@
+---
+const faqs = [
+	{
+		q: "Publisher連携はすべて無料ですか？",
+		a: "はい。Qiita・DEV.to・はてなブログへの接続と公開はFreeプランで無制限にご利用いただけます。",
+	},
+	{
+		q: "既存の記事をインポートできますか？",
+		a: "Qiita / DEV.to / はてなブログからの記事インポート機能を今後提供予定です。",
+	},
+	{
+		q: "AI翻訳の内容はそのまま公開されますか？",
+		a: "いいえ。翻訳結果は必ずユーザーが確認・編集してから公開する設計になっています。",
+	},
+];
+
+const faqStructuredData = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	mainEntity: faqs.map((faq) => ({
+		"@type": "Question",
+		name: faq.q,
+		acceptedAnswer: {
+			"@type": "Answer",
+			text: faq.a,
+		},
+	})),
+};
+---
+
+<section id="faq" class="max-w-3xl mx-auto px-6 py-24">
+	<h2 class="text-3xl font-semibold text-center mb-12">よくある質問</h2>
+	<div class="space-y-4">
+		{faqs.map((faq, i) => (
+			<details class="group border border-hairline rounded-xl p-5" open={i === 0}>
+				<summary class="font-semibold cursor-pointer flex justify-between items-center">
+					{faq.q}<span class="text-neutral-400 group-open:rotate-45 transition">+</span>
+				</summary>
+				<p class="mt-3 text-neutral-600 text-sm">{faq.a}</p>
+			</details>
+		))}
+	</div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
