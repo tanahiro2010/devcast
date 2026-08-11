@@ -36,7 +36,7 @@ import { plans } from "../data/pricing";
 				<a
 					href={plan.cta.href}
 					class:list={[
-						"mt-8 text-sm font-medium text-center rounded-md py-2.5 transition",
+						"link-lift mt-8 text-sm font-medium text-center rounded-md py-2.5 transition",
 						plan.featured
 							? "bg-white text-neutral-900 hover:bg-neutral-100"
 							: "border border-hairline hover:bg-neutral-50",
@@ -48,8 +48,8 @@ import { plans } from "../data/pricing";
 		))}
 	</div>
 	<div class="mt-8 text-center">
-		<a href="/pricing" class="text-sm font-medium text-neutral-900 hover:text-accent inline-flex items-center gap-1">
-			全プランを詳しく比較する <span>→</span>
+		<a href="/pricing" class="link-arrow text-sm font-medium text-neutral-900 hover:text-accent inline-flex items-center gap-1">
+			全プランを詳しく比較する <span class="arrow">→</span>
 		</a>
 	</div>
 </section>
