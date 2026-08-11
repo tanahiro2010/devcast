@@ -17,9 +17,11 @@ jobs:
           node-version: '20'
       
       - name: Install Dependencies
+        working-directory: ./lp
         run: npm install
-      
+
       - name: Build Project
+        working-directory: ./lp
         run: npm run build
 
       - name: FTP Deploy
@@ -43,9 +45,11 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
+        working-directory: ./frontend
         run: npm install
 
       - name: Build Project
+        working-directory: ./frontend
         run: npm run build
 
       - name: FTP Deploy
