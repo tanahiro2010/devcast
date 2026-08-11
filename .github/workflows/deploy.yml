@@ -75,6 +75,13 @@ jobs:
       - name: Add remote host key
         run: ssh-keyscan -p 10022 ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Write Envs to .htaccess
+        run: |
+          echo "SetEnv DB_HOST ${{ secrets.DB_HOST }}" >> ./backend/.htaccess
+          echo "SetEnv DB_NAME ${{ secrets.DB_NAME }}" >> ./backend/.htaccess
+          echo "SetEnv DB_USER ${{ secrets.DB_USER }}" >> ./backend/.htaccess
+          echo "SetEnv DB_PASSWORD ${{ secrets.DB_PASSWORD }}" >> ./backend/.htaccess
+
       - name: Rsync Deploy
         run: |
           rsync -az --delete \
