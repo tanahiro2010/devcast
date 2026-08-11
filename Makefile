@@ -1,5 +1,8 @@
 .PHONY: front back lp
 
+db:
+  cd database && docker compose up
+
 front:
 	cd frontend && bun run dev
 
