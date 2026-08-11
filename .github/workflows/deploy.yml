@@ -76,4 +76,4 @@ jobs:
           rsync -az --delete \
             -e "ssh -p 10022" \
             ./backend/ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/devcast.work/public_html/api.devcast.work/
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/devcast.work/public_html/api.devcast.work/
