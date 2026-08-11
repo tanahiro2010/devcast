@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+	--font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", monospace;
+	--color-accent: #ff5a1f;
+	--color-hairline: #ececec;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	background-color: #ffffff;
+	color: #171717;
+}
+
+.kicker {
+	letter-spacing: 0.12em;
+}

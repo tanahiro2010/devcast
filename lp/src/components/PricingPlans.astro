@@ -1,0 +1,59 @@
+---
+import { plans } from "../data/pricing";
+---
+
+<section class="max-w-5xl mx-auto px-6 py-20 border-b border-hairline">
+	<div class="grid md:grid-cols-3 border-t border-l border-hairline">
+		{plans.map((plan) => (
+			<div
+				class:list={[
+					"p-8 border-b border-r border-hairline flex flex-col",
+					plan.featured && "bg-neutral-900 text-white -mt-px -ml-px",
+				]}
+			>
+				<div class="flex items-center justify-between">
+					<h2 class="font-semibold text-lg">{plan.name}</h2>
+					{plan.featured && (
+						<span class="text-[11px] bg-accent text-white px-2 py-0.5 rounded-full">おすすめ</span>
+					)}
+				</div>
+				<p class:list={["text-sm mt-1", plan.featured ? "text-neutral-400" : "text-neutral-500"]}>
+					{plan.tagline}
+				</p>
+				<p class:list={["text-sm mt-4 leading-relaxed", plan.featured ? "text-neutral-300" : "text-neutral-600"]}>
+					{plan.description}
+				</p>
+				<p class="text-3xl font-semibold mt-6">
+					{plan.price}<span
+						class:list={["text-sm font-normal", "text-neutral-400"]}
+						>{plan.period}</span
+					>
+				</p>
+				{plan.annualNote && (
+					<p class:list={["text-xs mt-1", plan.featured ? "text-neutral-400" : "text-neutral-500"]}>
+						{plan.annualNote}
+					</p>
+				)}
+				<ul class:list={["text-sm space-y-2.5 flex-1 mt-8", plan.featured ? "text-neutral-300" : "text-neutral-600"]}>
+					{plan.features.map((feature) => (
+						<li class="flex gap-2">
+							<span class:list={[plan.featured ? "text-neutral-500" : "text-neutral-400"]}>—</span>
+							<span>{feature}</span>
+						</li>
+					))}
+				</ul>
+				<a
+					href={plan.cta.href}
+					class:list={[
+						"mt-8 text-sm font-medium text-center rounded-md py-2.5 transition",
+						plan.featured
+							? "bg-white text-neutral-900 hover:bg-neutral-100"
+							: "border border-hairline hover:bg-neutral-50",
+					]}
+				>
+					{plan.cta.label}
+				</a>
+			</div>
+		))}
+	</div>
+</section>

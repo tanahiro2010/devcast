@@ -1,0 +1,55 @@
+---
+import { plans } from "../data/pricing";
+---
+
+<section id="pricing" class="max-w-5xl mx-auto px-6 py-24 border-b border-hairline">
+	<p class="kicker text-[12px] font-semibold text-accent uppercase mb-4">Pricing</p>
+	<h2 class="text-3xl font-semibold tracking-tight mb-16">シンプルな料金プラン</h2>
+	<div class="grid md:grid-cols-3 border-t border-l border-hairline">
+		{plans.map((plan) => (
+			<div
+				class:list={[
+					"p-8 border-b border-r border-hairline flex flex-col",
+					plan.featured && "bg-neutral-900 text-white -mt-px -ml-px",
+				]}
+			>
+				<div class="flex items-center justify-between">
+					<h3 class="font-semibold">{plan.name}</h3>
+					{plan.featured && (
+						<span class="text-[11px] bg-accent text-white px-2 py-0.5 rounded-full">おすすめ</span>
+					)}
+				</div>
+				<p class:list={["text-sm mt-1 mb-8", plan.featured ? "text-neutral-400" : "text-neutral-500"]}>
+					{plan.tagline}
+				</p>
+				<p class="text-3xl font-semibold mb-8">
+					{plan.price}<span
+						class:list={["text-sm font-normal", plan.featured ? "text-neutral-400" : "text-neutral-400"]}
+						>{plan.period}</span
+					>
+				</p>
+				<ul class:list={["text-sm space-y-2.5 flex-1", plan.featured ? "text-neutral-300" : "text-neutral-600"]}>
+					{plan.features.map((feature) => (
+						<li>{feature}</li>
+					))}
+				</ul>
+				<a
+					href={plan.cta.href}
+					class:list={[
+						"mt-8 text-sm font-medium text-center rounded-md py-2.5 transition",
+						plan.featured
+							? "bg-white text-neutral-900 hover:bg-neutral-100"
+							: "border border-hairline hover:bg-neutral-50",
+					]}
+				>
+					{plan.cta.label}
+				</a>
+			</div>
+		))}
+	</div>
+	<div class="mt-8 text-center">
+		<a href="/pricing" class="text-sm font-medium text-neutral-900 hover:text-accent inline-flex items-center gap-1">
+			全プランを詳しく比較する <span>→</span>
+		</a>
+	</div>
+</section>

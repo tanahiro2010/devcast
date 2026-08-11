@@ -1,0 +1,40 @@
+---
+import { homeFaqs, type Faq } from "../data/pricing";
+
+interface Props {
+	faqs?: Faq[];
+	title?: string;
+	id?: string;
+}
+
+const { faqs = homeFaqs, title = "よくある質問", id = "faq" } = Astro.props;
+
+const faqStructuredData = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	mainEntity: faqs.map((faq) => ({
+		"@type": "Question",
+		name: faq.q,
+		acceptedAnswer: {
+			"@type": "Answer",
+			text: faq.a,
+		},
+	})),
+};
+---
+
+<section id={id} class="max-w-3xl mx-auto px-6 py-24">
+	<h2 class="text-3xl font-semibold text-center mb-12">{title}</h2>
+	<div class="space-y-4">
+		{faqs.map((faq, i) => (
+			<details class="group border border-hairline rounded-xl p-5" open={i === 0}>
+				<summary class="font-semibold cursor-pointer flex justify-between items-center">
+					{faq.q}<span class="text-neutral-400 group-open:rotate-45 transition">+</span>
+				</summary>
+				<p class="mt-3 text-neutral-600 text-sm">{faq.a}</p>
+			</details>
+		))}
+	</div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />

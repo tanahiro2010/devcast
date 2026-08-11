@@ -1,0 +1,40 @@
+---
+const features = [
+	{
+		index: "01",
+		title: "Single Source of Truth",
+		description: "外部プラットフォームの記事を原本にしない。DevCastが常にマスター記事を保持します。",
+	},
+	{
+		index: "02",
+		title: "Multi-Publish",
+		description: "Publish先を選んで一括投稿。1媒体の失敗が他媒体をロールバックしないPartial Success設計。",
+	},
+	{
+		index: "03",
+		title: "Revision-based Sync",
+		description: "記事更新時にRevisionを比較し、Outdatedな媒体だけを可視化・再投稿できます。",
+	},
+	{
+		index: "04",
+		title: "Content API",
+		description: "Headless CMSとして、自分のポートフォリオやブログから記事データを取得できます。",
+	},
+];
+---
+
+<section id="features" class="max-w-5xl mx-auto px-6 py-24 border-b border-hairline">
+	<p class="kicker text-[12px] font-semibold text-accent uppercase mb-4">Product</p>
+	<h2 class="text-3xl font-semibold tracking-tight mb-16 max-w-lg">記事を書くことに集中できる仕組み</h2>
+	<div class="grid md:grid-cols-2 gap-x-12 gap-y-12">
+		{features.map((feature) => (
+			<div class="flex gap-5">
+				<div class="text-accent font-mono text-sm pt-1">{feature.index}</div>
+				<div>
+					<h3 class="font-semibold mb-2">{feature.title}</h3>
+					<p class="text-neutral-500 text-sm leading-relaxed">{feature.description}</p>
+				</div>
+			</div>
+		))}
+	</div>
+</section>
