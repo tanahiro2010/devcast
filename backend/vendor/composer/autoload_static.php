@@ -18,9 +18,9 @@ class ComposerStaticInitfb6416fed614664e812e27f617ea7803
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         'f625ee536139dfb962a398b200bdb2bd' => __DIR__ . '/..' . '/illuminate/support/functions.php',
         '72579e7bd17821bb1321b87411366eae' => __DIR__ . '/..' . '/illuminate/support/helpers.php',
+        '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '5897ea0ac4cccf14d323035e65887801' => __DIR__ . '/..' . '/symfony/polyfill-php82/bootstrap.php',
-        '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
         'b33e3d135e5d9e47d845c576147bda89' => __DIR__ . '/..' . '/php-di/php-di/src/functions.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'ef65a1626449d89d0811cf9befce46f0' => __DIR__ . '/..' . '/illuminate/events/functions.php',
@@ -33,6 +33,7 @@ class ComposerStaticInitfb6416fed614664e812e27f617ea7803
         ),
         'T' =>
         array (
+            'Tanahiro2010\\SlimRouterDsl\\' => 27,
             'Tanahiro2010\\Backend\\' => 21,
         ),
         'S' =>
@@ -110,6 +111,10 @@ class ComposerStaticInitfb6416fed614664e812e27f617ea7803
         'voku\\' =>
         array (
             0 => __DIR__ . '/..' . '/voku/portable-ascii/src/voku',
+        ),
+        'Tanahiro2010\\SlimRouterDsl\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/tanahiro2010/slim-router-dsl/src',
         ),
         'Tanahiro2010\\Backend\\' =>
         array (
