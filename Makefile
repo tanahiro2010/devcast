@@ -1,7 +1,10 @@
-.PHONY: front back lp migrate make-migration
+.PHONY: front back lp migrate make-migration docker docker-reset
 
 docker:
 	cd database && docker compose up -d
+
+docker-reset:
+	cd database && docker compose down -v
 
 migrate:
 	cd backend && php scripts/migrate.php
