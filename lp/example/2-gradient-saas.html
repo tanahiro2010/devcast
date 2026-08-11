@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevCast — 技術記事を1箇所で管理、複数媒体へ配信</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'sans-serif'],
+          mono: ['JetBrains Mono', 'monospace'],
+        },
+        colors: {
+          violet: {
+            50: '#f5f3ff', 100: '#ede9fe', 200: '#ddd6fe', 300: '#c4b5fd',
+            400: '#a78bfa', 500: '#8b5cf6', 600: '#7c3aed', 700: '#6d28d9',
+          },
+        }
+      }
+    }
+  }
+</script>
+<style>
+  .bg-mesh {
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(139,92,246,0.25), transparent),
+      radial-gradient(ellipse 60% 40% at 90% 10%, rgba(59,130,246,0.18), transparent);
+  }
+  .card-hover { transition: transform .25s ease, box-shadow .25s ease; }
+  .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -15px rgba(124,58,237,0.25); }
+</style>
+</head>
+<body class="bg-white text-slate-900 font-sans antialiased">
+
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-slate-100">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2 font-extrabold text-lg">
+        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-blue-500"></div>
+        DevCast
+      </div>
+      <nav class="hidden md:flex items-center gap-8 text-sm text-slate-600 font-medium">
+        <a href="#features" class="hover:text-slate-900">機能</a>
+        <a href="#platforms" class="hover:text-slate-900">対応プラットフォーム</a>
+        <a href="#pricing" class="hover:text-slate-900">料金</a>
+        <a href="#faq" class="hover:text-slate-900">FAQ</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a href="#" class="text-sm font-medium text-slate-600 hover:text-slate-900">ログイン</a>
+        <a href="#" class="text-sm font-semibold bg-slate-900 text-white px-4 py-2.5 rounded-full hover:bg-slate-700 transition">無料で始める</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="bg-mesh">
+    <div class="max-w-5xl mx-auto px-6 pt-24 pb-20 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 text-violet-700 text-sm font-medium px-4 py-1.5 mb-8">
+        🚀 Qiita・DEV.to・はてなブログに対応
+      </div>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1]">
+        技術記事は、<br class="hidden sm:block" />
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-blue-600">一度書けば、どこへでも。</span>
+      </h1>
+      <p class="mt-6 text-lg text-slate-600 max-w-2xl mx-auto">
+        DevCastは技術記事のためのHeadless CMS。Markdownで書いた記事をQiita・DEV Community・はてなブログへまとめて公開し、更新も自動で同期状態を教えてくれます。
+      </p>
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#" class="bg-slate-900 text-white font-semibold px-8 py-3.5 rounded-full hover:bg-slate-700 transition shadow-lg shadow-slate-900/10">GitHubで無料登録</a>
+        <a href="#" class="text-slate-700 font-semibold px-8 py-3.5 rounded-full border border-slate-200 hover:border-slate-300 transition">デモを見る</a>
+      </div>
+      <p class="mt-4 text-sm text-slate-400">クレジットカード不要・30秒で開始</p>
+
+      <!-- product shot mock -->
+      <div class="mt-16 rounded-2xl border border-slate-200 shadow-2xl shadow-slate-900/10 bg-white p-3 max-w-4xl mx-auto">
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-6 text-left">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="font-semibold">WebMCPを実装して分かったこと</h3>
+            <span class="text-xs text-slate-400">2 hours ago</span>
+          </div>
+          <div class="grid grid-cols-3 gap-3">
+            <div class="rounded-lg bg-white border border-slate-200 p-4 flex items-center justify-between">
+              <span class="text-sm font-medium">Qiita</span>
+              <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">✔ Latest</span>
+            </div>
+            <div class="rounded-lg bg-white border border-slate-200 p-4 flex items-center justify-between">
+              <span class="text-sm font-medium">DEV.to</span>
+              <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">✔ Latest</span>
+            </div>
+            <div class="rounded-lg bg-white border border-slate-200 p-4 flex items-center justify-between">
+              <span class="text-sm font-medium">はてな</span>
+              <span class="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">⚠ Outdated</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Platforms -->
+  <section id="platforms" class="max-w-6xl mx-auto px-6 py-16 border-t border-slate-100">
+    <p class="text-center text-sm text-slate-400 font-medium mb-6">対応プラットフォーム</p>
+    <div class="flex flex-wrap justify-center items-center gap-x-16 gap-y-6 text-slate-400 font-bold text-xl">
+      <span>Qiita</span>
+      <span>DEV Community</span>
+      <span>はてなブログ</span>
+      <span>GitHub</span>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="max-w-6xl mx-auto px-6 py-24">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <h2 class="text-3xl md:text-4xl font-extrabold">執筆から配信まで、迷わない</h2>
+      <p class="mt-4 text-slate-600">複数プラットフォームの管理コストをDevCastが肩代わりします。</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="card-hover rounded-2xl border border-slate-200 p-8">
+        <div class="w-11 h-11 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center text-xl mb-5">✍️</div>
+        <h3 class="font-bold text-lg mb-2">1箇所で管理</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">DevCastを記事のSingle Source of Truthに。Markdownで書いて、下書き・公開・アーカイブを一元管理。</p>
+      </div>
+      <div class="card-hover rounded-2xl border border-slate-200 p-8">
+        <div class="w-11 h-11 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl mb-5">🚀</div>
+        <h3 class="font-bold text-lg mb-2">複数媒体へ同時公開</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">チェックを入れるだけでQiita・DEV.to・はてなブログへ一括投稿。1媒体が失敗しても他は公開され続けます。</p>
+      </div>
+      <div class="card-hover rounded-2xl border border-slate-200 p-8">
+        <div class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mb-5">🔄</div>
+        <h3 class="font-bold text-lg mb-2">更新の同期を自動検知</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">記事を編集すると、どの媒体が最新でどこが未反映かをひと目で確認。Sync Allで一括反映できます。</p>
+      </div>
+      <div class="card-hover rounded-2xl border border-slate-200 p-8">
+        <div class="w-11 h-11 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center text-xl mb-5">🔌</div>
+        <h3 class="font-bold text-lg mb-2">Content API</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">DevCastをHeadless CMSとして利用。自分のポートフォリオやブログから記事データを取得できます。</p>
+      </div>
+      <div class="card-hover rounded-2xl border border-slate-200 p-8">
+        <div class="w-11 h-11 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl mb-5">🌐</div>
+        <h3 class="font-bold text-lg mb-2">AI翻訳（Pro）</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">日本語記事を英語へ翻訳し、DEV.toへ発信。必ずレビューを挟んでから公開する安心設計。</p>
+      </div>
+      <div class="card-hover rounded-2xl border border-slate-200 p-8">
+        <div class="w-11 h-11 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-xl mb-5">🔒</div>
+        <h3 class="font-bold text-lg mb-2">セキュアな設計</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">API KeyやOAuthトークンはすべて暗号化・ハッシュ化。Ownership検証を徹底しています。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="bg-slate-50 border-y border-slate-100">
+    <div class="max-w-6xl mx-auto px-6 py-24">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <h2 class="text-3xl md:text-4xl font-extrabold">シンプルで分かりやすい料金</h2>
+        <p class="mt-4 text-slate-600">Publisherへの接続はどのプランでも無制限です。</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8 items-stretch max-w-5xl mx-auto">
+        <div class="bg-white rounded-2xl border border-slate-200 p-8 flex flex-col">
+          <h3 class="font-bold text-lg">Free</h3>
+          <p class="text-slate-500 text-sm mt-1">個人で始める</p>
+          <p class="text-4xl font-extrabold mt-6">¥0</p>
+          <ul class="mt-8 space-y-3 text-sm text-slate-600 flex-1">
+            <li class="flex gap-2"><span class="text-emerald-500">✔</span>記事数無制限</li>
+            <li class="flex gap-2"><span class="text-emerald-500">✔</span>全Publisher接続</li>
+            <li class="flex gap-2"><span class="text-emerald-500">✔</span>Multi-Publish / Sync</li>
+            <li class="flex gap-2"><span class="text-emerald-500">✔</span>Public Content API</li>
+          </ul>
+          <a href="#" class="mt-8 text-center border border-slate-200 rounded-full py-3 font-semibold hover:bg-slate-50 transition">無料で始める</a>
+        </div>
+        <div class="relative bg-white rounded-2xl border-2 border-violet-500 p-8 flex flex-col shadow-xl shadow-violet-500/10">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-violet-600 to-blue-600 text-white text-xs font-bold px-4 py-1 rounded-full">おすすめ</span>
+          <h3 class="font-bold text-lg">Pro</h3>
+          <p class="text-slate-500 text-sm mt-1">継続的に発信するエンジニアへ</p>
+          <p class="text-4xl font-extrabold mt-6">¥980<span class="text-base font-medium text-slate-400">/月</span></p>
+          <ul class="mt-8 space-y-3 text-sm text-slate-600 flex-1">
+            <li class="flex gap-2"><span class="text-emerald-500">✔</span>Freeの全機能</li>
+            <li class="flex gap-2"><span class="text-emerald-500">✔</span>Private Content API</li>
+            <li class="flex gap-2"><span class="text-emerald-500">✔</span>Article History 無制限</li>
+            <li class="flex gap-2"><span class="text-emerald-500">✔</span>AI Translation（月20回）</li>
+            <li class="flex gap-2"><span class="text-emerald-500">✔</span>Scheduled Publishing</li>
+          </ul>
+          <a href="#" class="mt-8 text-center bg-gradient-to-r from-violet-600 to-blue-600 text-white rounded-full py-3 font-semibold hover:opacity-90 transition">Proを始める</a>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-8 flex flex-col">
+          <h3 class="font-bold text-lg">Business</h3>
+          <p class="text-slate-500 text-sm mt-1">チーム・組織向け</p>
+          <p class="text-4xl font-extrabold mt-6">¥2,980<span class="text-base font-medium text-slate-400">/月</span></p>
+          <ul class="mt-8 space-y-3 text-sm text-slate-600 flex-1">
+            <li class="flex gap-2"><span class="text-emerald-500">✔</span>Proの全機能</li>
+            <li class="flex gap-2"><span class="text-emerald-500">✔</span>Team Workspace</li>
+            <li class="flex gap-2"><span class="text-emerald-500">✔</span>Webhooks</li>
+            <li class="flex gap-2"><span class="text-emerald-500">✔</span>Analytics統合</li>
+          </ul>
+          <a href="#" class="mt-8 text-center border border-slate-200 rounded-full py-3 font-semibold hover:bg-slate-50 transition">お問い合わせ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="max-w-3xl mx-auto px-6 py-24">
+    <h2 class="text-3xl font-extrabold text-center mb-12">よくある質問</h2>
+    <div class="space-y-4">
+      <details class="group border border-slate-200 rounded-xl p-5" open>
+        <summary class="font-semibold cursor-pointer flex justify-between items-center">Publisher連携はすべて無料ですか？<span class="text-slate-400 group-open:rotate-45 transition">+</span></summary>
+        <p class="mt-3 text-slate-600 text-sm">はい。Qiita・DEV.to・はてなブログへの接続と公開はFreeプランで無制限にご利用いただけます。</p>
+      </details>
+      <details class="group border border-slate-200 rounded-xl p-5">
+        <summary class="font-semibold cursor-pointer flex justify-between items-center">既存の記事をインポートできますか？<span class="text-slate-400 group-open:rotate-45 transition">+</span></summary>
+        <p class="mt-3 text-slate-600 text-sm">Qiita / DEV.to / はてなブログからの記事インポート機能を今後提供予定です。</p>
+      </details>
+      <details class="group border border-slate-200 rounded-xl p-5">
+        <summary class="font-semibold cursor-pointer flex justify-between items-center">AI翻訳の内容はそのまま公開されますか？<span class="text-slate-400 group-open:rotate-45 transition">+</span></summary>
+        <p class="mt-3 text-slate-600 text-sm">いいえ。翻訳結果は必ずユーザーが確認・編集してから公開する設計になっています。</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="max-w-6xl mx-auto px-6 pb-24">
+    <div class="rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 p-16 text-center text-white">
+      <h2 class="text-3xl md:text-4xl font-extrabold mb-4">今すぐDevCastを始めよう</h2>
+      <p class="text-slate-300 mb-8">GitHubアカウントがあれば30秒で開始できます。</p>
+      <a href="#" class="inline-block bg-white text-slate-900 font-semibold px-8 py-3.5 rounded-full hover:bg-slate-100 transition">無料で始める</a>
+    </div>
+  </section>
+
+  <footer class="border-t border-slate-100">
+    <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
+      <div class="font-bold text-slate-900">DevCast</div>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-slate-900">Docs</a>
+        <a href="#" class="hover:text-slate-900">API</a>
+        <a href="#" class="hover:text-slate-900">Pricing</a>
+        <a href="#" class="hover:text-slate-900">GitHub</a>
+      </div>
+      <div>© 2026 DevCast</div>
+    </div>
+  </footer>
+
+</body>
+</html>
