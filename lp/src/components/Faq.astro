@@ -25,7 +25,7 @@ const faqStructuredData = {
 
 <section id={id} class="max-w-3xl mx-auto px-6 py-24">
 	<h2 class="text-3xl font-semibold text-center mb-12">{title}</h2>
-	<div class="space-y-4">
+	<div class="space-y-4 js-faq-list">
 		{faqs.map((faq, i) => (
 			<details class="group border border-hairline rounded-xl p-5 transition-colors hover:border-neutral-300" open={i === 0}>
 				<summary class="font-semibold cursor-pointer flex justify-between items-center list-none">
@@ -40,3 +40,80 @@ const faqStructuredData = {
 </section>
 
 <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
+
+<script>
+	// Animate <details> open/close by measuring real content height and
+	// driving a Web Animations API height tween on the element itself.
+	// The CSS grid `fr` trick can't reach a true 0px because padding/text
+	// impose an intrinsic minimum on the track, which is what made the
+	// previous version feel instant/mechanical.
+	class AnimatedDetails {
+		el: HTMLDetailsElement;
+		summary: HTMLElement;
+		content: HTMLElement;
+		animation: Animation | null = null;
+		isClosing = false;
+		isExpanding = false;
+
+		constructor(el: HTMLDetailsElement) {
+			this.el = el;
+			this.summary = el.querySelector("summary")!;
+			this.content = el.querySelector(".faq-answer")!;
+			this.summary.addEventListener("click", (e) => this.onClick(e));
+		}
+
+		onClick(e: MouseEvent) {
+			if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+			e.preventDefault();
+			this.el.style.overflow = "hidden";
+			if (this.isClosing || !this.el.open) {
+				this.open();
+			} else if (this.isExpanding || this.el.open) {
+				this.shrink();
+			}
+		}
+
+		shrink() {
+			this.isClosing = true;
+			const startHeight = `${this.el.offsetHeight}px`;
+			const endHeight = `${this.summary.offsetHeight}px`;
+			this.animation?.cancel();
+			this.animation = this.el.animate(
+				{ height: [startHeight, endHeight] },
+				{ duration: 300, easing: "cubic-bezier(0.16, 1, 0.3, 1)" },
+			);
+			this.animation.onfinish = () => this.onAnimationFinish(false);
+			this.animation.oncancel = () => (this.isClosing = false);
+		}
+
+		open() {
+			this.el.style.height = `${this.el.offsetHeight}px`;
+			this.el.open = true;
+			requestAnimationFrame(() => this.expand());
+		}
+
+		expand() {
+			this.isExpanding = true;
+			const startHeight = `${this.el.offsetHeight}px`;
+			const endHeight = `${this.summary.offsetHeight + this.content.offsetHeight}px`;
+			this.animation?.cancel();
+			this.animation = this.el.animate(
+				{ height: [startHeight, endHeight] },
+				{ duration: 300, easing: "cubic-bezier(0.16, 1, 0.3, 1)" },
+			);
+			this.animation.onfinish = () => this.onAnimationFinish(true);
+			this.animation.oncancel = () => (this.isExpanding = false);
+		}
+
+		onAnimationFinish(open: boolean) {
+			this.el.open = open;
+			this.animation = null;
+			this.isClosing = false;
+			this.isExpanding = false;
+			this.el.style.height = "";
+			this.el.style.overflow = "";
+		}
+	}
+
+	document.querySelectorAll<HTMLDetailsElement>(".js-faq-list details").forEach((el) => new AnimatedDetails(el));
+</script>
