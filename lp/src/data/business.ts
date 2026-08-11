@@ -3,7 +3,7 @@
 // service goes live — Tokushoho disclosure requires accurate values.
 export const business = {
 	/** 販売事業者名（法人名 or 個人事業主の氏名） */
-	legalName: "学校法人三田学園",
+	legalName: "田中博悠",
 	/** 運営統括責任者の氏名 */
 	representative: "田中博悠",
 	/** 郵便番号 */
@@ -13,7 +13,7 @@ export const business = {
 	/** 電話番号 */
 	phone: "070-9043-3499",
 	/** お問い合わせ用メールアドレス */
-	email: "tanahiro2010.recruit@gmail.com",
+	email: "herentongkegu087@gmail.com",
 	/**
 	 * 個人事業主等で、所在地・電話番号を常時公開せず「請求があれば開示」
 	 * とする場合は true。法人の場合は false にして常時表示する。
