@@ -19,3 +19,38 @@ body {
 .kicker {
 	letter-spacing: 0.12em;
 }
+
+/* Micro-interaction: apply to plain links/buttons for a soft hover lift.
+   transition-property lists the same properties as Tailwind's default
+   `transition` utility (plus transform) so existing color/bg transitions
+   on buttons keep animating instead of being overridden by this rule. */
+.link-lift {
+	display: inline-block;
+	transition-property: color, background-color, border-color, box-shadow, transform;
+	transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	transition-duration: 0.2s;
+}
+.link-lift:hover {
+	transform: translateY(-2px);
+}
+.link-lift:active {
+	transform: translateY(0);
+}
+
+/* Micro-interaction: apply to links with a trailing arrow span (.arrow) */
+.link-arrow .arrow {
+	display: inline-block;
+	transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-arrow:hover .arrow {
+	transform: translateX(4px);
+}
+
+/* FAQ accordion: hide the native disclosure triangle. The open/close
+   animation itself is handled in JS (Faq.astro) via the Web Animations
+   API, since it needs the real measured content height — the CSS grid
+   `fr` trick can't reach a true 0px once padding/text impose a minimum
+   track size, which made the collapse feel instant. */
+summary::-webkit-details-marker {
+	display: none;
+}

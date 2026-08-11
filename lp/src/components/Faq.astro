@@ -25,16 +25,125 @@ const faqStructuredData = {
 
 <section id={id} class="max-w-3xl mx-auto px-6 py-24">
 	<h2 class="text-3xl font-semibold text-center mb-12">{title}</h2>
-	<div class="space-y-4">
+	<div class="space-y-4 js-faq-list">
 		{faqs.map((faq, i) => (
-			<details class="group border border-hairline rounded-xl p-5" open={i === 0}>
-				<summary class="font-semibold cursor-pointer flex justify-between items-center">
+			<details class="group border border-hairline rounded-xl p-5 transition-colors hover:border-neutral-300" open={i === 0}>
+				<summary class="font-semibold cursor-pointer flex justify-between items-center list-none">
 					{faq.q}<span class="text-neutral-400 group-open:rotate-45 transition">+</span>
 				</summary>
-				<p class="mt-3 text-neutral-600 text-sm">{faq.a}</p>
+				<div class="faq-answer">
+					<p class="pt-3 text-neutral-600 text-sm">{faq.a}</p>
+				</div>
 			</details>
 		))}
 	</div>
 </section>
 
 <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
+
+<script>
+	// Animate <details> open/close by measuring real content height and
+	// driving a Web Animations API height tween on the element itself.
+	// The CSS grid `fr` trick can't reach a true 0px because padding/text
+	// impose an intrinsic minimum on the track, which is what made the
+	// previous version feel instant/mechanical.
+	class AnimatedDetails {
+		el: HTMLDetailsElement;
+		summary: HTMLElement;
+		content: HTMLElement;
+		animation: Animation | null = null;
+		contentAnimation: Animation | null = null;
+		isClosing = false;
+		isExpanding = false;
+
+		constructor(el: HTMLDetailsElement) {
+			this.el = el;
+			this.summary = el.querySelector("summary")!;
+			this.content = el.querySelector(".faq-answer")!;
+			this.summary.addEventListener("click", (e) => this.onClick(e));
+		}
+
+		// The <details> element itself carries padding/border (p-5, border),
+		// which isn't part of summary/content's own box. Without adding it
+		// back, the animated target height falls short of (or short-cuts)
+		// the real layout height, so the box visibly jumps/snaps once the
+		// inline height style is cleared at animation end.
+		getBoxExtra() {
+			const cs = getComputedStyle(this.el);
+			return (
+				parseFloat(cs.paddingTop) +
+				parseFloat(cs.paddingBottom) +
+				parseFloat(cs.borderTopWidth) +
+				parseFloat(cs.borderBottomWidth)
+			);
+		}
+
+		onClick(e: MouseEvent) {
+			if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+			e.preventDefault();
+			this.el.style.overflow = "hidden";
+			if (this.isClosing || !this.el.open) {
+				this.open();
+			} else if (this.isExpanding || this.el.open) {
+				this.shrink();
+			}
+		}
+
+		shrink() {
+			this.isClosing = true;
+			const startHeight = `${this.el.offsetHeight}px`;
+			const endHeight = `${this.summary.offsetHeight + this.getBoxExtra()}px`;
+			this.animation?.cancel();
+			this.animation = this.el.animate(
+				{ height: [startHeight, endHeight] },
+				{ duration: 300, easing: "cubic-bezier(0.16, 1, 0.3, 1)" },
+			);
+			this.animation.onfinish = () => this.onAnimationFinish(false);
+			this.animation.oncancel = () => (this.isClosing = false);
+
+			// Fade the text out well before the box finishes collapsing.
+			// With overflow:hidden alone, the ease-out height tween lingers
+			// near its target for a while, so a sliver of text stays visible
+			// (and readable) noticeably later than the box "looks" closed.
+			this.contentAnimation?.cancel();
+			this.contentAnimation = this.content.animate({ opacity: [1, 0] }, { duration: 120, easing: "ease-out", fill: "forwards" });
+		}
+
+		open() {
+			this.el.style.height = `${this.el.offsetHeight}px`;
+			this.el.open = true;
+			requestAnimationFrame(() => this.expand());
+		}
+
+		expand() {
+			this.isExpanding = true;
+			const startHeight = `${this.el.offsetHeight}px`;
+			const endHeight = `${this.summary.offsetHeight + this.content.offsetHeight + this.getBoxExtra()}px`;
+			this.animation?.cancel();
+			this.animation = this.el.animate(
+				{ height: [startHeight, endHeight] },
+				{ duration: 300, easing: "cubic-bezier(0.16, 1, 0.3, 1)" },
+			);
+			this.animation.onfinish = () => this.onAnimationFinish(true);
+			this.animation.oncancel = () => (this.isExpanding = false);
+
+			// Fade the text back in as the box grows, starting from
+			// transparent so it doesn't just pop in at full opacity.
+			this.contentAnimation?.cancel();
+			this.contentAnimation = this.content.animate({ opacity: [0, 1] }, { duration: 200, easing: "ease-in", fill: "forwards" });
+		}
+
+		onAnimationFinish(open: boolean) {
+			this.el.open = open;
+			this.animation = null;
+			this.isClosing = false;
+			this.isExpanding = false;
+			this.el.style.height = "";
+			this.el.style.overflow = "";
+			this.contentAnimation = null;
+			this.content.style.opacity = "";
+		}
+	}
+
+	document.querySelectorAll<HTMLDetailsElement>(".js-faq-list details").forEach((el) => new AnimatedDetails(el));
+</script>
