@@ -1,0 +1,110 @@
+---
+import LegalLayout from "../layouts/LegalLayout.astro";
+import { business } from "../data/business";
+---
+
+<LegalLayout
+	title="特定商取引法に基づく表記 | DevCast"
+	description="特定商取引法に基づく、DevCastの事業者情報・サービス内容・お支払い方法等の表記です。"
+	path="/Legal"
+	heading="特定商取引法に基づく表記"
+	updated="2026年8月11日"
+>
+	<p>
+		特定商取引法第11条に基づき、DevCastが提供する有料サービスについて以下のとおり表示します。
+	</p>
+
+	<table>
+		<tbody>
+			{!business.disclosureOnRequest && (
+				<tr>
+					<th>販売事業者名</th>
+					<td>{business.legalName}</td>
+				</tr>
+			)}
+			<tr>
+				<th>運営統括責任者</th>
+				<td>{business.representative}</td>
+			</tr>
+			{!business.disclosureOnRequest && (
+				<tr>
+					<th>所在地</th>
+					<td>〒{business.postalCode} {business.address}</td>
+				</tr>
+			)}
+			{!business.disclosureOnRequest && (
+				<tr>
+					<th>電話番号</th>
+					<td>{business.phone}</td>
+				</tr>
+			)}
+			<tr>
+				<th>メールアドレス</th>
+				<td>
+					{business.email}
+					{business.disclosureOnRequest && (
+						<>
+							<br />
+							（事業者名・所在地・電話番号は、請求があった場合には遅滞なく開示いたします。開示をご希望の場合は上記メールアドレスまでご連絡ください。）
+						</>
+					)}
+				</td>
+			</tr>
+			<tr>
+				<th>サービス名</th>
+				<td>DevCast</td>
+			</tr>
+			<tr>
+				<th>サービス内容</th>
+				<td>
+					技術記事の一元管理・複数プラットフォーム（Qiita・DEV Community・はてなブログ）への配信を行う、技術者向けのHeadless
+					CMS / Multi-Publisherサービス。詳細は<a href="/pricing">料金プランページ</a>をご覧ください。
+				</td>
+			</tr>
+			<tr>
+				<th>販売価格</th>
+				<td>
+					Free（¥0）、Pro（¥980/月）、Business（¥2,980/月）。いずれも税込表示です。詳細は<a href="/pricing"
+						>料金プランページ</a
+					>をご覧ください。
+				</td>
+			</tr>
+			<tr>
+				<th>商品以外の必要料金</th>
+				<td>インターネット接続に必要な通信費はお客様のご負担となります。</td>
+			</tr>
+			<tr>
+				<th>お支払い方法</th>
+				<td>クレジットカード決済（Visa, Mastercard, American Express 等）</td>
+			</tr>
+			<tr>
+				<th>お支払い時期</th>
+				<td>
+					初回申込時に即時決済され、以後は各プランの契約期間（月次または年次）ごとに自動更新・自動課金されます。
+				</td>
+			</tr>
+			<tr>
+				<th>サービス提供時期</th>
+				<td>お支払い完了後、直ちにご利用いただけます。</td>
+			</tr>
+			<tr>
+				<th>返品・キャンセルについて</th>
+				<td>
+					本サービスはデジタルサービスであり、提供開始後の返金は原則として行いません。ただし、当社に起因する重大な不具合により
+					サービスをご利用いただけなかった場合は、個別に対応いたします。<br />
+					プランの解約はいつでも可能です。解約された場合、当該契約期間の終了をもってサービスの提供を終了し、既に発生した利用料金の返金は行いません。
+				</td>
+			</tr>
+			<tr>
+				<th>動作環境</th>
+				<td>最新版のGoogle Chrome、Safari、Firefox、Microsoft Edge等のモダンブラウザを推奨します。</td>
+			</tr>
+		</tbody>
+	</table>
+
+	{business.disclosureOnRequest && (
+		<p>
+			※個人事業主のプライバシー保護に関する消費者庁のガイドラインに基づき、事業者名・所在地・電話番号は常時の掲載を省略しています。開示をご希望の場合は、上記メールアドレスまでお問い合わせください。請求があった場合には遅滞なく開示いたします。
+		</p>
+	)}
+</LegalLayout>
