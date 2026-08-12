@@ -1,11 +1,14 @@
 <?php
 namespace App\Models\Response;
+use App\Models\Response\Base\Details;
 
 class Success {
-  public $data;
-  public $message;
+  public mixed $data;
+  public string $message;
+  public int $code = 200;
+  public Details $details;
 
-  public function __construct(mixed $data, string $message = "Success") {
+  public function __construct(mixed $data, string $message = "Success", Details $details = new Details("unknown")) {
     $this->data = $data;
     $this->message = $message;
   }
