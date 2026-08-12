@@ -5,9 +5,10 @@ interface Props {
 	faqs?: Faq[];
 	title?: string;
 	id?: string;
+	viewAllHref?: string;
 }
 
-const { faqs = homeFaqs, title = "よくある質問", id = "faq" } = Astro.props;
+const { faqs = homeFaqs, title = "よくある質問", id = "faq", viewAllHref } = Astro.props;
 
 const faqStructuredData = {
 	"@context": "https://schema.org",
@@ -24,7 +25,7 @@ const faqStructuredData = {
 ---
 
 <section id={id} class="max-w-3xl mx-auto px-6 py-24">
-	<h2 class="text-3xl font-semibold text-center mb-12">{title}</h2>
+	{title && <h2 class="text-3xl font-semibold text-center mb-12">{title}</h2>}
 	<div class="space-y-4 js-faq-list">
 		{faqs.map((faq, i) => (
 			<details class="group border border-hairline rounded-xl p-5 transition-colors hover:border-neutral-300" open={i === 0}>
@@ -37,6 +38,13 @@ const faqStructuredData = {
 			</details>
 		))}
 	</div>
+	{viewAllHref && (
+		<div class="mt-8 text-center">
+			<a href={viewAllHref} class="link-arrow text-sm font-medium text-neutral-900 hover:text-accent inline-flex items-center gap-1">
+				すべての質問を見る <span class="arrow">→</span>
+			</a>
+		</div>
+	)}
 </section>
 
 <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
