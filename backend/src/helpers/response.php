@@ -1,28 +1,31 @@
 <?php
 use Psr\Http\Message\ResponseInterface as Response;
 
+require_once __DIR__ . '/../models/response/error.php';
+require_once __DIR__ . '/../models/response/success.php';
+
 use App\Models\Response\Status as ErrorStatus;
 use App\Models\Response\Error as ErrorResponse;
 use App\Models\Response\Details as ErrorDetails;
 use App\Models\Response\Success as SuccessResponse;
 
 const RESPONSE_CONFIG = array(
-  ErrorStatus::BAD_REQUEST => array(
+  ErrorStatus::BAD_REQUEST->value => array(
     'message' => 'Bad request'
   ),
-  ErrorStatus::UNAUTHORIZED => array(
+  ErrorStatus::UNAUTHORIZED->value => array(
     'message' => 'Unauthorized'
   ),
-  ErrorStatus::FORBIDDEN => array(
+  ErrorStatus::FORBIDDEN->value => array(
     'message' => 'Forbidden'
   ),
-  ErrorStatus::NOT_FOUND => array(
+  ErrorStatus::NOT_FOUND->value => array(
     'message' => 'Resource not found'
   ),
-  ErrorStatus::UNPROCESSABLE_ENTITY => array(
+  ErrorStatus::UNPROCESSABLE_ENTITY->value => array(
     'message' => 'Unprocessable entity'
   ),
-  ErrorStatus::INTERNAL_SERVER_ERROR => array(
+  ErrorStatus::INTERNAL_SERVER_ERROR->value => array(
     'message' => 'Internal server error'
   )
 );
@@ -45,7 +48,7 @@ class ApiResponseHelper {
     return self::sendResponse($response, $status, $successResponse->toArray());
   }
   
-  static function errorResponse(Response $response, ErrorStatus $errorStatus, string $instance, string $message = null) {
+  static function errorResponse(Response $response, ErrorStatus $errorStatus, string $instance, ?string $message = null) {
     $status = $errorStatus->value;
     $config = RESPONSE_CONFIG[$status] ?? array('message' => 'Something went wrong');
     $defaultMessage = $config['message'];
