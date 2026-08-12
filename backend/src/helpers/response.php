@@ -4,9 +4,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 require_once __DIR__ . '/../models/response/error.php';
 require_once __DIR__ . '/../models/response/success.php';
 
+use App\Models\Response\Base\Details as ErrorDetails;
 use App\Models\Response\Status as ErrorStatus;
 use App\Models\Response\Error as ErrorResponse;
-use App\Models\Response\Details as ErrorDetails;
 use App\Models\Response\Success as SuccessResponse;
 
 const RESPONSE_CONFIG = array(
@@ -42,11 +42,6 @@ class ApiResponseHelper {
     $errorResponse = new ErrorResponse($errorDetails, $message, $status);
     return self::sendResponse($response, $status, $errorResponse->toArray());
   }
-
-  static function sendSuccessResponse(Response $response, mixed $data, string $message = "Success", int $status = 200) {
-    $successResponse = new SuccessResponse($data, $message);
-    return self::sendResponse($response, $status, $successResponse->toArray());
-  }
   
   static function errorResponse(Response $response, ErrorStatus $errorStatus, string $instance, ?string $message = null) {
     $status = $errorStatus->value;
@@ -56,5 +51,20 @@ class ApiResponseHelper {
 
     return self::sendErrorResponse($response, $instance, $status, $errorMessage);
   }
+
+  static function sendSuccessResponse(Response $response, mixed $data, string $message = "Success", int $status = 200) {
+    $successResponse = new SuccessResponse($data, $message);
+    return self::sendResponse($response, $status, $successResponse->toArray());
+  }
+
+  static function successResponse(Response $response, mixed $data, ?string $message = null, int $status = 200) {
+    $defaultMessage = "Success";
+    $successMessage = $message ?? $defaultMessage;
+
+    return self::sendSuccessResponse($response, $data, $successMessage, $status);
+  }
   
+  static function redirect(Response $response, string $url, int $status = 302) {
+    return $response->withHeader('Location', $url)->withStatus($status);
+  }
 }
