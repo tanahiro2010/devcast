@@ -57,4 +57,7 @@ class ApiResponseHelper {
     return self::sendErrorResponse($response, $instance, $status, $errorMessage);
   }
   
+  static function redirect(Response $response, string $url, int $status = 302) {
+    return $response->withHeader('Location', $url)->withStatus($status);
+  }
 }
