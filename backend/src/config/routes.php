@@ -4,17 +4,14 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Tanahiro2010\SlimRouterDsl\Routes;
 use Tanahiro2010\SlimRouterDsl\Route;
 
-require __DIR__ . '/../futures/health/controller.php';
+define('__BASE_CONTROLLER_PATH__', __DIR__ . '/../futures');
+
+require __BASE_CONTROLLER_PATH__ . '/errors/controller.php';
+require __BASE_CONTROLLER_PATH__ . '/health/controller.php';
 
 $v1_routes = null;
 
 $routes = new Routes([
-   Route::get('/', function (Request $_, Response $response): Response {
-      $response->getBody()->write(json_encode([
-         'name' => 'DevCast API',
-         'status' => 'ok',
-      ]));
-      return $response->withHeader('Content-Type', 'application/json');
-   }),
+   Route::get('/', [new errorsController(), 'notFound']),
    Route::get('/health', [new HealthController(), 'health'])
 ]);
