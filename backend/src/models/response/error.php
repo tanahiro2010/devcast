@@ -1,4 +1,4 @@
-<?
+<?php
 namespace App\Models\Response;
 
 class Details {
