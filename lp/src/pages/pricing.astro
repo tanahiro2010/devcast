@@ -7,14 +7,35 @@ import ComparisonTable from "../components/ComparisonTable.astro";
 import Faq from "../components/Faq.astro";
 import Cta from "../components/Cta.astro";
 import Footer from "../components/Footer.astro";
-import { pricingFaqs } from "../data/pricing";
+import { pricingFaqs, plans } from "../data/pricing";
+
+const productStructuredData = {
+	"@context": "https://schema.org",
+	"@type": "SoftwareApplication",
+	name: "DevCast",
+	applicationCategory: "DeveloperApplication",
+	operatingSystem: "Web",
+	url: "https://devcast.work/pricing",
+	offers: plans.map((plan) => ({
+		"@type": "Offer",
+		name: plan.name,
+		price: plan.price.replace(/[^0-9]/g, "") || "0",
+		priceCurrency: "JPY",
+		description: plan.description,
+		url: "https://devcast.work/pricing",
+	})),
+};
 ---
 
 <Layout
 	path="/pricing"
 	title="料金プラン | DevCast — Free / Pro / Business"
 	description="DevCastの料金プランはFree・Pro（¥980/月）・Business（¥2,980/月）の3種類。Publisher接続はどのプランでも無制限、AI翻訳やチーム機能など機能ごとの詳細な比較とよくある質問をまとめています。"
+	breadcrumbs={[{ name: "Pricing", path: "/pricing" }]}
 >
+	<Fragment slot="head">
+		<script type="application/ld+json" set:html={JSON.stringify(productStructuredData)} />
+	</Fragment>
 	<Header />
 	<PricingHero />
 	<PricingPlans />

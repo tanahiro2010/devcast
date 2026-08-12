@@ -1,0 +1,22 @@
+{
+	"name": "DevCast",
+	"short_name": "DevCast",
+	"description": "技術記事を一箇所で管理し、Qiita・DEV Community・はてなブログへ配信するHeadless CMS。",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#ffffff",
+	"theme_color": "#171717",
+	"icons": [
+		{
+			"src": "/icon-512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "/apple-touch-icon.png",
+			"sizes": "180x180",
+			"type": "image/png"
+		}
+	]
+}

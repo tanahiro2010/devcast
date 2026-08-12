@@ -14,7 +14,7 @@ interface Props {
 const { title, description, path, heading, updated } = Astro.props;
 ---
 
-<Layout title={title} description={description} path={path}>
+<Layout title={title} description={description} path={path} breadcrumbs={[{ name: heading, path }]}>
 	<Header />
 	<main class="max-w-3xl mx-auto px-6 py-20">
 		<p class="kicker text-[12px] font-semibold text-accent uppercase mb-4">Legal</p>
