@@ -31,9 +31,11 @@ body {
 /* Micro-interaction: apply to plain links/buttons for a soft hover lift.
    transition-property lists the same properties as Tailwind's default
    `transition` utility (plus transform) so existing color/bg transitions
-   on buttons keep animating instead of being overridden by this rule. */
+   on buttons keep animating instead of being overridden by this rule.
+   No `display` here on purpose: this is an unlayered custom class, so it
+   would beat any Tailwind display utility (inline-flex, etc.) regardless
+   of class order — set display per usage site instead. */
 .link-lift {
-	display: inline-block;
 	transition-property: color, background-color, border-color, box-shadow, transform;
 	transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 	transition-duration: 0.2s;
