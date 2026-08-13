@@ -14,20 +14,20 @@ const legalLinks = [
 ];
 ---
 
-<footer class="border-t border-hairline">
-	<div class="max-w-5xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-neutral-500">
-		<div class="font-semibold text-neutral-900">DevCast</div>
+<footer class="border-t border-hairline dark:border-white/10">
+	<div class="max-w-5xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400">
+		<div class="font-semibold text-neutral-900 dark:text-white">DevCast</div>
 		<div class="flex flex-wrap justify-center gap-6">
 			{links.map((link) => (
-				<a href={link.href} class="link-lift hover:text-neutral-900">{link.label}</a>
+				<a href={link.href} class="link-lift hover:text-neutral-900 dark:hover:text-white">{link.label}</a>
 			))}
 		</div>
 		<div>© 2026 DevCast</div>
 	</div>
 	<div class="max-w-5xl mx-auto px-6 pb-10">
-		<div class="border-t border-hairline pt-6 flex flex-wrap justify-center gap-6 text-xs text-neutral-400">
+		<div class="border-t border-hairline dark:border-white/10 pt-6 flex flex-wrap justify-center gap-6 text-xs text-neutral-400 dark:text-neutral-500">
 			{legalLinks.map((link) => (
-				<a href={link.href} class="link-lift hover:text-neutral-700">{link.label}</a>
+				<a href={link.href} class="link-lift hover:text-neutral-700 dark:hover:text-neutral-300">{link.label}</a>
 			))}
 		</div>
 	</div>

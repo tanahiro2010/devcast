@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Manual (class-based) dark mode toggle: activates whenever the <html>
+   element carries `.dark`, instead of only following prefers-color-scheme. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
 	--font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 	--font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", monospace;
@@ -15,6 +19,10 @@ body {
 	background-color: #ffffff;
 	color: #171717;
 }
+.dark body {
+	background-color: #0a0a0a;
+	color: #f5f5f5;
+}
 
 .kicker {
 	letter-spacing: 0.12em;
@@ -23,9 +31,11 @@ body {
 /* Micro-interaction: apply to plain links/buttons for a soft hover lift.
    transition-property lists the same properties as Tailwind's default
    `transition` utility (plus transform) so existing color/bg transitions
-   on buttons keep animating instead of being overridden by this rule. */
+   on buttons keep animating instead of being overridden by this rule.
+   No `display` here on purpose: this is an unlayered custom class, so it
+   would beat any Tailwind display utility (inline-flex, etc.) regardless
+   of class order — set display per usage site instead. */
 .link-lift {
-	display: inline-block;
 	transition-property: color, background-color, border-color, box-shadow, transform;
 	transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 	transition-duration: 0.2s;
@@ -128,4 +138,21 @@ summary::-webkit-details-marker {
 }
 .legal-content strong {
 	font-weight: 600;
+}
+
+.dark .legal-content p,
+.dark .legal-content ul,
+.dark .legal-content ol,
+.dark .legal-content li {
+	color: #a3a3a3;
+}
+.dark .legal-content th,
+.dark .legal-content td {
+	border-color: rgba(255, 255, 255, 0.1);
+}
+.dark .legal-content th {
+	background-color: rgba(255, 255, 255, 0.03);
+}
+.dark .legal-content a {
+	text-decoration-color: rgba(255, 255, 255, 0.15);
 }

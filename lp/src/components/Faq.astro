@@ -28,19 +28,19 @@ const faqStructuredData = {
 	{title && <h2 class="text-3xl font-semibold text-center mb-12">{title}</h2>}
 	<div class="space-y-4 js-faq-list">
 		{faqs.map((faq, i) => (
-			<details class="group border border-hairline rounded-xl p-5 transition-colors hover:border-neutral-300" open={i === 0}>
+			<details class="group border border-hairline dark:border-white/10 rounded-xl p-5 transition-colors hover:border-neutral-300 dark:hover:border-white/20" open={i === 0}>
 				<summary class="font-semibold cursor-pointer flex justify-between items-center list-none">
-					{faq.q}<span class="text-neutral-400 group-open:rotate-45 transition">+</span>
+					{faq.q}<span class="text-neutral-400 dark:text-neutral-500 group-open:rotate-45 transition">+</span>
 				</summary>
 				<div class="faq-answer">
-					<p class="pt-3 text-neutral-600 text-sm">{faq.a}</p>
+					<p class="pt-3 text-neutral-600 dark:text-neutral-400 text-sm">{faq.a}</p>
 				</div>
 			</details>
 		))}
 	</div>
 	{viewAllHref && (
 		<div class="mt-8 text-center">
-			<a href={viewAllHref} class="link-arrow text-sm font-medium text-neutral-900 hover:text-accent inline-flex items-center gap-1">
+			<a href={viewAllHref} class="link-arrow text-sm font-medium text-neutral-900 dark:text-white hover:text-accent inline-flex items-center gap-1">
 				すべての質問を見る <span class="arrow">→</span>
 			</a>
 		</div>
