@@ -1,0 +1,23 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+	<rect width="1200" height="630" fill="#ffffff" />
+	<rect width="1200" height="8" fill="#ff5a1f" />
+	<rect x="0.5" y="8.5" width="1199" height="621" fill="none" stroke="#ececec" />
+
+	<!-- Logo mark: same chevron motif as favicon.svg -->
+	<g transform="translate(80,64)">
+		<rect width="56" height="56" rx="14" fill="#171717" />
+		<polygon points="17.5,11.4 25.4,11.4 40.3,28 25.4,44.6 17.5,44.6 29.8,28" fill="#ff5a1f" />
+	</g>
+	<text x="152" y="100" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#171717">DevCast</text>
+
+	<text x="80" y="278" font-family="Arial, Helvetica, sans-serif" font-size="80" font-weight="700" fill="#171717">Write once.</text>
+	<text x="80" y="374" font-family="Arial, Helvetica, sans-serif" font-size="80" font-weight="700" fill="#ff5a1f">Publish everywhere.</text>
+
+	<text x="80" y="462" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#737373">
+		Technical article CMS for Qiita, DEV Community, and Hatena Blog
+	</text>
+
+	<text x="1120" y="580" text-anchor="end" font-family="'SFMono-Regular', Menlo, Consolas, monospace" font-size="24" fill="#a3a3a3">
+		devcast.work
+	</text>
+</svg>
