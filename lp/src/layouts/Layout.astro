@@ -65,7 +65,7 @@ if (breadcrumbs && breadcrumbs.length > 0) {
 		"@type": "BreadcrumbList",
 		itemListElement: [
 			{ "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
-			...breadcrumbs.map((crumb, i) => ({
+			...breadcrumbs.map((crumb: Breadcrumb, i: number) => ({
 				"@type": "ListItem",
 				position: i + 2,
 				name: crumb.name,
@@ -108,6 +108,7 @@ if (breadcrumbs && breadcrumbs.length > 0) {
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImageUrl} />
 		<meta name="twitter:image:alt" content={`${siteName} — Write once. Publish everywhere.`} />
+		<meta name="twitter:creator" content="@tanahiro2010" />
 
 		<!-- Icons -->
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
