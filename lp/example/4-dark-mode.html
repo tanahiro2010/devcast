@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevCast (Dark Mode Preview) — Write once. Publish everywhere.</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'sans-serif'],
+          mono: ['IBM Plex Mono', 'monospace'],
+        },
+        colors: {
+          accent: '#ff5a1f',
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { background: #0a0a0a; }
+  .hairline { border-color: rgba(255,255,255,0.1); }
+  .kicker { letter-spacing: .12em; }
+  summary::-webkit-details-marker { display: none; }
+</style>
+</head>
+<body class="text-neutral-100 font-sans antialiased">
+
+  <!-- banner: this is a static mockup, not the live site -->
+  <div class="bg-accent text-black text-center text-xs font-semibold py-2 px-4">
+    プレビュー用モックアップ — ダークモードを実装した場合の見た目イメージです（実装済みではありません）
+  </div>
+
+  <header class="sticky top-0 z-50 border-b hairline bg-black/70 backdrop-blur">
+    <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="font-semibold tracking-tight text-[15px] flex items-center gap-2">
+        <span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-white text-black text-xs font-bold">&gt;</span>
+        DevCast
+      </div>
+      <nav class="hidden md:flex items-center gap-10 text-[13px] text-neutral-400 font-medium">
+        <a href="#features" class="hover:text-white transition">Product</a>
+        <a href="#pricing" class="hover:text-white transition">Pricing</a>
+        <a href="#api" class="hover:text-white transition">API</a>
+        <a href="#faq" class="hover:text-white transition">FAQ</a>
+      </nav>
+      <div class="flex items-center gap-5 text-[13px] font-medium">
+        <a href="#" class="text-neutral-400 hover:text-white transition">Sign in</a>
+        <a href="#" class="bg-white text-black px-4 py-2 rounded-md hover:bg-neutral-200 transition">Get started</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="max-w-5xl mx-auto px-6 pt-28 pb-24 border-b hairline">
+    <p class="kicker text-[12px] font-semibold text-accent uppercase mb-6">
+      Write once. Publish everywhere.
+    </p>
+    <h1 class="text-[2.4rem] sm:text-[3.4rem] leading-[1.1] sm:leading-[1.05] font-semibold tracking-tight max-w-3xl text-white">
+      技術記事のための、<br />Publishing infrastructure。
+    </h1>
+    <p class="mt-7 text-[17px] text-neutral-400 max-w-xl leading-relaxed">
+      DevCastは記事を一元管理し、Qiita・DEV Community・はてなブログへ同時配信するHeadless
+      CMS。更新も同期状態も、自動で把握できます。
+    </p>
+    <div class="mt-10 flex items-center gap-4">
+      <a href="#" class="bg-white text-black text-sm font-medium px-6 py-3 rounded-md hover:bg-neutral-200 transition">
+        GitHubで始める
+      </a>
+      <a href="#" class="text-sm font-medium text-neutral-300 hover:text-white transition flex items-center gap-1">
+        View docs <span>→</span>
+      </a>
+    </div>
+
+    <div class="mt-20 border hairline rounded-lg overflow-hidden bg-white/[0.02]">
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        <div class="p-8 border-b md:border-b-0 md:border-r hairline">
+          <p class="text-[11px] kicker text-neutral-500 uppercase mb-4">Article</p>
+          <p class="font-semibold mb-1 text-white">WebMCPを実装して分かったこと</p>
+          <p class="text-sm text-neutral-500 mb-6">revision 18 · updated 2 hours ago</p>
+          <div class="font-mono text-[13px] text-neutral-400 leading-6 bg-white/5 rounded-md p-4">
+            # WebMCPを実装して分かったこと<br />
+            <span class="text-neutral-500">tags: webmcp, mcp</span>
+          </div>
+        </div>
+        <div class="p-8">
+          <p class="text-[11px] kicker text-neutral-500 uppercase mb-4">Publication status</p>
+          <div class="space-y-3 font-mono text-[13px]">
+            <div class="flex justify-between items-center">
+              <span class="text-neutral-300">Qiita</span><span class="text-emerald-400">✔ Latest</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-neutral-300">DEV.to</span><span class="text-emerald-400">✔ Latest</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-neutral-300">はてなブログ</span><span class="text-accent">⚠ Update available</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="max-w-5xl mx-auto px-6 py-14 border-b hairline">
+    <div class="grid grid-cols-3 gap-6 text-center">
+      <div>
+        <p class="text-3xl font-semibold tracking-tight text-white">3</p>
+        <p class="text-sm text-neutral-500 mt-1">対応プラットフォーム</p>
+      </div>
+      <div>
+        <p class="text-3xl font-semibold tracking-tight text-white">1</p>
+        <p class="text-sm text-neutral-500 mt-1">記事のSource of Truth</p>
+      </div>
+      <div>
+        <p class="text-3xl font-semibold tracking-tight text-white">0秒</p>
+        <p class="text-sm text-neutral-500 mt-1">投稿先を悩む時間</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="max-w-5xl mx-auto px-6 py-24 border-b hairline">
+    <p class="kicker text-[12px] font-semibold text-accent uppercase mb-4">Product</p>
+    <h2 class="text-3xl font-semibold tracking-tight mb-16 max-w-lg text-white">記事を書くことに集中できる仕組み</h2>
+    <div class="grid md:grid-cols-2 gap-x-12 gap-y-12">
+      <div class="flex gap-5">
+        <div class="text-accent font-mono text-sm pt-1">01</div>
+        <div>
+          <h3 class="font-semibold mb-2 text-white">Single Source of Truth</h3>
+          <p class="text-neutral-400 text-sm leading-relaxed">外部プラットフォームの記事を原本にしない。DevCastが常にマスター記事を保持します。</p>
+        </div>
+      </div>
+      <div class="flex gap-5">
+        <div class="text-accent font-mono text-sm pt-1">02</div>
+        <div>
+          <h3 class="font-semibold mb-2 text-white">Multi-Publish</h3>
+          <p class="text-neutral-400 text-sm leading-relaxed">Publish先を選んで一括投稿。1媒体の失敗が他媒体をロールバックしないPartial Success設計。</p>
+        </div>
+      </div>
+      <div class="flex gap-5">
+        <div class="text-accent font-mono text-sm pt-1">03</div>
+        <div>
+          <h3 class="font-semibold mb-2 text-white">Revision-based Sync</h3>
+          <p class="text-neutral-400 text-sm leading-relaxed">記事更新時にRevisionを比較し、Outdatedな媒体だけを可視化・再投稿できます。</p>
+        </div>
+      </div>
+      <div class="flex gap-5">
+        <div class="text-accent font-mono text-sm pt-1">04</div>
+        <div>
+          <h3 class="font-semibold mb-2 text-white">Content API</h3>
+          <p class="text-neutral-400 text-sm leading-relaxed">Headless CMSとして、自分のポートフォリオやブログから記事データを取得できます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- API -->
+  <section id="api" class="max-w-5xl mx-auto px-6 py-24 border-b hairline grid md:grid-cols-2 gap-14 items-center">
+    <div>
+      <p class="kicker text-[12px] font-semibold text-accent uppercase mb-4">Content API</p>
+      <h2 class="text-3xl font-semibold tracking-tight mb-5 text-white">自分のWebサイトから、そのまま記事を呼び出せる。</h2>
+      <p class="text-neutral-400 text-sm leading-relaxed mb-6">
+        Public APIは認証不要、Private APIはAPI Keyで保護。OpenAPI Specificationも公開しています。
+      </p>
+      <a href="#" class="text-sm font-medium text-white flex items-center gap-1">
+        API Docsを見る <span>→</span>
+      </a>
+    </div>
+    <div class="bg-white/5 border hairline rounded-lg p-6 font-mono text-[13px] text-neutral-300 leading-6 overflow-x-auto">
+      <span class="text-neutral-500">// Next.js</span><br />
+      <span class="text-purple-400">const</span> res = <span class="text-purple-400">await</span> fetch(<br />
+      &nbsp;&nbsp;<span class="text-emerald-400">"https://api.devcast.work/v1/articles"</span>,<br />
+      &nbsp;&nbsp;{ headers: { Authorization: <span class="text-emerald-400">`Bearer ${KEY}`</span> } }<br />
+      );<br />
+      <span class="text-purple-400">const</span> articles = <span class="text-purple-400">await</span> res.json();
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="max-w-5xl mx-auto px-6 py-24 border-b hairline">
+    <p class="kicker text-[12px] font-semibold text-accent uppercase mb-4">Pricing</p>
+    <h2 class="text-3xl font-semibold tracking-tight mb-16 text-white">シンプルな料金プラン</h2>
+    <div class="grid md:grid-cols-3 border-t border-l hairline">
+      <div class="p-8 border-b border-r hairline flex flex-col">
+        <h3 class="font-semibold text-white">Free</h3>
+        <p class="text-sm text-neutral-500 mt-1 mb-8">個人で始める</p>
+        <p class="text-3xl font-semibold mb-8 text-white">¥0</p>
+        <ul class="text-sm text-neutral-400 space-y-2.5 flex-1">
+          <li>記事数無制限</li>
+          <li>全Publisher接続</li>
+          <li>Multi-Publish / Sync</li>
+          <li>Public Content API</li>
+        </ul>
+        <a href="#" class="mt-8 text-sm font-medium text-center border hairline rounded-md py-2.5 hover:bg-white/5 transition text-neutral-200">始める</a>
+      </div>
+      <div class="p-8 border-b border-r hairline flex flex-col bg-white text-black -mt-px -ml-px">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold">Pro</h3>
+          <span class="text-[11px] bg-accent text-white px-2 py-0.5 rounded-full">おすすめ</span>
+        </div>
+        <p class="text-sm text-neutral-500 mt-1 mb-8">継続的に発信するエンジニアへ</p>
+        <p class="text-3xl font-semibold mb-8">¥980<span class="text-sm font-normal text-neutral-400">/月</span></p>
+        <ul class="text-sm text-neutral-600 space-y-2.5 flex-1">
+          <li>Freeの全機能</li>
+          <li>Private Content API</li>
+          <li>Article History 無制限</li>
+          <li>AI Translation（月20回）</li>
+          <li>Scheduled Publishing</li>
+        </ul>
+        <a href="#" class="mt-8 text-sm font-medium text-center bg-black text-white rounded-md py-2.5 hover:bg-neutral-800 transition">Proを始める</a>
+      </div>
+      <div class="p-8 border-b border-r hairline flex flex-col">
+        <h3 class="font-semibold text-white">Business</h3>
+        <p class="text-sm text-neutral-500 mt-1 mb-8">チーム・組織向け</p>
+        <p class="text-3xl font-semibold mb-8 text-white">¥2,980<span class="text-sm font-normal text-neutral-500">/月</span></p>
+        <ul class="text-sm text-neutral-400 space-y-2.5 flex-1">
+          <li>Proの全機能</li>
+          <li>Team Workspace</li>
+          <li>Webhooks</li>
+          <li>Analytics統合</li>
+        </ul>
+        <a href="#" class="mt-8 text-sm font-medium text-center border hairline rounded-md py-2.5 hover:bg-white/5 transition text-neutral-200">お問い合わせ</a>
+      </div>
+    </div>
+    <div class="mt-8 text-center">
+      <a href="#" class="text-sm font-medium text-white hover:text-accent inline-flex items-center gap-1 transition">
+        全プランを詳しく比較する <span>→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="max-w-3xl mx-auto px-6 py-24">
+    <h2 class="text-3xl font-semibold text-center mb-12 text-white">よくある質問</h2>
+    <div class="space-y-4">
+      <details class="group border hairline rounded-xl p-5 bg-white/[0.02]" open>
+        <summary class="font-semibold cursor-pointer flex justify-between items-center text-white">
+          Publisher連携はすべて無料ですか？<span class="text-neutral-500 group-open:rotate-45 transition">+</span>
+        </summary>
+        <p class="mt-3 text-neutral-400 text-sm">はい。Qiita・DEV.to・はてなブログへの接続と公開はFreeプランで無制限にご利用いただけます。</p>
+      </details>
+      <details class="group border hairline rounded-xl p-5 bg-white/[0.02]">
+        <summary class="font-semibold cursor-pointer flex justify-between items-center text-white">
+          既存の記事をインポートできますか？<span class="text-neutral-500 group-open:rotate-45 transition">+</span>
+        </summary>
+        <p class="mt-3 text-neutral-400 text-sm">Qiita / DEV.to / はてなブログからの記事インポート機能を今後提供予定です。</p>
+      </details>
+      <details class="group border hairline rounded-xl p-5 bg-white/[0.02]">
+        <summary class="font-semibold cursor-pointer flex justify-between items-center text-white">
+          AI翻訳の内容はそのまま公開されますか？<span class="text-neutral-500 group-open:rotate-45 transition">+</span>
+        </summary>
+        <p class="mt-3 text-neutral-400 text-sm">いいえ。翻訳結果は必ずユーザーが確認・編集してから公開する設計になっています。</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="max-w-5xl mx-auto px-6 py-24 text-center">
+    <h2 class="text-3xl font-semibold tracking-tight mb-4 text-white">Write once. Publish everywhere.</h2>
+    <p class="text-neutral-400 mb-8">GitHubアカウントで30秒で開始できます。</p>
+    <a href="#" class="inline-block bg-white text-black text-sm font-medium px-6 py-3 rounded-md hover:bg-neutral-200 transition">無料で始める</a>
+  </section>
+
+  <footer class="border-t hairline">
+    <div class="max-w-5xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-neutral-500">
+      <div class="font-semibold text-white">DevCast</div>
+      <div class="flex flex-wrap justify-center gap-6">
+        <a href="#" class="hover:text-white transition">Docs</a>
+        <a href="#" class="hover:text-white transition">API</a>
+        <a href="#" class="hover:text-white transition">Pricing</a>
+        <a href="#" class="hover:text-white transition">FAQ</a>
+        <a href="#" class="hover:text-white transition">GitHub</a>
+      </div>
+      <div>© 2026 DevCast</div>
+    </div>
+    <div class="max-w-5xl mx-auto px-6 pb-10">
+      <div class="border-t hairline pt-6 flex flex-wrap justify-center gap-6 text-xs text-neutral-600">
+        <a href="#" class="hover:text-neutral-300 transition">利用規約</a>
+        <a href="#" class="hover:text-neutral-300 transition">プライバシーポリシー</a>
+        <a href="#" class="hover:text-neutral-300 transition">特定商取引法に基づく表記</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

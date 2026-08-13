@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Manual (class-based) dark mode toggle: activates whenever the <html>
+   element carries `.dark`, instead of only following prefers-color-scheme. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
 	--font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 	--font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", monospace;
@@ -14,6 +18,10 @@ html {
 body {
 	background-color: #ffffff;
 	color: #171717;
+}
+.dark body {
+	background-color: #0a0a0a;
+	color: #f5f5f5;
 }
 
 .kicker {
@@ -128,4 +136,21 @@ summary::-webkit-details-marker {
 }
 .legal-content strong {
 	font-weight: 600;
+}
+
+.dark .legal-content p,
+.dark .legal-content ul,
+.dark .legal-content ol,
+.dark .legal-content li {
+	color: #a3a3a3;
+}
+.dark .legal-content th,
+.dark .legal-content td {
+	border-color: rgba(255, 255, 255, 0.1);
+}
+.dark .legal-content th {
+	background-color: rgba(255, 255, 255, 0.03);
+}
+.dark .legal-content a {
+	text-decoration-color: rgba(255, 255, 255, 0.15);
 }

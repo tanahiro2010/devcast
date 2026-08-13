@@ -23,7 +23,7 @@ const features = [
 ];
 ---
 
-<section id="features" class="max-w-5xl mx-auto px-6 py-24 border-b border-hairline">
+<section id="features" class="max-w-5xl mx-auto px-6 py-24 border-b border-hairline dark:border-white/10">
 	<p class="kicker text-[12px] font-semibold text-accent uppercase mb-4">Product</p>
 	<h2 class="text-3xl font-semibold tracking-tight mb-16 max-w-lg">記事を書くことに集中できる仕組み</h2>
 	<div class="grid md:grid-cols-2 gap-x-12 gap-y-12">
@@ -32,7 +32,7 @@ const features = [
 				<div class="text-accent font-mono text-sm pt-1">{feature.index}</div>
 				<div>
 					<h3 class="font-semibold mb-2">{feature.title}</h3>
-					<p class="text-neutral-500 text-sm leading-relaxed">{feature.description}</p>
+					<p class="text-neutral-500 dark:text-neutral-400 text-sm leading-relaxed">{feature.description}</p>
 				</div>
 			</div>
 		))}

@@ -2,24 +2,24 @@
 import { comparisonGroups, plans, type PlanFeatureValue } from "../data/pricing";
 
 function renderValue(value: PlanFeatureValue) {
-	if (value === true) return { text: "✔", cls: "text-emerald-600" };
-	if (value === false) return { text: "—", cls: "text-neutral-300" };
-	return { text: value, cls: "text-neutral-700" };
+	if (value === true) return { text: "✔", cls: "text-emerald-600 dark:text-emerald-400" };
+	if (value === false) return { text: "—", cls: "text-neutral-300 dark:text-neutral-700" };
+	return { text: value, cls: "text-neutral-700 dark:text-neutral-300" };
 }
 ---
 
-<section class="max-w-5xl mx-auto px-6 py-24 border-b border-hairline">
+<section class="max-w-5xl mx-auto px-6 py-24 border-b border-hairline dark:border-white/10">
 	<p class="kicker text-[12px] font-semibold text-accent uppercase mb-4">Compare plans</p>
 	<h2 class="text-3xl font-semibold tracking-tight mb-12">機能を詳しく比較</h2>
 
 	<div class="overflow-x-auto">
 		<table class="w-full border-collapse text-sm min-w-[640px]">
 			<thead>
-				<tr class="border-b border-hairline">
-					<th class="text-left font-medium text-neutral-500 py-4 pr-4 w-2/5">機能</th>
+				<tr class="border-b border-hairline dark:border-white/10">
+					<th class="text-left font-medium text-neutral-500 dark:text-neutral-400 py-4 pr-4 w-2/5">機能</th>
 					{plans.map((plan) => (
 						<th class:list={["text-left py-4 px-4", plan.featured && "text-accent"]}>
-							<span class="font-semibold text-neutral-900">{plan.name}</span>
+							<span class="font-semibold text-neutral-900 dark:text-white">{plan.name}</span>
 							{plan.featured && <span class="ml-2 text-[11px] bg-accent text-white px-2 py-0.5 rounded-full">おすすめ</span>}
 						</th>
 					))}
@@ -28,14 +28,14 @@ function renderValue(value: PlanFeatureValue) {
 			<tbody>
 				{comparisonGroups.map((group) => (
 					<>
-						<tr class="bg-neutral-50">
-							<td colspan={plans.length + 1} class="py-2 px-4 text-[11px] kicker uppercase text-neutral-400 font-semibold">
+						<tr class="bg-neutral-50 dark:bg-white/5">
+							<td colspan={plans.length + 1} class="py-2 px-4 text-[11px] kicker uppercase text-neutral-400 dark:text-neutral-500 font-semibold">
 								{group.category}
 							</td>
 						</tr>
 						{group.rows.map((row) => (
-							<tr class="border-b border-hairline">
-								<td class="py-3 pr-4 text-neutral-700">{row.label}</td>
+							<tr class="border-b border-hairline dark:border-white/10">
+								<td class="py-3 pr-4 text-neutral-700 dark:text-neutral-300">{row.label}</td>
 								{(["free", "pro", "business"] as const).map((planId) => {
 									const { text, cls } = renderValue(row[planId]);
 									return <td class:list={["py-3 px-4", cls]}>{text}</td>;

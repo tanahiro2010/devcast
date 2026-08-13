@@ -1,18 +1,18 @@
 ---
 ---
 
-<section id="api" class="max-w-5xl mx-auto px-6 py-24 border-b border-hairline grid md:grid-cols-2 gap-14 items-center">
+<section id="api" class="max-w-5xl mx-auto px-6 py-24 border-b border-hairline dark:border-white/10 grid md:grid-cols-2 gap-14 items-center">
 	<div>
 		<p class="kicker text-[12px] font-semibold text-accent uppercase mb-4">Content API</p>
 		<h2 class="text-3xl font-semibold tracking-tight mb-5">自分のWebサイトから、そのまま記事を呼び出せる。</h2>
-		<p class="text-neutral-500 text-sm leading-relaxed mb-6">
+		<p class="text-neutral-500 dark:text-neutral-400 text-sm leading-relaxed mb-6">
 			Public APIは認証不要、Private APIはAPI Keyで保護。OpenAPI Specificationも公開しています。
 		</p>
-		<a href="https://docs.devcast.work/api" class="link-arrow text-sm font-medium text-neutral-900 flex items-center gap-1">
+		<a href="https://docs.devcast.work/api" class="link-arrow text-sm font-medium text-neutral-900 dark:text-white flex items-center gap-1">
 			API Docsを見る <span class="arrow">→</span>
 		</a>
 	</div>
-	<div class="bg-neutral-900 rounded-lg p-6 font-mono text-[13px] text-neutral-300 leading-6 overflow-x-auto">
+	<div class="bg-neutral-900 dark:border dark:border-white/10 rounded-lg p-6 font-mono text-[13px] text-neutral-300 leading-6 overflow-x-auto">
 		<span class="text-neutral-500">// Next.js</span><br />
 		<span class="text-purple-400">const</span> res = <span class="text-purple-400">await</span> fetch(<br />
 		&nbsp;&nbsp;<span class="text-emerald-400">"https://api.devcast.work/v1/articles"</span>,<br />
