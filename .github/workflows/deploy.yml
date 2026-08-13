@@ -5,7 +5,31 @@ on:
     branches: main
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      lp: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.lp == 'true' }}
+      frontend: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.frontend == 'true' }}
+      backend: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.backend == 'true' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Detect changed paths
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            lp:
+              - 'lp/**'
+            frontend:
+              - 'frontend/**'
+            backend:
+              - 'backend/**'
+
   LandingPage:
+    needs: changes
+    if: needs.changes.outputs.lp == 'true'
     runs-on: ubuntu-latest
     steps: # FTP Deploy
       - name: Checkout
@@ -34,6 +58,8 @@ jobs:
           server-dir: /devcast.work/public_html/
 
   ServicePage:
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
     runs-on: ubuntu-latest
     steps: # FTP Deploy
       - name: Checkout
@@ -67,6 +93,8 @@ jobs:
           server-dir: /devcast.work/public_html/app.devcast.work/
 
   ServiceAPI:
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
     runs-on: ubuntu-latest
     steps: # SSH + rsync Deploy
       - name: Checkout
@@ -87,6 +115,7 @@ jobs:
           echo "SetEnv DB_USER ${{ secrets.DB_USER }}" >> ./backend/.htaccess
           echo "SetEnv DB_PASSWORD ${{ secrets.DB_PASSWORD }}" >> ./backend/.htaccess
           echo "SetEnv JWT_SECRET  ${{ secrets.JWT_SECRET }}" >> ./backend/.htaccess
+          echo "SetEnv CRYPTO_KEY ${{ secrets.CRYPTO_KEY }}" >> ./backend/.htaccess
           echo "SetEnv FRONTEND_URL ${{ secrets.FRONTEND_URL }}" >> ./backend/.htaccess
 
       - name: Rsync Deploy
