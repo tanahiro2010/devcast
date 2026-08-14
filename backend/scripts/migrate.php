@@ -1,8 +1,11 @@
 <?php
+use App\Config\Database;
+
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../src/config/database.php';
 
-/** @var \Illuminate\Database\Capsule\Manager $capsule */
+$database = new Database();
+$capsule = $database->getInstance();
 
 $schema = $capsule->schema();
 
