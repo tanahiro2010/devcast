@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^9.3.1",
     "@tailwindcss/vite": "^4.3.3",
     "@util-tools/react-router-dsl": "^0.0.1",
     "react": "^19.2.8",
