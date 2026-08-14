@@ -1,4 +1,5 @@
 <?php
+use App\Config\Config;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class AuthService {
