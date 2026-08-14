@@ -1,15 +1,17 @@
 <?php
-
+use App\Config\Config;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Schema\Blueprint;
+
 
 return [
     'up' => function (Capsule $capsule) {
         $capsule::schema()->create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('provider', ['github', 'google', 'qiita'])->default('github');
+            $table->enum('provider', Config::oauth()['providers'])->default('github');
             $table->string('provider_id')->unique();
 
+            $table->string('username')->nullable();
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('avatar_url')->nullable();
@@ -21,6 +23,7 @@ return [
             $table->increments('id');
             $table->unsignedInteger('user_id');
 
+            $table->enum('provider', Config::oauth()['providers'])->default('github');
             $table->string('access_token')->nullable();
             $table->string('refresh_token')->nullable();
             $table->timestamp('token_expires_at')->nullable();
