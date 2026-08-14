@@ -5,6 +5,12 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 class Database
 {
   private static $instance = null;
+
+  public function __construct()
+  {
+    self::init();
+  }
+
   public static function init()
   {
     if (self::$instance === null) {
@@ -27,7 +33,7 @@ class Database
     $capsule->bootEloquent();
   }
 
-  public static function getInstance(): Capsule
+  public function getInstance(): Capsule
   {
     if (self::$instance === null) {
       self::init();
