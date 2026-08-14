@@ -32,12 +32,12 @@ class BaseModel {
       throw new \Exception("Failed to create record in " . static::class);
     }
 
-    $row = static::where($attributes)->first();
-    if ($row === null) {
+    $created = static::firstWhere($attributes);
+    if ($created === null) {
       throw new \Exception("Failed to load created record in " . static::class);
     }
 
-    return $model->hydrate($row);
+    return $created;
   }
 
   static function where($attributes = []) {
@@ -57,10 +57,22 @@ class BaseModel {
     return $query;
   }
 
-  public static function all() {
+  static function firstWhere($attributes = []): ?static {
+    $row = static::where($attributes)->first();
+    if ($row === null) {
+      return null;
+    }
+
+    $model = new static();
+    return $model->hydrate($row);
+  }
+
+  public static function all($columns = ['*']) {
     $model = new static();
     $database = self::getDatabaseInstance();
-    return $database->table($model->table)->get();
+    return $database->table($model->table)->get($columns)->map(function ($row) use ($model) {
+      return $model->hydrate($row);
+    });
   }
 
   public static function find(string | int $id) {
