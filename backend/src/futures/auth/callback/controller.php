@@ -1,0 +1,18 @@
+<?php
+use App\Config\Config;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+
+
+require __DIR__ . '/../../helpers/response.php';
+
+class GithubCallbackController {
+  public function callback(Request $request, Response $response) {
+    // token交換処理やら
+
+    $frontendUrl = Config::oauth()['frontend_url'];
+    $redirectUrl = $frontendUrl . '/_auth/callback?token=' . urlencode('dummy_token');
+
+    return ApiResponseHelper::redirect($response, $redirectUrl);
+  }
+}
