@@ -127,7 +127,9 @@ class BaseModel {
 
   private function hydrate(\stdClass $row): static {
     foreach (get_object_vars($row) as $key => $value) {
-      $this->$key = $value;
+      if (in_array($key, $this->fillable, true) || $key === $this->primaryKey) {
+        $this->properties[$key] = $value;
+      }
     }
 
     return $this;
