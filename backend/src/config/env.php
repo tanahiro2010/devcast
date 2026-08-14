@@ -1,4 +1,5 @@
 <?php
+namespace App\Config;
 
 class Config {
   private static ?array $oauth = null;
@@ -14,6 +15,7 @@ class Config {
         ],
 
         'frontend_url' => getenv('FRONTEND_URL') ?? 'http://localhost:3000',
+        'providers' => ['github', 'google', 'qiita'],
       ];
     }
     return self::$oauth;
