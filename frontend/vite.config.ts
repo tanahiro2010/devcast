@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react, { reactCompilerPreset } from '@vitejs/plugin-react'
 import babel from '@rolldown/plugin-babel'
 import tailwindcss from '@tailwindcss/vite'
+import { fileURLToPath } from 'node:url'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -10,4 +11,13 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] }),
     tailwindcss()
   ],
+  resolve: {
+    alias: {
+      // published ESM build (dist/index.js) ships a broken rolldown CJS-interop
+      // shim that calls require("react") at runtime; the CJS build works fine.
+      '@util-tools/react-router-dsl': fileURLToPath(
+        new URL('./node_modules/@util-tools/react-router-dsl/dist/index.cjs', import.meta.url)
+      ),
+    },
+  },
 })

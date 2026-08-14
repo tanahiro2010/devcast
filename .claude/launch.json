@@ -6,6 +6,12 @@
       "runtimeExecutable": "bun",
       "runtimeArgs": ["run", "--cwd", "lp", "dev"],
       "port": 4321
+    },
+    {
+      "name": "frontend-dev",
+      "runtimeExecutable": "bun",
+      "runtimeArgs": ["run", "--cwd", "frontend", "dev"],
+      "port": 5173
     }
   ]
 }
