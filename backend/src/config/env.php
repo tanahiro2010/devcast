@@ -21,7 +21,7 @@ class Config {
 
   public static function frontend(): array {
     return [
-      'base_url' => getenv('FRONTEND_BASE_URL') ?? 'http://localhost:5173',
+      'base_url' => getenv('FRONTEND_BASE_URL') ?: 'http://localhost:5173',
     ];
   }
 }
