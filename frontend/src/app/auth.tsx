@@ -61,7 +61,7 @@ const Auth = () => {
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", display: "flex", alignItems: "center" }}>
       <Container maxWidth="xs">
         <Stack spacing={4} sx={{ alignItems: "center" }}>
-          <Stack spacing={1} sx={{ alignItems: "center", textAlign: "center", width: "100%" }}>
+          <Stack spacing={1} sx={{ alignItems: "center", textAlign: "center", width: "100%", fontWeight: "bold" }}>
             <Typography variant="h4" component="h1">
               DevCast にログイン
             </Typography>
