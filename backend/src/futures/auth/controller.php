@@ -2,8 +2,8 @@
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-require __DIR__ . '/../../helpers/response.php';
-require __DIR__ . '/../../config/env.php';
+require_once __DIR__ . '/../../helpers/response.php';
+require_once __DIR__ . '/../../config/env.php';
 require __DIR__ . '/service.php';
 
 class AuthController
