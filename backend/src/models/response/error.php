@@ -5,9 +5,9 @@ use App\Models\Response\Base\Details;
 class Error {
   public Details $details;
   public string | null $message = "Something went wrong";
-  public Status $code = Status::BAD_REQUEST;
+  public Code $code = Code::SOMETHING_WENT_WRONG;
 
-  public function __construct(Details $details, string $message = "Something went wrong", Status $code = Status::BAD_REQUEST) {
+  public function __construct(Details $details, string $message = "Something went wrong", Code $code = Code::SOMETHING_WENT_WRONG) {
     $this->details = $details;
     $this->message = $message;
     $this->code = $code;
@@ -45,6 +45,7 @@ enum Code: string {
   case INVALID_INPUT = "INVALID_INPUT";
   case RESOURCE_NOT_FOUND = "RESOURCE_NOT_FOUND";
   case SERVER_ERROR = "SERVER_ERROR";
+  case SOMETHING_WENT_WRONG = "SOMETHING_WENT_WRONG";
 
   // Validation Codes
   case VALIDATION_FAILED = "VALIDATION_FAILED";
