@@ -20,11 +20,11 @@ class Database
     $capsule = self::$instance;
     $capsule->addConnection([
       'driver' => 'mysql',
-      'host' => getenv('DB_HOST') ?: '127.0.0.1',
-      'port' => getenv('DB_PORT') ?: 3306,
-      'database' => getenv('DB_NAME') ?: 'devcast',
-      'username' => getenv('DB_USER') ?: 'admin',
-      'password' => getenv('DB_PASSWORD') ?: 'admin',
+      'host' => Config::env('DB_HOST') ?: '127.0.0.1',
+      'port' => Config::env('DB_PORT') ?: 3306,
+      'database' => Config::env('DB_NAME') ?: 'devcast',
+      'username' => Config::env('DB_USER') ?: 'admin',
+      'password' => Config::env('DB_PASSWORD') ?: 'admin',
       'charset' => 'utf8mb4',
       'collation' => 'utf8mb4_unicode_ci'
     ]);
