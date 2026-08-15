@@ -1,6 +1,7 @@
 <?php
 use Psr\Http\Message\ResponseInterface as Response;
 
+require_once __DIR__ . '/../models/response/base.php';
 require_once __DIR__ . '/../models/response/error.php';
 require_once __DIR__ . '/../models/response/success.php';
 
@@ -37,10 +38,10 @@ class ApiResponseHelper {
   }
 
 
-  static function sendErrorResponse(Response $response, string $instance, int $status = 400, string $message = "Something went wrong") {
-    $errorDetails = new ErrorDetails($instance, null, $status);
+  static function sendErrorResponse(Response $response, string $instance, ErrorStatus $status = ErrorStatus::BAD_REQUEST, string $message = "Something went wrong") {
+    $errorDetails = new ErrorDetails($instance, null, $status->value);
     $errorResponse = new ErrorResponse($errorDetails, $message, $status);
-    return self::sendResponse($response, $status, $errorResponse->toArray());
+    return self::sendResponse($response, $status->value, $errorResponse->toArray());
   }
   
   static function errorResponse(Response $response, ErrorStatus $errorStatus, string $instance, ?string $message = null) {
@@ -49,7 +50,7 @@ class ApiResponseHelper {
     $defaultMessage = $config['message'];
     $errorMessage = $message ?? $defaultMessage;
 
-    return self::sendErrorResponse($response, $instance, $status, $errorMessage);
+    return self::sendErrorResponse($response, $instance, $errorStatus, $errorMessage);
   }
 
   static function sendSuccessResponse(Response $response, mixed $data, string $message = "Success", int $status = 200) {

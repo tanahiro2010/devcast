@@ -5,9 +5,9 @@ use App\Models\Response\Base\Details;
 class Error {
   public Details $details;
   public string | null $message = "Something went wrong";
-  public int $code = 400;
+  public Status $code = Status::BAD_REQUEST;
 
-  public function __construct(Details $details, string $message = "Something went wrong", int $code = 400) {
+  public function __construct(Details $details, string $message = "Something went wrong", Status $code = Status::BAD_REQUEST) {
     $this->details = $details;
     $this->message = $message;
     $this->code = $code;
