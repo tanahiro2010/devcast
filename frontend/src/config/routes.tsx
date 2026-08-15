@@ -1,4 +1,6 @@
 import type { Route } from "@util-tools/react-router-dsl";
+import AuthMiddleware from "../middleware/auth";
+import NotFound from "../app/not-found";
 import Callback from "../app/_auth/callback";
 import Auth from "../app/auth";
 
@@ -20,6 +22,19 @@ const routes: Route[] = [
       },
     ]
   },
+  {
+    type: "page",
+    element: <NotFound />,
+    index: false,
+    path: "/not-found"
+  },
+  {
+    type: "layout",
+    element: <AuthMiddleware />,
+    children: [
+      { type: "page", path: "*", index: false, element: <NotFound /> }
+    ]
+  }
 ];
 
 export { routes };
