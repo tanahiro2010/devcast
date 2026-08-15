@@ -4,7 +4,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 
-require __DIR__ . '/../../helpers/response.php';
+require_once __DIR__ . '/../../../helpers/response.php';
+require_once __DIR__ . '/../../../config/env.php';
 
 class GithubCallbackController {
   public function callback(Request $request, Response $response) {
