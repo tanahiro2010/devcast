@@ -17,7 +17,7 @@ const Config: ConfigT = {
     isProduction: true
   },
   development: {
-    apiBaseUrl: 'http://localhost:3000',
+    apiBaseUrl: 'http://localhost:8000',
     isProduction: false
   }
 }
