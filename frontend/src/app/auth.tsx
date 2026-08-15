@@ -39,7 +39,13 @@ const Auth = () => {
       setIsLoading(false)
     }
 
-    fetchOAuthEndpoint()
+    try {
+      fetchOAuthEndpoint()
+    } catch (e) {
+      console.error(e)
+      setError(e as Error)
+      setIsLoading(false)
+    }
   }, [config])
 
   if (isLoading) return <Loading />
