@@ -113,6 +113,8 @@ jobs:
           echo "SetEnv JWT_SECRET  ${{ secrets.JWT_SECRET }}" >> ./backend/.htaccess
           echo "SetEnv CRYPTO_KEY ${{ secrets.CRYPTO_KEY }}" >> ./backend/.htaccess
           echo "SetEnv FRONTEND_URL ${{ secrets.FRONTEND_URL }}" >> ./backend/.htaccess
+          echo "SetEnv GITHUB_CLIENT_ID ${{ secrets.CLIENT_ID_GITHUB }}" >> ./backend/.htaccess
+          echo "SetEnv GITHUB_CLIENT_SECRET ${{ secrets.CLIENT_SECRET_GITHUB }}" >> ./backend/.htaccess
 
       - name: Rsync Deploy
         run: |
