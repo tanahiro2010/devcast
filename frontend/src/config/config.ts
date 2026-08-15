@@ -1,11 +1,24 @@
 const isProduction = import.meta.env.PROD;
 
-const Config = {
+type BaseConfig<T extends boolean> = {
+  apiBaseUrl: string;
+  isProduction: T;
+}
+
+type ConfigT = {
+  production: BaseConfig<true>;
+  development: BaseConfig<false>;
+}
+
+
+const Config: ConfigT = {
   production: {
-    apiBaseUrl: 'https://api.devcast.work'
+    apiBaseUrl: 'https://api.devcast.work',
+    isProduction: true
   },
   development: {
-    apiBaseUrl: 'http://localhost:3000'
+    apiBaseUrl: 'http://localhost:3000',
+    isProduction: false
   }
 }
 
