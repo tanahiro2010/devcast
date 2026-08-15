@@ -1,4 +1,4 @@
-import { Loading } from "../components/screen/Loading";
+import { Loading } from "../../components/screen/Loading";
 
 const Callback = () => {
 
