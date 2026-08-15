@@ -1,11 +1,13 @@
 <?php
 use Psr\Http\Message\ResponseInterface as Response;
 
+require_once __DIR__ . '/../models/response/base.php';
 require_once __DIR__ . '/../models/response/error.php';
 require_once __DIR__ . '/../models/response/success.php';
 
 use App\Models\Response\Base\Details as ErrorDetails;
 use App\Models\Response\Status as ErrorStatus;
+use App\Models\Response\Code as ErrorCode;
 use App\Models\Response\Error as ErrorResponse;
 use App\Models\Response\Success as SuccessResponse;
 
@@ -37,19 +39,19 @@ class ApiResponseHelper {
   }
 
 
-  static function sendErrorResponse(Response $response, string $instance, int $status = 400, string $message = "Something went wrong") {
-    $errorDetails = new ErrorDetails($instance, null, $status);
-    $errorResponse = new ErrorResponse($errorDetails, $message, $status);
-    return self::sendResponse($response, $status, $errorResponse->toArray());
+  static function sendErrorResponse(Response $response, string $instance, string $message = "Something went wrong", ErrorStatus $status = ErrorStatus::BAD_REQUEST, ErrorCode $code = ErrorCode::SOMETHING_WENT_WRONG) {
+    $errorDetails = new ErrorDetails($instance, null, $status->value);
+    $errorResponse = new ErrorResponse($errorDetails, $message, $code);
+    return self::sendResponse($response, $status->value, $errorResponse->toArray());
   }
   
-  static function errorResponse(Response $response, ErrorStatus $errorStatus, string $instance, ?string $message = null) {
+  static function errorResponse(Response $response, ErrorStatus $errorStatus, ErrorCode $code, string $instance, ?string $message = null) {
     $status = $errorStatus->value;
     $config = RESPONSE_CONFIG[$status] ?? array('message' => 'Something went wrong');
     $defaultMessage = $config['message'];
     $errorMessage = $message ?? $defaultMessage;
 
-    return self::sendErrorResponse($response, $instance, $status, $errorMessage);
+    return self::sendErrorResponse($response, $instance, $errorMessage, $errorStatus, $code);
   }
 
   static function sendSuccessResponse(Response $response, mixed $data, string $message = "Success", int $status = 200) {

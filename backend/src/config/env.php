@@ -13,11 +13,15 @@ class Config {
           'redirect_uri' => getenv('GITHUB_REDIRECT_URI') ?? '',
           'scope' => ["read:user", "user:email"],
         ],
-
-        'frontend_url' => getenv('FRONTEND_URL') ?? 'http://localhost:3000',
         'providers' => ['github', 'google', 'qiita'],
       ];
     }
     return self::$oauth;
+  }
+
+  public static function frontend(): array {
+    return [
+      'base_url' => getenv('FRONTEND_BASE_URL') ?: 'http://localhost:5173',
+    ];
   }
 }
