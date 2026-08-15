@@ -13,7 +13,7 @@ type RefreshTokenResponseData = {
 const AuthMiddleware = () => {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [error, setError] = useState<Error | null>(null)
+  const [_, setError] = useState<Error | null>(null)
 
   useEffect(() => {
     // Check if user is authenticated
