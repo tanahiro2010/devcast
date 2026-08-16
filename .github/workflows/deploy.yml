@@ -115,6 +115,7 @@ jobs:
           echo "SetEnv FRONTEND_URL ${{ secrets.FRONTEND_URL }}" >> ./backend/.htaccess
           echo "SetEnv GITHUB_CLIENT_ID ${{ secrets.CLIENT_ID_GITHUB }}" >> ./backend/.htaccess
           echo "SetEnv GITHUB_CLIENT_SECRET ${{ secrets.CLIENT_SECRET_GITHUB }}" >> ./backend/.htaccess
+          echo "SetEnv GITHUB_REDIRECT_URI ${{ secrets.REDIRECT_URI_GITHUB }}" >> ./backend/.htaccess
 
       - name: Rsync Deploy
         run: |
