@@ -19,7 +19,7 @@ class Config {
         'github' => [
           'client_id' => self::env('GITHUB_CLIENT_ID') ?: '',
           'client_secret' => self::env('GITHUB_CLIENT_SECRET') ?: '',
-          'redirect_uri' => self::env('GITHUB_REDIRECT_URI') ?: self::frontend()['base_url'] . '/_auth/callback',
+          'redirect_uri' => self::env('GITHUB_REDIRECT_URI') ?: 'http://localhost:8000/auth/callback',
           'front_redirect_uri' => self::frontend()['base_url'] . '/_auth/callback',
           'scope' => ["read:user", "user:email"],
         ],
