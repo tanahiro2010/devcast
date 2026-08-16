@@ -1,6 +1,17 @@
 name: Auto Deploy
-on: 
+on:
   workflow_dispatch:
+    inputs:
+      target:
+        description: 'デプロイ対象'
+        type: choice
+        required: true
+        default: all
+        options:
+          - all
+          - lp
+          - frontend
+          - backend
   push:
     branches: main
 
@@ -8,9 +19,9 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     outputs:
-      lp: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.lp == 'true' }}
-      frontend: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.frontend == 'true' }}
-      backend: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.backend == 'true' }}
+      lp: ${{ (github.event_name == 'workflow_dispatch' && (inputs.target == 'all' || inputs.target == 'lp')) || (github.event_name == 'push' && steps.filter.outputs.lp == 'true') }}
+      frontend: ${{ (github.event_name == 'workflow_dispatch' && (inputs.target == 'all' || inputs.target == 'frontend')) || (github.event_name == 'push' && steps.filter.outputs.frontend == 'true') }}
+      backend: ${{ (github.event_name == 'workflow_dispatch' && (inputs.target == 'all' || inputs.target == 'backend')) || (github.event_name == 'push' && steps.filter.outputs.backend == 'true') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
