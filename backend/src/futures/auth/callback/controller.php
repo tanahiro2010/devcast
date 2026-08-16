@@ -11,9 +11,14 @@ class GithubCallbackController {
   public function callback(Request $request, Response $response) {
     // token交換処理やら
 
-    $frontendUrl = Config::oauth()['frontend_url'];
+    return ApiResponseHelper::successResponse($response, $request->getQueryParams(), "Callback successful");
+
+    $config = Config::server();
+
+    $frontendUrl = $config['frontend']['base_url'];
     $redirectUrl = $frontendUrl . '/_auth/callback?token=' . urlencode('dummy_token');
 
     return ApiResponseHelper::redirect($response, $redirectUrl);
+
   }
 }
