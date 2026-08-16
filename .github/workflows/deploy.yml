@@ -1,6 +1,17 @@
 name: Auto Deploy
-on: 
+on:
   workflow_dispatch:
+    inputs:
+      target:
+        description: 'デプロイ対象'
+        type: choice
+        required: true
+        default: all
+        options:
+          - all
+          - lp
+          - frontend
+          - backend
   push:
     branches: main
 
@@ -8,9 +19,9 @@ jobs:
   changes:
     runs-on: ubuntu-latest
     outputs:
-      lp: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.lp == 'true' }}
-      frontend: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.frontend == 'true' }}
-      backend: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.backend == 'true' }}
+      lp: ${{ (github.event_name == 'workflow_dispatch' && (inputs.target == 'all' || inputs.target == 'lp')) || (github.event_name == 'push' && steps.filter.outputs.lp == 'true') }}
+      frontend: ${{ (github.event_name == 'workflow_dispatch' && (inputs.target == 'all' || inputs.target == 'frontend')) || (github.event_name == 'push' && steps.filter.outputs.frontend == 'true') }}
+      backend: ${{ (github.event_name == 'workflow_dispatch' && (inputs.target == 'all' || inputs.target == 'backend')) || (github.event_name == 'push' && steps.filter.outputs.backend == 'true') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -113,6 +124,7 @@ jobs:
           echo "SetEnv JWT_SECRET  ${{ secrets.JWT_SECRET }}" >> ./backend/.htaccess
           echo "SetEnv CRYPTO_KEY ${{ secrets.CRYPTO_KEY }}" >> ./backend/.htaccess
           echo "SetEnv FRONTEND_URL ${{ secrets.FRONTEND_URL }}" >> ./backend/.htaccess
+          echo "SetEnv BACKEND_URL ${{ secrets.BACKEND_URL }}" >> ./backend/.htaccess
           echo "SetEnv GITHUB_CLIENT_ID ${{ secrets.CLIENT_ID_GITHUB }}" >> ./backend/.htaccess
           echo "SetEnv GITHUB_CLIENT_SECRET ${{ secrets.CLIENT_SECRET_GITHUB }}" >> ./backend/.htaccess
           echo "SetEnv GITHUB_REDIRECT_URI ${{ secrets.REDIRECT_URI_GITHUB }}" >> ./backend/.htaccess
