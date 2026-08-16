@@ -44,6 +44,36 @@ services:
     depends_on:
       - mysql
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+    depends_on:
+      - backend
+
+  lp:
+    build:
+      context: ./lp
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "4321:4321"
+    volumes:
+      - ./lp:/app
+      - lp_node_modules:/app/node_modules
+
 volumes:
   mysql_data:
   backend_vendor:
+  frontend_node_modules:
+  lp_node_modules:
