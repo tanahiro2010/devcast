@@ -13,10 +13,10 @@ make-migration:
 	cd backend && php scripts/make_migration.php $(name)
 
 front:
-	cd frontend && bun run dev
+	docker compose up --build frontend
 
 back:
 	docker compose up --build backend
 
 lp:
-	cd lp && bun run dev
+	docker compose up --build lp
