@@ -3,13 +3,7 @@ use App\Config\Config;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class AuthService {
-  private Request $request;
-
-  public function __construct(Request $request) {
-    $this->request = $request;
-  }
-
-  public function getOauthUrl() {
+  public static function getOauthUrl() {
     $oauthConfig = Config::oauth();
 
     $queries = [
