@@ -23,7 +23,7 @@ class Config {
           'front_redirect_uri' => self::server()['frontend']['base_url'] . '/_auth/callback',
           'scope' => ["read:user", "user:email"],
         ],
-        'providers' => ['github', 'google', 'qiita'],
+        'providers' => ['github'],
       ];
     }
     return self::$oauth;
