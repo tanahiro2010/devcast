@@ -10,8 +10,7 @@ class AuthController
 {
   public function oauthUrl(Request $request, Response $response)
   {
-    $authService = new AuthService($request);
-    $oauthUrl = $authService->getOauthUrl();
+    $oauthUrl = AuthService::getOauthUrl();
 
     return ApiResponseHelper::successResponse($response, ['url' => $oauthUrl], "OAuth URL generated successfully");
   }
