@@ -51,7 +51,7 @@ jobs:
 
       - name: Install Dependencies
         working-directory: ./lp
-        run: bun install
+        run: bun ci
 
       - name: Build Project
         working-directory: ./lp
@@ -79,7 +79,7 @@ jobs:
 
       - name: Install Dependencies
         working-directory: ./frontend
-        run: bun install
+        run: bun ci
 
       - name: Build Project
         working-directory: ./frontend
