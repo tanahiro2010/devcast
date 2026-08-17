@@ -1,10 +1,10 @@
 <?php
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 
-require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/src/Config/routes.php';
+require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/src/Config/routes.php';
+
+
 
 try {
   $routes->validate();
