@@ -20,3 +20,6 @@ back:
 
 lp:
 	docker compose up --build lp
+
+up:
+	docker compose up --build
