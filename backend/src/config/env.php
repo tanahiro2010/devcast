@@ -33,7 +33,7 @@ class Config {
   public static function server(): array {
     return [
       'frontend' => [
-        'base_url' => self::env('FRONTEND_URL') ?: 'http://localhost:5173',
+        'base_url' => self::env('FRONTEND_URL') ?: 'http://localhost:5174',
       ],
       'backend' => [
         'base_url' => self::env('BACKEND_URL') ?: 'http://localhost:8000',
