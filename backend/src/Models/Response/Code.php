@@ -1,35 +1,5 @@
 <?php
 namespace App\Models\Response;
-use App\Models\Response\Base\Details;
-
-class Error {
-  public Details $details;
-  public string | null $message = "Something went wrong";
-  public Code $code = Code::SOMETHING_WENT_WRONG;
-
-  public function __construct(Details $details, string $message = "Something went wrong", Code $code = Code::SOMETHING_WENT_WRONG) {
-    $this->details = $details;
-    $this->message = $message;
-    $this->code = $code;
-  }
-
-  public function toArray() {
-    return array(
-      'details' => $this->details->toArray(),
-      'message' => $this->message,
-      'code' => $this->code
-    );
-  }
-}
-
-enum Status: int {
-  case BAD_REQUEST = 400;
-  case UNAUTHORIZED = 401;
-  case FORBIDDEN = 403;
-  case NOT_FOUND = 404;
-  case UNPROCESSABLE_ENTITY = 422;
-  case INTERNAL_SERVER_ERROR = 500;
-}
 
 enum Code: string {
   // Auth Codes
