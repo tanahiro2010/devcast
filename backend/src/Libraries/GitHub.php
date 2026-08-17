@@ -38,4 +38,20 @@ class GitHub {
 
     return $data;
   }
+
+  public function getProfile(string $accessToken): array {
+    $response = $this->client->get('https://api.github.com/user', [
+      'headers' => [
+        'Authorization' => 'Bearer ' . $accessToken,
+        'Accept' => 'application/vnd.github.v3+json'
+      ]
+    ]);
+
+    $data = json_decode($response->getBody()->getContents(), true);
+    if (isset($data['message'])) {
+      throw new \Exception("Error fetching user profile: " . $data['message']);
+    }
+
+    return $data;
+  }
 }
