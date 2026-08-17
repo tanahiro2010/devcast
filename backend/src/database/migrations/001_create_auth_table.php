@@ -27,6 +27,8 @@ return [
             $table->string('access_token')->nullable();
             $table->string('refresh_token')->nullable();
             $table->timestamp('token_expires_at')->nullable();
+            $table->string('scope')->nullable();
+            $table->string('token_type')->nullable()->default('Bearer');
             
             $table->timestamps();
 
