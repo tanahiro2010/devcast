@@ -1,15 +1,12 @@
 <?php
+namespace App\Futures\Auth\Callback;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Config\Config;
 use App\Models\Response\Status as ErrorStatus;
 use App\Models\Response\Code as ErrorCode;
-
-define('__ROOT__', __DIR__ . '/../../..');
-
-require_once __DIR__  . '/service.php';
-require_once __ROOT__ . '/helpers/response.php';
-require_once __ROOT__ . '/config/env.php';
+use App\Helpers\ApiResponseHelper;
 
 class GithubCallbackController {
   public function callback(Request $request, Response $response) {
@@ -23,6 +20,16 @@ class GithubCallbackController {
     }
 
     $credentials = CallbackService::exchangeToken($code, $state);
+
+    $accessToken = $credentials['access_token'] ?? null;
+    $refreshToken = $credentials['refresh_token'] ?? null;
+    $expiresIn = $credentials['expires_in'] ?? null;
+    $refreshTokenExpiresIn = $credentials['refresh_token_expires_in'] ?? null;
+    $tokenType = $credentials['token_type'] ?? null;
+    $scope = $credentials['scope'] ?? null;
+
+
+
 
     return ApiResponseHelper::successResponse($response, ['credentials' => $credentials], "Callback successful");
 

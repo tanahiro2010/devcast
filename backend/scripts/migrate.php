@@ -2,7 +2,6 @@
 use App\Config\Database;
 
 require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../src/config/database.php';
 
 $database = new Database();
 $capsule = $database->getInstance();

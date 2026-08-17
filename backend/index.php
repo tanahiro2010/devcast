@@ -4,7 +4,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 
 require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/src/config/routes.php';
+require __DIR__ . '/src/Config/routes.php';
 
 try {
   $routes->validate();
