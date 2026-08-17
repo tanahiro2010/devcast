@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 4321
 
-CMD ["bun", "run", "dev", "--", "--host", "0.0.0.0", "--port", "4321"]
+CMD ["sh", "-c", "rm -f .astro/dev.json; exec bun run dev -- --host 0.0.0.0 --port 4321"]
