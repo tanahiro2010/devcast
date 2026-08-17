@@ -16,7 +16,8 @@
     "license": "CC-BY-NC-ND-4.0",
     "autoload": {
         "psr-4": {
-            "Tanahiro2010\\Backend\\": "src/"
+            "Tanahiro2010\\Backend\\": "src/",
+            "App\\": "src/"
         }
     },
     "authors": [

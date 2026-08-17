@@ -1,10 +1,7 @@
 <?php
+namespace App\Helpers;
+
 use Psr\Http\Message\ResponseInterface as Response;
-
-require_once __DIR__ . '/../models/response/base.php';
-require_once __DIR__ . '/../models/response/error.php';
-require_once __DIR__ . '/../models/response/success.php';
-
 use App\Models\Response\Base\Details as ErrorDetails;
 use App\Models\Response\Status as ErrorStatus;
 use App\Models\Response\Code as ErrorCode;
@@ -44,7 +41,7 @@ class ApiResponseHelper {
     $errorResponse = new ErrorResponse($errorDetails, $message, $code);
     return self::sendResponse($response, $status->value, $errorResponse->toArray());
   }
-  
+
   static function errorResponse(Response $response, ErrorStatus $errorStatus, ErrorCode $code, string $instance, ?string $message = null) {
     $status = $errorStatus->value;
     $config = RESPONSE_CONFIG[$status] ?? array('message' => 'Something went wrong');
@@ -65,7 +62,7 @@ class ApiResponseHelper {
 
     return self::sendSuccessResponse($response, $data, $successMessage, $status);
   }
-  
+
   static function redirect(Response $response, string $url, int $status = 302) {
     return $response->withHeader('Location', $url)->withStatus($status);
   }
