@@ -2,7 +2,7 @@
 use App\Libraries\GitHub;
 use App\Config\Config;
 
-require __DIR__ . '/../../libraries/github.php';
+require __DIR__ . '/../../../libraries/github.php';
 
 class CallbackService {
   public static function exchangeToken(string $code, string $state): array {
