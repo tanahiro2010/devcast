@@ -1,16 +1,20 @@
 <?php
+
 namespace App\Futures\Auth\Callback;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use App\Config\Config;
-use App\Helpers\ApiResponseHelper;
 use App\Models\Response\Status as ErrorStatus;
 use App\Models\Response\Code as ErrorCode;
-use App\Models\DB\Credential;
-use App\Models\DB\User;
+use App\Config\Config;
+use App\Helpers\ApiResponseHelper;
+use App\Libraries\Crypto;
+use App\Libraries\Algorithm;
 
-class CallbackController {
+
+
+class CallbackController
+{
   private CallbackService $callbackService;
 
   public function __construct()
@@ -18,7 +22,8 @@ class CallbackController {
     $this->callbackService = new CallbackService();
   }
 
-  public function callback(Request $request, Response $response) {
+  public function callback(Request $request, Response $response)
+  {
     // token交換処理やら
     $params = $request->getQueryParams();
     $code = $params['code'] ?? null;
@@ -28,46 +33,46 @@ class CallbackController {
       return ApiResponseHelper::errorResponse($response, ErrorStatus::BAD_REQUEST, ErrorCode::MISSING_CODE_OR_STATE, '/auth/callback');
     }
 
-    $credentials = $this->callbackService->exchangeToken($code, $state);
+    try {
+      $credentials = $this->callbackService->exchangeToken($code, $state);
+      
+      if (!isset($credentials['access_token'])) {
+        return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::TOKEN_EXCHANGE_FAILED, '/auth/callback');
+      }
+      
+      $profile = $this->callbackService->getProfile($credentials['access_token']);
+      $user = $this->callbackService->findOrCreateUser('github', $profile);
+      
+      $credential =$user->createCredential(
+        'github',
+        $credentials['access_token'], 
+        $credentials['refresh_token'] ?? null, 
+        $credentials['expires_in'] ?? null, 
+        $credentials['scope'] ?? null, 
+        $credentials['token_type'] ?? 'Bearer'
+      );
 
-    $accessToken = $credentials['access_token'] ?? null;
-    $refreshToken = $credentials['refresh_token'] ?? null;
-    $expiresIn = $credentials['expires_in'] ?? null;
-    $refreshTokenExpiresIn = $credentials['refresh_token_expires_in'] ?? null;
-    $tokenType = $credentials['token_type'] ?? null;
-    $scope = $credentials['scope'] ?? null;
+      $session = $user->createSession(
+        Crypto::generateRandomString(16), // session_id
+        $request->getServerParams()['REMOTE_ADDR'] ?? null, // ip_address
+        $request->getHeaderLine('User-Agent') ?? null, // user_agent
+        date('Y-m-d H:i:s', strtotime('+7 days')) // expires_at
+      );
 
-    $profile = $this->callbackService->getProfile($accessToken);
+      $jwtToken = Crypto::jwtEncode([
+        'sub' => $user->get('id'),
+        'iss' => $session->get('session_id'),
+        'iat' => time(),
+        'exp' => time() + 3600, // 1 hour expiration
+      ], Config::env('JWT_SECRET'), Algorithm::HS256);
+      
+      $config = Config::server();
+      $frontendUrl = $config['frontend']['base_url'];
+      $redirectUrl = $frontendUrl . '/_auth/callback?token=' . urlencode($jwtToken);
 
-    return ApiResponseHelper::successResponse($response, ['credentials' => $credentials, 'profile' => $profile], "Callback successful");
-
-    
-
-    User::create([
-      'username' => 'dummy_user',
-      'email' => 'dummy_user@example.com'
-    ]);
-
-    Credential::create([
-      'access_token' => $accessToken,
-      'refresh_token' => $refreshToken,
-      'token_expires_at' => date('Y-m-d H:i:s', time() + $expiresIn),
-      'scope' => $scope,
-      'token_type' => $tokenType,
-    ]);
-
-
-
-    return ApiResponseHelper::successResponse($response, ['credentials' => $credentials], "Callback successful");
-
-
-    // return ApiResponseHelper::successResponse($response, $request->getQueryParams(), "Callback successful");
-
-    $config = Config::server();
-
-    $frontendUrl = $config['frontend']['base_url'];
-    $redirectUrl = $frontendUrl . '/_auth/callback?token=' . urlencode('dummy_token');
-
-    return ApiResponseHelper::redirect($response, $redirectUrl);
+      return ApiResponseHelper::redirect($response, $redirectUrl);
+    } catch (\Exception $e) {
+      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::TOKEN_EXCHANGE_FAILED, '/auth/callback', $e->getMessage());
+    }
   }
 }
