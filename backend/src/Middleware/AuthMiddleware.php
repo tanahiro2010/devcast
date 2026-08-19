@@ -9,6 +9,7 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use App\Helpers\ApiResponseHelper;
 use App\Models\Response\Code as ErrorCode;
 use App\Models\Response\Status as ErrorStatus;
+use App\Models\DB\Session;
 use App\Libraries\Crypto;
 
 class AuthMiddleware implements MiddlewareInterface {
@@ -26,8 +27,18 @@ class AuthMiddleware implements MiddlewareInterface {
         return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, $request->getUri()->getPath(), "Invalid token: user_id not found");
       }
 
-      $request = $request->withAttribute('user_id', $data['sub']);
-      $request = $request->withAttribute('iss', $data['iss']);
+      $session = Session::findBySessionId($data['iss']);
+      if (!$session) {
+        return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, $request->getUri()->getPath(), "Session not found");
+      }
+
+      if ($session->isExpired()) {
+        return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, $request->getUri()->getPath(), "Session expired");
+      }
+
+      $user = $session->user();
+      $request = $request->withAttribute('user', $user);
+      $request = $request->withAttribute('session', $session);
     } catch (\Exception $e) {
       return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, $request->getUri()->getPath(), "Invalid or expired token");
     }
