@@ -1,6 +1,8 @@
 <?php
+namespace App\Libraries;
 
-enum Algorithm: string {
+enum Algorithm: string
+{
   case HS256 = 'HS256';
   case HS384 = 'HS384';
   case HS512 = 'HS512';
@@ -38,7 +40,7 @@ class Crypto
       case Algorithm::HS512:
         return hash_hmac('sha512', $data, $secret, true);
       default:
-        throw new InvalidArgumentException("Unsupported algorithm: $alg");
+        throw new \InvalidArgumentException("Unsupported algorithm: $alg");
     }
   }
 
@@ -59,7 +61,7 @@ class Crypto
   {
     $segments = explode('.', $jwt);
     if (count($segments) !== 3) {
-      throw new InvalidArgumentException("Invalid JWT format");
+      throw new \InvalidArgumentException("Invalid JWT format");
     }
 
     [$headerB64, $payloadB64, $signatureB64] = $segments;
@@ -68,14 +70,14 @@ class Crypto
     $signature = self::base64UrlDecode($signatureB64);
 
     if ($header['alg'] !== $alg->value) {
-      throw new InvalidArgumentException("Algorithm mismatch");
+      throw new \InvalidArgumentException("Algorithm mismatch");
     }
 
     $signingInput = "$headerB64.$payloadB64";
     $expectedSignature = self::sign($signingInput, $secret, $alg);
 
     if (!hash_equals($expectedSignature, $signature)) {
-      throw new InvalidArgumentException("Invalid signature");
+      throw new \InvalidArgumentException("Invalid signature");
     }
 
     return $payload;
