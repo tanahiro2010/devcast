@@ -6,7 +6,7 @@ use App\Models\DB\User;
 class Credential extends BaseModel {
   protected $table = 'credentials';
   protected $primaryKey = 'id';
-  protected $fillable = ['id', 'provider', 'user_id', 'access_token', 'refresh_token', 'token_expires_at', 'created_at', 'updated_at'];
+  protected $fillable = ['id', 'provider', 'user_id', 'access_token', 'refresh_token', 'token_expires_at', 'scope', 'token_type', 'created_at', 'updated_at'];
 
   public function __construct() {
     parent::__construct();
@@ -30,10 +30,11 @@ class Credential extends BaseModel {
   }
 
   public function updateToken($accessToken, $refreshToken, $expiresAt) {
-    $this->access_token = $accessToken;
-    $this->refresh_token = $refreshToken;
-    $this->token_expires_at = $expiresAt;
-    $this->save();
+    $this->update([
+      'access_token' => $accessToken,
+      'refresh_token' => $refreshToken,
+      'token_expires_at' => $expiresAt,
+    ]);
   }
 
   public function refreshAccessToken() {
