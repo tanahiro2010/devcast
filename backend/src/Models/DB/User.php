@@ -29,7 +29,7 @@ class User extends BaseModel {
     return Credential::where(['user_id' => $this->id]);
   }
 
-  public function createCredential(string $provider, string $accessToken, ?string $refreshToken, ?int $expiresAt, ?string $scope, string $tokenType) {
+  public function createCredential(string $provider, string $accessToken, ?string $refreshToken, ?string $expiresAt, ?string $scope, string $tokenType) {
     $credential = Credential::create([
       'user_id'    => $this->id,
       'provider'   => $provider,
@@ -47,7 +47,7 @@ class User extends BaseModel {
     return Session::where(['user_id' => $this->id]);
   }
 
-  public function createSession(string $sessionId, string $ipAddress, string $userAgent, ?int $expiresAt) {
+  public function createSession(string $sessionId, string $ipAddress, string $userAgent, ?string $expiresAt) {
     $session = Session::create([
       'user_id'    => $this->id,
       'session_id' => $sessionId,
