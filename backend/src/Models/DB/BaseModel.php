@@ -5,7 +5,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 
 #[\AllowDynamicProperties]
-class BaseModel {
+class BaseModel implements \JsonSerializable {
   protected $table;
   protected $primaryKey = 'id';
   protected $fillable = [];
@@ -87,6 +87,19 @@ class BaseModel {
     return $model->hydrate($row);
   }
 
+  public function fill(array $attributes): static {
+    foreach ($attributes as $key => $value) {
+      $this->$key = $value;
+    }
+
+    return $this;
+  }
+
+  public function update(array $attributes): static {
+    $this->fill($attributes)->save();
+    return $this;
+  }
+
   public function destroy(): true {
     $database = $this->database;
     try {
@@ -116,6 +129,10 @@ class BaseModel {
     return $this->properties;
   }
 
+  public function jsonSerialize(): array {
+    return $this->toArray();
+  }
+
   public function save(): true {
     $database = $this->database;
     try {
@@ -133,6 +150,13 @@ class BaseModel {
     } catch (\Exception $e) {
       throw new \Exception("Failed to save record in " . static::class . ": " . $e->getMessage());
     }
+  }
+
+  public function get(string $key) {
+    if (array_key_exists($key, $this->properties)) {
+      return $this->properties[$key];
+    }
+    throw new \Exception("Property $key does not exist on " . static::class);
   }
 
 

@@ -13,15 +13,15 @@ class User extends BaseModel {
     parent::__construct();
   }
 
-  public static function findByProviderId($provider, $providerId) {
+  public static function findByProviderId(string $provider, string $providerId) {
     return self::firstWhere(['provider' => $provider, 'provider_id' => $providerId]);
   }
 
-  public static function findById($id) {
+  public static function findById(int $id) {
     return self::firstWhere(['id' => $id]);
   }
 
-  public static function findByUsername($username) {
+  public static function findByUsername(string $username) {
     return self::firstWhere(['username' => $username]);
   }
 
@@ -29,13 +29,15 @@ class User extends BaseModel {
     return Credential::where(['user_id' => $this->id]);
   }
 
-  public function createCredential($provider, $accessToken, $refreshToken, $expiresAt) {
+  public function createCredential(string $provider, string $accessToken, ?string $refreshToken, ?int $expiresAt, ?string $scope, string $tokenType) {
     $credential = Credential::create([
-      'user_id' => $this->id,
-      'provider' => $provider,
-      'access_token' => $accessToken,
+      'user_id'    => $this->id,
+      'provider'   => $provider,
+      'access_token'  => $accessToken,
       'refresh_token' => $refreshToken,
       'token_expires_at' => $expiresAt,
+      'scope' =>      $scope,
+      'token_type' => $tokenType,
     ]);
 
     return $credential;
@@ -45,9 +47,9 @@ class User extends BaseModel {
     return Session::where(['user_id' => $this->id]);
   }
 
-  public function createSession($sessionId, $ipAddress, $userAgent, $expiresAt) {
+  public function createSession(string $sessionId, string $ipAddress, string $userAgent, ?int $expiresAt) {
     $session = Session::create([
-      'user_id' => $this->id,
+      'user_id'    => $this->id,
       'session_id' => $sessionId,
       'ip_address' => $ipAddress,
       'user_agent' => $userAgent,
