@@ -25,6 +25,9 @@ class AuthMiddleware implements MiddlewareInterface {
       if (!isset($data['iss']) || !isset($data['sub'])) {
         return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, $request->getUri()->getPath(), "Invalid token: user_id not found");
       }
+
+      $request = $request->withAttribute('user_id', $data['sub']);
+      $request = $request->withAttribute('iss', $data['iss']);
     } catch (\Exception $e) {
       return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, $request->getUri()->getPath(), "Invalid or expired token");
     }
