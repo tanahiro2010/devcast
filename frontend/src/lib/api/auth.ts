@@ -7,7 +7,7 @@ class AuthApi {
   async getAuthUrl(): Promise<string> {
     const response = await apiFetch('/auth')
     const data = await response.json()
-    return data.url
+    return data.data.url
   }
 
   async getRefreshToken(): Promise<string> {
