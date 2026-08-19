@@ -42,12 +42,13 @@ class CallbackController
       
       $profile = $this->callbackService->getProfile($credentials['access_token']);
       $user = $this->callbackService->findOrCreateUser('github', $profile);
+      $expiredAt = isset($credentials['expires_in']) ? date('Y-m-d H:i:s', time() + $credentials['expires_in']) : null;
       
       $credential =$user->createCredential(
         'github',
         $credentials['access_token'], 
         $credentials['refresh_token'] ?? null, 
-        $credentials['expires_in'] ?? null, 
+        $expiredAt, 
         $credentials['scope'] ?? null, 
         $credentials['token_type'] ?? 'Bearer'
       );
@@ -56,7 +57,7 @@ class CallbackController
         Crypto::generateRandomString(16), // session_id
         $request->getServerParams()['REMOTE_ADDR'] ?? null, // ip_address
         $request->getHeaderLine('User-Agent') ?? null, // user_agent
-        date('Y-m-d H:i:s', strtotime('+7 days')) // expires_at
+        $expiredAt // expires_at
       );
 
       $jwtToken = Crypto::jwtEncode([
@@ -65,7 +66,7 @@ class CallbackController
         'iat' => time(),
         'exp' => time() + 3600, // 1 hour expiration
       ], Config::env('JWT_SECRET'), Algorithm::HS256);
-      
+
       $config = Config::server();
       $frontendUrl = $config['frontend']['base_url'];
       $redirectUrl = $frontendUrl . '/_auth/callback?token=' . urlencode($jwtToken);

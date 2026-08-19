@@ -31,7 +31,7 @@ const RESPONSE_CONFIG = array(
 
 class ApiResponseHelper {
   static function sendResponse(Response $response, int $statusCode, array $data) {
-    $response->getBody()->write(json_encode($data));
+    $response->getBody()->write(json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES, JSON_PRETTY_PRINT));
     return $response->withHeader('Content-Type', 'application/json')->withStatus($statusCode);
   }
 
