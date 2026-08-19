@@ -11,12 +11,17 @@ import {
 } from "@mui/material"
 import { Loading } from "../components/screen/Loading"
 import { GitHubIcon } from "../components/icons/github"
+import { useEffect } from "react"
 
 const Auth = () => {
   const { data, isPending, error } = useQuery({
     queryKey: ["auth/get_url"],
     queryFn: client.auth.getAuthUrl
   })
+
+  useEffect(() => {
+    console.log(error)
+  }, [isPending])
 
   if (isPending) return <Loading />
 
