@@ -1,6 +1,5 @@
-import type { ApiResponse } from "../types/response"
-import { useEffect, useState, useMemo } from "react"
-import { getConfig } from "../config/config"
+import { useQuery } from "@tanstack/react-query"
+import { client } from "../lib/api"
 import {
   Alert,
   Box,
@@ -12,44 +11,19 @@ import {
 } from "@mui/material"
 import { Loading } from "../components/screen/Loading"
 import { GitHubIcon } from "../components/icons/github"
-
-type OAuthResponseData = {
-  url: string
-}
+import { useEffect } from "react"
 
 const Auth = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [endpoint, setEndpoint] = useState<string | null>(null)
-  const [error, setError] = useState<Error | null>(null)
-  const config = useMemo(() => getConfig(), [])
+  const { data, isPending, error } = useQuery({
+    queryKey: ["auth/get_url"],
+    queryFn: client.auth.getAuthUrl
+  })
 
   useEffect(() => {
-    const fetchOAuthEndpoint = async () => {
-      const response = await fetch(`${config.apiBaseUrl}/auth`)
-      const data: ApiResponse<OAuthResponseData> = await response.json()
+    console.log(error)
+  }, [isPending])
 
-      if (response.ok && "data" in data) {
-        const { url } = data.data
-        console.log(`URL: ${url}`)
-        setEndpoint(url)
-      } else {
-        console.error(data)
-        setError(new Error(data.message, { cause: data }))
-      }
-
-      setIsLoading(false)
-    }
-
-    try {
-      fetchOAuthEndpoint()
-    } catch (e) {
-      console.error(e)
-      setError(e as Error)
-      setIsLoading(false)
-    }
-  }, [config])
-
-  if (isLoading) return <Loading />
+  if (isPending) return <Loading />
 
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", display: "flex", alignItems: "center" }}>
@@ -74,13 +48,13 @@ const Auth = () => {
           ) : (
             <Button
               component="a"
-              href={endpoint ?? "#"}
+              href={data}
               variant="contained"
               color="primary"
               fullWidth
               size="large"
               startIcon={<GitHubIcon />}
-              disabled={!endpoint}
+              disabled={!data}
             >
               GitHub でログイン
             </Button>

@@ -30,12 +30,15 @@ if (file_exists($path)) {
 
 $template = <<<PHP
 <?php
+use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Database\Schema\Blueprint;
+
 
 return [
-    'up' => function (\$capsule) {
+    'up' => function (Capsule \$capsule) {
         //
     },
-    'down' => function (\$capsule) {
+    'down' => function (Capsule \$capsule) {
         //
     },
 ];
