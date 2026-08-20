@@ -144,4 +144,4 @@ jobs:
              DB_NAME='${{ secrets.DB_NAME }}' \
              DB_USER='${{ secrets.DB_USER }}' \
              DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
-             php scripts/migrate.php"
+             /usr/bin/php8.5 scripts/migrate.php"
