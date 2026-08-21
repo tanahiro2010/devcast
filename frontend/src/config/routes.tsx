@@ -3,6 +3,7 @@ import AuthMiddleware from "../middleware/auth";
 import NotFound from "../app/not-found";
 import Callback from "../app/_auth/callback";
 import Auth from "../app/auth";
+import Home from "../app/home";
 
 const routes: Route[] = [
   {
@@ -32,6 +33,7 @@ const routes: Route[] = [
     type: "layout",
     element: <AuthMiddleware />,
     children: [
+      { type: "page", index: true,  element: <Home /> },
       { type: "page", path: "*", index: false, element: <NotFound /> }
     ]
   }
