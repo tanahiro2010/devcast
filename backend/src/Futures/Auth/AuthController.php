@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Helpers\ApiResponseHelper;
 use App\Models\Response\Code as ErrorCode;
 use App\Models\Response\Status as ErrorStatus;
+use App\Models\DB\User;
 use App\Libraries\Crypto;
 use App\Config\Config;
 
@@ -24,17 +25,21 @@ class AuthController
 
   public function refresh(Request $request, Response $response)
   {
+    /** @var User $users */
     $user = $request->getAttribute('user');
-    
+
     if (!$user) {
       return ApiResponseHelper::errorResponse($response, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, "/auth/refresh", "User not authenticated");
     }
 
     try {
-      $newAccessToken = $user->refresh($request->getServerParams()['REMOTE_ADDR'], $request->getHeaderLine('User-Agent'));
-      return ApiResponseHelper::successResponse($response, ['access_token' => $newAccessToken], "Access token refreshed successfully");
+      $user->deleteAllSessions();
     } catch (\Exception $e) {
-      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "/auth/refresh", "Failed to refresh access token");
+      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "/auth/refresh", "Failed to delete existing sessions: " . $e->getMessage());
     }
+
+    $newAccessToken = $user->refresh($request->getServerParams()['REMOTE_ADDR'], $request->getHeaderLine('User-Agent'));
+    $newRefreshToken = $user->refreshToken();
+    return ApiResponseHelper::successResponse($response, ['access_token' => $newAccessToken, 'refresh_token' => $newRefreshToken], "Access token refreshed successfully");
   }
 }

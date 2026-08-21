@@ -16,7 +16,7 @@ $routes = new Routes([
     Route::controller(new AuthController(), [
       Route::get('/', 'oauthUrl'),
       Route::middleware(new AuthMiddleware(), [
-        Route::post('/refresh', 'refresh'),
+        Route::get('/token/refresh_token', 'refresh'),
       ]),
     ]),
 

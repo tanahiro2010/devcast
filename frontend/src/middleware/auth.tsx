@@ -1,66 +1,43 @@
-import type { ApiResponse } from "../types/response"
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { getConfig } from "../config/config"
+import { useQuery } from "@tanstack/react-query"
+import { Navigate, Outlet } from "react-router-dom"
+import { client } from "../lib/api"
 import { Loading } from "../components/screen/Loading"
 
-type RefreshTokenResponseData = {
-  token: string;
-  refresh_token: string;
-  expiresIn: number;
-}
-
 const AuthMiddleware = () => {
-  const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [_, setError] = useState<Error | null>(null)
+  const refreshToken = localStorage.getItem("refresh_token")
+  const hasAccessToken = !!sessionStorage.getItem("access_token")
 
-  useEffect(() => {
-    // Check if user is authenticated
-    const fetchAccessToken = async (token: string) => {
-      const config = getConfig()
-      const response = await fetch(`${config.apiBaseUrl}/auth/refresh`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        }
-      })
-      const data: ApiResponse<RefreshTokenResponseData> = await response.json()
+  const { isPending, isError } = useQuery({
+    queryKey: ["auth", "access_token"],
+    queryFn: async () => {
+      const accessToken = await client.auth.getAccessToken()
+      sessionStorage.setItem("access_token", accessToken)
+      return accessToken
+    },
+    enabled: !!refreshToken && !hasAccessToken,
+    retry: false,
+    gcTime: 0,
+  })
 
-      setIsLoading(false)
+  if (!refreshToken) {
+    return <Navigate to="/_auth" replace />
+  }
 
-      if ("details" in data) {
-        console.error(data)
-        localStorage.removeItem("token")
-        return navigate("/_auth")
-      }
+  if (hasAccessToken) {
+    return <Outlet />
+  }
 
-      sessionStorage.setItem("token", data.data.token)
-      localStorage.setItem("token", data.data.refresh_token)
-    }
+  if (isPending) {
+    return <Loading />
+  }
 
-    const token = localStorage.getItem("token")
-    if (!token) {
-      navigate("/_auth")
-    }
+  if (isError) {
+    localStorage.removeItem("refresh_token")
+    sessionStorage.removeItem("access_token")
+    return <Navigate to="/_auth" replace />
+  }
 
-    const accessToken = sessionStorage.getItem('token')
-    if (!accessToken) {
-      try {
-        fetchAccessToken(token!)
-      } catch (e) {
-        console.log(e)
-        setError(e as Error)
-        setIsLoading(false)
-      }
-    }
-
-
-  }, [navigate])
-
-  if (isLoading) return <Loading />
-  return null
+  return <Outlet />
 }
 
 export default AuthMiddleware

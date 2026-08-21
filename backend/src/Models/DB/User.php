@@ -3,6 +3,9 @@ namespace App\Models\DB;
 use App\Models\DB\BaseModel;
 use App\Models\DB\Credential;
 use App\Models\DB\Session;
+use App\Libraries\Crypto;
+use App\Libraries\Algorithm;
+use App\Config\Config;
 
 class User extends BaseModel {
   protected $table = 'users';
@@ -25,8 +28,8 @@ class User extends BaseModel {
     return self::firstWhere(['username' => $username]);
   }
 
-  public function credentials() {
-    return Credential::where(['user_id' => $this->id]);
+  public function credentials(): array {
+    return Credential::whereAll(['user_id' => $this->id]);
   }
 
   public function createCredential(string $provider, string $accessToken, ?string $refreshToken, ?string $expiresAt, ?string $scope, string $tokenType) {
@@ -43,8 +46,11 @@ class User extends BaseModel {
     return $credential;
   }
 
-  public function sessions() {
-    return Session::where(['user_id' => $this->id]);
+  /**
+   * @return Session[] Returns an array of Session objects associated with the user
+   */
+  public function sessions(): array {
+    return Session::whereAll(['user_id' => $this->id]);
   }
 
   public function createSession(string $sessionId, string $ipAddress, string $userAgent, ?string $expiresAt) {
@@ -57,5 +63,37 @@ class User extends BaseModel {
     ]);
 
     return $session;
+  }
+
+  public function createRefreshToken(?string $token, ?\DateTime $expiresAt) {
+    return RefreshToken::createToken($this->id, $token, $expiresAt);
+  }
+
+  public function deleteAllSessions() {
+    $sessions = $this->sessions();
+    foreach ($sessions as $session) {
+      $session->destroy();
+    }
+  }
+
+  public function refresh(string $ipAddress, string $userAgent): string {
+    $session = $this->createSession(
+      Crypto::generateRandomString(16),
+      $ipAddress,
+      $userAgent,
+      date('Y-m-d H:i:s', strtotime('+7 days'))
+    );
+
+    return Crypto::jwtEncode([
+      'sub' => $this->id,
+      'iss' => $session->get('session_id'),
+      'iat' => time(),
+      'exp' => time() + 3600, // 1 hour expiration
+    ], Config::env('JWT_SECRET'), Algorithm::HS256);
+  }
+
+  public function refreshToken(): string {
+    $refreshToken = $this->createRefreshToken(null, null);
+    return $refreshToken->get('token');
   }
 }
