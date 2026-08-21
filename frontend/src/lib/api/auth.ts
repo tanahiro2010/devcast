@@ -16,7 +16,7 @@ class AuthApi {
     })
     const data = await response.json()
 
-    return { refreshToken: data.refresh_token, accessToken: data.access_token }
+    return { refreshToken: data.data.refresh_token, accessToken: data.data.access_token }
   }
 
   async getAccessToken(): Promise<string> {
