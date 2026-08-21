@@ -66,7 +66,7 @@ class User extends BaseModel {
     return RefreshToken::createToken($this->id, $token, $expiresAt);
   }
 
-  public function allLogout() {
+  public function deleteAllSessions() {
     $sessions = $this->sessions();
     foreach ($sessions as $session) {
       $session->destroy();
