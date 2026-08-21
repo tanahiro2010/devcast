@@ -15,15 +15,43 @@ use App\Libraries\Crypto;
 
 class AuthMiddleware implements MiddlewareInterface
 {
+  private function resolveAuthorizationHeader(Request $request): string
+  {
+    $header = $request->getHeaderLine('Authorization');
+    if ($header !== '') {
+      return $header;
+    }
+
+    // 一部のリバースプロキシ/PHP実行環境(Apache+PHP-FPM、nginx+fastcgiの設定漏れなど)は
+    // Authorizationヘッダーをアプリケーションまで転送しないため、$_SERVER側もフォールバックとして見る
+    foreach (['HTTP_AUTHORIZATION', 'REDIRECT_HTTP_AUTHORIZATION'] as $key) {
+      if (!empty($_SERVER[$key])) {
+        return $_SERVER[$key];
+      }
+    }
+
+    if (function_exists('apache_request_headers')) {
+      $headers = apache_request_headers();
+      foreach ($headers as $name => $value) {
+        if (strcasecmp($name, 'Authorization') === 0) {
+          return $value;
+        }
+      }
+    }
+
+    return '';
+  }
+
   public function process(Request $request, RequestHandler $handler): Response
   {
-    $bearerToken = $request->getHeaderLine('Authorization');
+    $bearerToken = $this->resolveAuthorizationHeader($request);
     if (!$bearerToken || !str_starts_with($bearerToken, 'Bearer ')) {
       return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, $request->getUri()->getPath(), "Missing or invalid Authorization header");
     }
+    
+    $token = str_replace('Bearer ', '', $bearerToken);
 
     try {
-      $token = str_replace('Bearer ', '', $bearerToken);
       $data = Crypto::jwtDecode($token, Config::env('JWT_SECRET'));
 
       if (!isset($data['iss']) || !isset($data['sub'])) {
