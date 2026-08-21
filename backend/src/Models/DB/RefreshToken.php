@@ -15,8 +15,7 @@ class RefreshToken extends BaseModel {
   }
 
   public static function createToken(string $userId, ?string $token, ?\DateTime $expiresAt) {
-    if ($token === null) 
-      $token = Crypto::generateRandomString(64); // Generate a random token if not provided
+    if ($token === null) $token = Crypto::generateRandomString(64); // Generate a random token if not provided
 
     if ($expiresAt === null)
       $expiresAt = (new \DateTime())->modify('+30 days'); // Default expiration time of 30 days
