@@ -25,8 +25,8 @@ class User extends BaseModel {
     return self::firstWhere(['username' => $username]);
   }
 
-  public function credentials() {
-    return Credential::where(['user_id' => $this->id]);
+  public function credentials(): array {
+    return Credential::whereAll(['user_id' => $this->id]);
   }
 
   public function createCredential(string $provider, string $accessToken, ?string $refreshToken, ?string $expiresAt, ?string $scope, string $tokenType) {
@@ -46,8 +46,8 @@ class User extends BaseModel {
   /**
    * @return Session[] Returns an array of Session objects associated with the user
    */
-  public function sessions() {
-    return Session::where(['user_id' => $this->id]);
+  public function sessions(): array {
+    return Session::whereAll(['user_id' => $this->id]);
   }
 
   public function createSession(string $sessionId, string $ipAddress, string $userAgent, ?string $expiresAt) {
