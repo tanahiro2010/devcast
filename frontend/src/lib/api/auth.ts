@@ -11,8 +11,8 @@ class AuthApi {
   }
 
   async getRefreshToken(): Promise<{ refreshToken: string, accessToken: string }> {
-    const response = await apiFetch('/auth/refresh', {
-      method: 'POST'
+    const response = await apiFetch('/auth/token/refresh_token', {
+      method: 'GET',
     })
     const data = await response.json()
 
@@ -20,9 +20,9 @@ class AuthApi {
   }
 
   async getAccessToken(): Promise<string> {
-    const response = await apiFetch('/access', {
+    const response = await apiFetch('/auth/token/access_token', {
       method: 'POST',
-      body: JSON.stringify({ refresh_token: localStorage.getItem('refresh_token') })
+      body: JSON.stringify({ grant_type: 'refresh_token', refresh_token: localStorage.getItem('refresh_token') })
     })
     const data = await response.json()
     return data.access_token
