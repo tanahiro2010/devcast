@@ -67,6 +67,14 @@ class BaseModel implements \JsonSerializable {
     return $model->hydrate($row);
   }
 
+  public static function whereAll($attributes = []): array {
+    $rows = static::where($attributes)->get();
+    return $rows->map(function ($row) {
+      $model = new static();
+      return $model->hydrate($row);
+    })->all();
+  }
+
   public static function all($columns = ['*']) {
     $model = new static();
     $database = self::getDatabaseInstance();
