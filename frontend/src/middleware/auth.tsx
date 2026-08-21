@@ -16,7 +16,7 @@ const AuthMiddleware = () => {
     },
     enabled: !!refreshToken && !hasAccessToken,
     retry: false,
-    staleTime: Infinity,
+    gcTime: 0,
   })
 
   if (!refreshToken) {
