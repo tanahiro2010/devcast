@@ -3,6 +3,9 @@ namespace App\Models\DB;
 use App\Models\DB\BaseModel;
 use App\Models\DB\Credential;
 use App\Models\DB\Session;
+use App\Libraries\Crypto;
+use App\Libraries\Algorithm;
+use App\Config\Config;
 
 class User extends BaseModel {
   protected $table = 'users';
@@ -71,5 +74,26 @@ class User extends BaseModel {
     foreach ($sessions as $session) {
       $session->destroy();
     }
+  }
+
+  public function refresh(string $ipAddress, string $userAgent): string {
+    $session = $this->createSession(
+      Crypto::generateRandomString(16),
+      $ipAddress,
+      $userAgent,
+      date('Y-m-d H:i:s', strtotime('+7 days'))
+    );
+
+    return Crypto::jwtEncode([
+      'sub' => $this->id,
+      'iss' => $session->get('session_id'),
+      'iat' => time(),
+      'exp' => time() + 3600, // 1 hour expiration
+    ], Config::env('JWT_SECRET'), Algorithm::HS256);
+  }
+
+  public function refreshToken(): string {
+    $refreshToken = $this->createRefreshToken(null, null);
+    return $refreshToken->get('token');
   }
 }
