@@ -43,6 +43,9 @@ class User extends BaseModel {
     return $credential;
   }
 
+  /**
+   * @return Session[] Returns an array of Session objects associated with the user
+   */
   public function sessions() {
     return Session::where(['user_id' => $this->id]);
   }
@@ -57,5 +60,16 @@ class User extends BaseModel {
     ]);
 
     return $session;
+  }
+
+  public function createRefreshToken(?string $token, ?\DateTime $expiresAt) {
+    return RefreshToken::createToken($this->id, $token, $expiresAt);
+  }
+
+  public function allLogout() {
+    $sessions = $this->sessions();
+    foreach ($sessions as $session) {
+      $session->destroy();
+    }
   }
 }
