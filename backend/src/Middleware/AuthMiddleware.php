@@ -64,7 +64,7 @@ class AuthMiddleware implements MiddlewareInterface
     try {
       $session = Session::findBySessionId($data['iss']);
       if (!$session) {
-        return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, $request->getUri()->getPath(), "Session not found");
+        return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::UNAUTHORIZED, ErrorCode::SESSION_NOT_FOUND, $request->getUri()->getPath(), "Session not found");
       }
     } catch (\Exception $e) {
       return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, $request->getUri()->getPath(), "Failed to retrieve session: " . $e->getMessage());
