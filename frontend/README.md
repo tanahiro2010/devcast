@@ -1,34 +1,69 @@
-# React + TypeScript + Vite
+# DevCast Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+DevCastの管理画面。記事の作成・管理、各プラットフォームへの配信状態の確認などを行うSPAです。
 
-Currently, two official plugins are available:
+## スタック
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19 + TypeScript
+- Vite（Rolldown版、React Compiler有効）
+- [MUI](https://mui.com/) + Tailwind CSS
+- [TanStack Query](https://tanstack.com/query)
+- [react-router-dom](https://reactrouter.com/) / [@util-tools/react-router-dsl](https://www.npmjs.com/package/@util-tools/react-router-dsl)
+- Bun（パッケージマネージャ）
+- Oxlint（Lint）
 
-## React Compiler
+## ディレクトリ構成
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```text
+frontend/src
+├── app/            # ページコンポーネント（home, auth, not-foundなど）
+│   └── _auth/      # 認証が必要なページ
+├── components/
+│   ├── ui/         # 汎用UIコンポーネント
+│   ├── layout/     # レイアウトコンポーネント
+│   ├── screen/     # 画面単位のコンポーネント
+│   └── icons/      # アイコン
+├── config/         # ルーティング・アプリ設定
+├── hooks/          # カスタムフック
+├── lib/
+│   ├── api/        # APIクライアント
+│   └── utils.ts
+├── middleware/      # 認証ミドルウェア（auth.tsx）
+├── types/          # 型定義
+└── theme.ts        # MUIテーマ設定
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Setup
+
+リポジトリルートの`.env`を使用します（詳細は[ルートREADME](../README.md)を参照）。
+
+### Docker経由（推奨）
+
+リポジトリルートから:
+
+```bash
+make front
+```
+
+### ローカル実行
+
+```bash
+cd frontend
+bun install
+bun dev
+```
+
+http://localhost:5174 で起動します。
+
+## コマンド
+
+| コマンド | 内容 |
+| --- | --- |
+| `bun dev` | 開発サーバー起動 |
+| `bun build` | 型チェック + 本番ビルド |
+| `bun preview` | ビルド結果のプレビュー |
+| `bun lint` | Oxlintによるlint |
+
+## 認証
+
+`middleware/auth.tsx`でバックエンドのOAuth（GitHub）を用いた認証状態を管理し、`app/_auth`配下は認証済みユーザーのみアクセス可能なページとして扱います。
