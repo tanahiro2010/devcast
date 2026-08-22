@@ -16,7 +16,7 @@ class AuthApi {
     })
     const data = await response.json()
     if (!response.ok) {
-      throw new Error(data.details.message || 'Failed to get refresh token')
+      throw new Error(data.details.code || 'Failed to get refresh token')
     }
 
     return { refreshToken: data.data.refresh_token, accessToken: data.data.access_token }
@@ -33,7 +33,7 @@ class AuthApi {
       method: 'GET',
     })
     const data = await response.json()
-    
+
     if (!response.ok) {
       throw new Error(data.details.message || 'Failed to get access token')
     }
