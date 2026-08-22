@@ -1,46 +1,66 @@
-# Astro Starter Kit: Basics
+# DevCast LP
 
-```sh
-bun create astro@latest -- --template basics
-```
+DevCastのランディングページ。サービス紹介・料金プラン・FAQ・利用規約などの静的コンテンツを提供します。
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## スタック
 
-## 🚀 Project Structure
+- [Astro](https://astro.build/)
+- Tailwind CSS
+- Bun（パッケージマネージャ）
 
-Inside of your Astro project, you'll see the following folders and files:
+## ディレクトリ構成
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+lp/src
+├── components/     # セクション単位のコンポーネント（Hero, Pricing, Faqなど）
+├── layouts/        # ページレイアウト（Layout, LegalLayout）
+├── data/           # 静的データ（pricing, faq, business）
+├── pages/          # ルーティング対象のページ
+└── styles/         # グローバルスタイル
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+### 主なページ
 
-## 🧞 Commands
+| パス | 内容 |
+| --- | --- |
+| `/` | トップページ |
+| `/pricing` | 料金プラン |
+| `/faq` | FAQ |
+| `/terms` | 利用規約 |
+| `/privacy` | プライバシーポリシー |
+| `/tokushoho` | 特定商取引法に基づく表記 |
 
-All commands are run from the root of the project, from a terminal:
+## Setup
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+リポジトリルートの`.env`を使用します（詳細は[ルートREADME](../README.md)を参照）。
 
-## 👀 Want to learn more?
+### Docker経由（推奨）
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+リポジトリルートから:
+
+```bash
+make lp
+```
+
+### ローカル実行
+
+```bash
+cd lp
+bun install
+bun dev
+```
+
+http://localhost:4321 で起動します。
+
+## コマンド
+
+| コマンド | 内容 |
+| --- | --- |
+| `bun dev` | 開発サーバー起動 |
+| `bun build` | 本番ビルド（`./dist/`に出力） |
+| `bun preview` | ビルド結果のプレビュー |
+| `bun astro ...` | Astro CLIコマンド（`astro add`, `astro check`など） |
+
+## 参考
+
+- [Astro公式ドキュメント](https://docs.astro.build)

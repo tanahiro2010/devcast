@@ -81,14 +81,14 @@ jobs:
         working-directory: ./frontend
         run: bun ci
 
-      - name: Build Project
-        working-directory: ./frontend
-        run: bun run build
-
       - name: Write Envs to .env
         run: |
           echo "VITE_API_URL=${{ secrets.API_URL }}" >> ./frontend/.env
           echo "VITE_FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> ./frontend/.env
+        
+      - name: Build Project
+        working-directory: ./frontend
+        run: bun run build
 
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
