@@ -1,10 +1,11 @@
 import { getConfig } from "../../config/config"
+import { getAccessToken } from "../../contexts/AuthContext"
 
 const apiFetch = async (path: string, options: RequestInit = {}): Promise<Response> => {
   const { apiBaseUrl } = getConfig()
 
   const url = apiBaseUrl + path
-  const accessToken = sessionStorage.getItem('access_token')
+  const accessToken = getAccessToken()
   const response = await fetch(url, Object.assign({ 
     headers: { 
       'Content-Type': 'application/json',
