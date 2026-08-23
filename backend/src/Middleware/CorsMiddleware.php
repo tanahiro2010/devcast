@@ -13,7 +13,7 @@ class CorsMiddleware implements MiddlewareInterface {
     // Set CORS headers
     header("Access-Control-Allow-Origin: " . $config['frontend']['base_url']);
     header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Accept");
 
     // Handle preflight requests
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {

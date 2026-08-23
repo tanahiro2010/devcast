@@ -1,11 +1,13 @@
-import type { Route } from "@util-tools/react-router-dsl";
-import AuthMiddleware from "../middleware/auth";
-import NotFound from "../app/not-found";
-import Callback from "../app/_auth/callback";
-import Auth from "../app/auth";
-import Home from "../app/home";
+import type { Route } from "@util-tools/react-router-dsl"
+import AuthMiddleware from "../middleware/auth"
+import Layout from "../app/(home)/layout"
+import NotFound from "../app/not-found"
+import Callback from "../app/_auth/callback"
+import Auth from "../app/auth"
+import Home from "../app/(home)/home"
 
 const routes: Route[] = [
+  { type: "page", path: "*", index: false, element: <NotFound /> },
   {
     type: "group",
     path: "_auth",
@@ -33,10 +35,15 @@ const routes: Route[] = [
     type: "layout",
     element: <AuthMiddleware />,
     children: [
-      { type: "page", index: true,  element: <Home /> },
-      { type: "page", path: "*", index: false, element: <NotFound /> }
+      {
+        type: "layout",
+        element: <Layout />,
+        children: [
+          { type: "page", index: true, element: <Home /> }
+        ]
+      },
     ]
   }
-];
+]
 
-export { routes };
+export { routes }

@@ -27,6 +27,9 @@ class Session extends BaseModel {
   }
 
   public function isExpired() {
+    if ($this->expires_at === null) {
+      return false; // No expiration set means the session never expires
+    }
     $currentTime = new \DateTime();
     $expirationTime = new \DateTime($this->expires_at);
     return $currentTime >= $expirationTime;

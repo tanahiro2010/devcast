@@ -1,3 +1,4 @@
+import type { Profile } from "../../types/profile"
 import { apiFetch } from "./client"
 
 class AuthApi {
@@ -39,6 +40,19 @@ class AuthApi {
     }
 
     return data.data.access_token
+  }
+
+  async getProfile(): Promise<Profile> {
+    const response = await apiFetch('/auth/profile', {
+      method: 'GET'
+    })
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(data.details.message || 'Failed to get profile')
+    }
+
+    return data.data.profile as Profile
   }
 }
 
