@@ -65,6 +65,22 @@ class User extends BaseModel {
     return $session;
   }
 
+  public function createAccessToken(string $ipAddress, string $userAgent): string {
+    $session = $this->createSession(
+      Crypto::generateRandomString(16),
+      $ipAddress,
+      $userAgent,
+      date('Y-m-d H:i:s', strtotime('+7 days'))
+    );
+
+    return Crypto::jwtEncode([
+      'sub' => $this->id,
+      'iss' => $session->get('session_id'),
+      'iat' => time(),
+      'exp' => time() + 3600, // 1 hour expiration
+    ], Config::env('JWT_SECRET'), Algorithm::HS256);
+  }
+
   public function createRefreshToken(?string $token, ?\DateTime $expiresAt) {
     return RefreshToken::createToken($this->id, $token, $expiresAt);
   }
