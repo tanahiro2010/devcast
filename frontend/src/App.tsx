@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { RouteProvider } from '@util-tools/react-router-dsl'
 import { routes } from './config/routes'
+import { AuthProvider } from './contexts/AuthContext'
 import './App.css'
 
 const client = new QueryClient({
@@ -17,7 +18,9 @@ const client = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={client}>
-      <RouteProvider routes={routes} />
+      <AuthProvider>
+        <RouteProvider routes={routes} />
+      </AuthProvider>
       <ReactQueryDevtools />
     </QueryClientProvider>
   )
