@@ -167,7 +167,51 @@ class BaseModel implements \JsonSerializable {
     throw new \Exception("Property $key does not exist on " . static::class);
   }
 
+  /**
+   * @param class-string<BaseModel> $related
+   * $foreignKey is a column on this model that points at $ownerKey (defaults to $related's primary key).
+   */
+  protected function belongsTo(string $related, string $foreignKey, ?string $ownerKey = null): ?BaseModel {
+    $value = $this->properties[$foreignKey] ?? null;
+    if ($value === null) {
+      return null;
+    }
 
+    if ($ownerKey === null) {
+      return $related::find($value);
+    }
+
+    return $related::firstWhere([$ownerKey => $value]);
+  }
+
+  /**
+   * @param class-string<BaseModel> $related
+   * $foreignKey is a column on $related that points back at this model's $localKey (defaults to this model's primary key).
+   * @return BaseModel[]
+   */
+  protected function hasMany(string $related, string $foreignKey, ?string $localKey = null): array {
+    $localKey ??= $this->primaryKey;
+    $value = $this->properties[$localKey] ?? null;
+    if ($value === null) {
+      return [];
+    }
+
+    return $related::whereAll([$foreignKey => $value]);
+  }
+
+  /**
+   * @param class-string<BaseModel> $related
+   * $foreignKey is a column on $related that points back at this model's $localKey (defaults to this model's primary key).
+   */
+  protected function hasOne(string $related, string $foreignKey, ?string $localKey = null): ?BaseModel {
+    $localKey ??= $this->primaryKey;
+    $value = $this->properties[$localKey] ?? null;
+    if ($value === null) {
+      return null;
+    }
+
+    return $related::firstWhere([$foreignKey => $value]);
+  }
 
   private function hydrate(\stdClass $row): static {
     foreach (get_object_vars($row) as $key => $value) {
