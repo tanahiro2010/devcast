@@ -1,4 +1,5 @@
 <?php
+namespace App\Models\DB;
 
 use App\Models\DB\BaseModel;
 use App\Models\DB\User;
