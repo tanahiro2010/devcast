@@ -1,6 +1,7 @@
 <?php
 namespace App\Models\DB;
 use App\Models\DB\BaseModel;
+use App\Models\DB\Subscriptions;
 use App\Models\DB\Credential;
 use App\Models\DB\Session;
 use App\Libraries\Crypto;
@@ -85,6 +86,14 @@ class User extends BaseModel {
     return RefreshToken::createToken($this->id, $token, $expiresAt);
   }
 
+  public function createSubscription(string $priceId) {
+    return Subscriptions::create([
+      'user_id' => $this->id,
+      'stripe_price_id' => $priceId,
+      'status' => 'active',
+    ]);
+  }
+
   public function deleteAllSessions() {
     $sessions = $this->sessions();
     foreach ($sessions as $session) {
@@ -111,5 +120,13 @@ class User extends BaseModel {
   public function refreshToken(): string {
     $refreshToken = $this->createRefreshToken(null, null);
     return $refreshToken->get('token');
+  }
+
+  public function subscriptions(): array {
+    return $this->hasMany(Subscriptions::class, 'user_id');
+  }
+
+  public function activeSubscription(): ?Subscriptions {
+    return Subscriptions::findActiveByUserId($this->id);
   }
 }
