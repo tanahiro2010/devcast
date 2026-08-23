@@ -9,10 +9,10 @@ use App\Futures\Auth\AuthController;
 use App\Futures\Auth\AccessToken\AccessTokenController;
 use App\Futures\Auth\RefreshToken\RefreshTokenController;
 use App\Futures\Auth\Callback\CallbackController;
+use App\Futures\Auth\Profile\ProfileController;
 
 
 $routes = new Routes([
-  Route::get('/', [new ErrorsController(), 'notFound']),
   Route::get('/health', [new HealthController(), 'health']),
   Route::group('/auth', [
     Route::get('/', [new AuthController(), 'oauthUrl']),
@@ -25,6 +25,16 @@ $routes = new Routes([
       ]),
     ]),
 
+    Route::middleware(new AuthMiddleware(), [
+      Route::get('/profile', [new ProfileController(), 'getProfile']),
+    ]),
+
     Route::get('/callback', [new CallbackController(), 'callback']),
   ]),
+
+
+
+  // Catch-all: must stay last so it doesn't shadow the routes above.
+  // FastRoute wildcard syntax is `{name:.*}`, not `*`.
+  Route::get('/{path:.*}', [new ErrorsController(), 'notFound']),
 ]);
