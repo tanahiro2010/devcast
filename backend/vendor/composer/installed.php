@@ -3,7 +3,7 @@
         'name' => 'tanahiro2010/backend',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '3299754fb3388b453c4b8e0c3b58f9f96a2b83f6',
+        'reference' => '6a0319fe531a299ef2965d8588cfe35d9baac0b9',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -388,6 +388,15 @@
                 0 => '*',
             ),
         ),
+        'stripe/stripe-php' => array(
+            'pretty_version' => 'v21.2.1',
+            'version' => '21.2.1.0',
+            'reference' => 'da798f6224c5ff6f89d8d78025044f418ee27db8',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../stripe/stripe-php',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'symfony/clock' => array(
             'pretty_version' => 'v8.1.0',
             'version' => '8.1.0.0',
@@ -478,7 +487,7 @@
         'tanahiro2010/backend' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '3299754fb3388b453c4b8e0c3b58f9f96a2b83f6',
+            'reference' => '6a0319fe531a299ef2965d8588cfe35d9baac0b9',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
