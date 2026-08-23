@@ -21,7 +21,7 @@ const Auth = () => {
 
   useEffect(() => {
     console.log(error)
-  }, [isPending])
+  }, [isPending, error])
 
   if (isPending) return <Loading />
 

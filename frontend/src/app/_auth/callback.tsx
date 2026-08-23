@@ -37,7 +37,7 @@ const Callback = () => {
     localStorage.setItem('refresh_token', refreshToken)
 
     navigate("/")
-  }, [isPending])
+  }, [isPending, error])
 
   if (error) {
     if (isSessionNotFound) return (
