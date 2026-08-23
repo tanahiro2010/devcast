@@ -31,8 +31,8 @@ class RefreshToken extends BaseModel {
     return self::firstWhere(['token' => $token]);
   }
 
-  public function user() {
-    return User::findById($this->user_id);
+  public function user(): ?User {
+    return $this->belongsTo(User::class, 'user_id');
   }
 
   public function isTokenExpired() {

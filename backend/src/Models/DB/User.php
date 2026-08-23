@@ -29,7 +29,7 @@ class User extends BaseModel {
   }
 
   public function credentials(): array {
-    return Credential::whereAll(['user_id' => $this->id]);
+    return $this->hasMany(Credential::class, 'user_id');
   }
 
   public function createCredential(string $provider, string $accessToken, ?string $refreshToken, ?string $expiresAt, ?string $scope, string $tokenType) {
@@ -50,7 +50,7 @@ class User extends BaseModel {
    * @return Session[] Returns an array of Session objects associated with the user
    */
   public function sessions(): array {
-    return Session::whereAll(['user_id' => $this->id]);
+    return $this->hasMany(Session::class, 'user_id');
   }
 
   public function createSession(string $sessionId, string $ipAddress, string $userAgent, ?string $expiresAt) {
