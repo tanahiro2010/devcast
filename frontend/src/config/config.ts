@@ -1,13 +1,13 @@
-const isProduction = import.meta.env.PROD;
+const isProduction = import.meta.env.PROD
 
 type BaseConfig<T extends boolean> = {
-  apiBaseUrl: string;
-  isProduction: T;
+  apiBaseUrl: string
+  isProduction: T
 }
 
 type ConfigT = {
-  production: BaseConfig<true>;
-  development: BaseConfig<false>;
+  production: BaseConfig<true>
+  development: BaseConfig<false>
 }
 
 
@@ -30,4 +30,4 @@ const getConfig = () => {
   }
 }
 
-export { getConfig };
+export { getConfig }
