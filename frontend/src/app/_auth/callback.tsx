@@ -4,18 +4,20 @@ import { useEffect, useState } from "react"
 import { Box, Button, Container, Stack, Typography } from "@mui/material"
 import { client } from "../../lib/api"
 import { Loading } from "../../components/screen/Loading"
+import { useAuth } from "../../contexts/AuthContext"
 
 
 const Callback = () => {
   const navigate = useNavigate()
   const [searchParams, _] = useSearchParams();
   const [isSessionNotFound, setIsSessionNotFound] = useState<boolean>(false)
+  const { setAccessToken } = useAuth()
   const { data, isPending, error } = useQuery({
     queryKey: ["auth/callback"],
     queryFn: async () => {
       const token = searchParams.get('token')
       if (!token) throw new Error('トークンが設定されていません')
-      sessionStorage.setItem('access_token', token)
+      setAccessToken(token)
 
       return await client.auth.getRefreshToken()
     }
@@ -26,12 +28,12 @@ const Callback = () => {
       if (error.message === "SESSION_NOT_FOUND") {
         setIsSessionNotFound(true)
       }
-      return  
+      return
     }
     if (!data) return
 
     const { accessToken, refreshToken } = data
-    sessionStorage.setItem('access_token', accessToken)
+    setAccessToken(accessToken)
     localStorage.setItem('refresh_token', refreshToken)
 
     navigate("/")
