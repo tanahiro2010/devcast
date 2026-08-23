@@ -10,6 +10,7 @@ use App\Models\Response\Status as ErrorStatus;
 use App\Models\DB\User;
 use App\Models\DB\RefreshToken;
 
+
 class AccessTokenController
 {
   public function accessToken(Request $request, Response $response)
