@@ -9,6 +9,7 @@ use App\Futures\Auth\AuthController;
 use App\Futures\Auth\AccessToken\AccessTokenController;
 use App\Futures\Auth\RefreshToken\RefreshTokenController;
 use App\Futures\Auth\Callback\CallbackController;
+use App\Futures\Auth\Profile\ProfileController;
 
 
 $routes = new Routes([
@@ -22,6 +23,7 @@ $routes = new Routes([
 
       Route::middleware(new AuthMiddleware(), [
         Route::get('/refresh_token', [new RefreshTokenController(), 'refresh']),
+        Route::get('/profile', [new ProfileController(), 'getProfile']),
       ]),
     ]),
 
