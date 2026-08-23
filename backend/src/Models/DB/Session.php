@@ -22,8 +22,8 @@ class Session extends BaseModel {
     return self::firstWhere(['session_id' => $sessionId]);
   }
 
-  public function user() {
-    return User::findById($this->user_id);
+  public function user(): ?User {
+    return $this->belongsTo(User::class, 'user_id');
   }
 
   public function isExpired() {

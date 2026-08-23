@@ -16,8 +16,8 @@ class Credential extends BaseModel {
     return self::firstWhere(['user_id' => $userId]);
   }
 
-  public function user() {
-    return User::findById($this->user_id);
+  public function user(): ?User {
+    return $this->belongsTo(User::class, 'user_id');
   }
 
   public function isTokenExpired() {

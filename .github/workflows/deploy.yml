@@ -128,6 +128,8 @@ jobs:
           echo "SetEnv GITHUB_CLIENT_ID ${{ secrets.CLIENT_ID_GITHUB }}" >> ./backend/.htaccess
           echo "SetEnv GITHUB_CLIENT_SECRET ${{ secrets.CLIENT_SECRET_GITHUB }}" >> ./backend/.htaccess
           echo "SetEnv GITHUB_REDIRECT_URI ${{ secrets.REDIRECT_URI_GITHUB }}" >> ./backend/.htaccess
+          echo "SetEnv STRIPE_PUBLIC_KEY ${{ secrets.STRIPE_PUBLIC_KEY }}" >> ./backend/.htaccess
+          echo "SetEnv STRIPE_SECRET_KEY ${{ secrets.STRIPE_SECRET_KEY }}" >> ./backend/.htaccess
 
       - name: Rsync Deploy
         run: |

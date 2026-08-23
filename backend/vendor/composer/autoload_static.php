@@ -24,6 +24,7 @@ class ComposerStaticInitfb6416fed614664e812e27f617ea7803
         'b33e3d135e5d9e47d845c576147bda89' => __DIR__ . '/..' . '/php-di/php-di/src/functions.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'ef65a1626449d89d0811cf9befce46f0' => __DIR__ . '/..' . '/illuminate/events/functions.php',
+        'd92f49fe138fde4e7a3ec6f988960524' => __DIR__ . '/..' . '/stripe/stripe-php/lib/version_check.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -47,6 +48,7 @@ class ComposerStaticInitfb6416fed614664e812e27f617ea7803
             'Symfony\\Contracts\\Translation\\' => 30,
             'Symfony\\Component\\Translation\\' => 30,
             'Symfony\\Component\\Clock\\' => 24,
+            'Stripe\\' => 7,
             'Slim\\Psr7\\' => 10,
             'Slim\\' => 5,
         ),
@@ -159,6 +161,10 @@ class ComposerStaticInitfb6416fed614664e812e27f617ea7803
         'Symfony\\Component\\Clock\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/clock',
+        ),
+        'Stripe\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
         ),
         'Slim\\Psr7\\' =>
         array (

@@ -6,6 +6,8 @@ use App\Middleware\AuthMiddleware;
 use App\Futures\Errors\ErrorsController;
 use App\Futures\Health\HealthController;
 use App\Futures\Auth\AuthController;
+use App\Futures\Auth\AccessToken\AccessTokenController;
+use App\Futures\Auth\RefreshToken\RefreshTokenController;
 use App\Futures\Auth\Callback\CallbackController;
 
 
@@ -13,14 +15,16 @@ $routes = new Routes([
   Route::get('/', [new ErrorsController(), 'notFound']),
   Route::get('/health', [new HealthController(), 'health']),
   Route::group('/auth', [
-    Route::controller(new AuthController(), [
-      Route::get('/', 'oauthUrl'),
-      Route::get('/token/access_token', 'accessToken'),
+    Route::get('/', [new AuthController(), 'oauthUrl']),
+
+    Route::group('/token', [
+      Route::get('/access_token', [new AccessTokenController(), 'accessToken']),
+
       Route::middleware(new AuthMiddleware(), [
-        Route::get('/token/refresh_token', 'refresh'),
+        Route::get('/refresh_token', [new RefreshTokenController(), 'refresh']),
       ]),
     ]),
 
-    Route::get('/callback', [new CallbackController(), 'callback'])
+    Route::get('/callback', [new CallbackController(), 'callback']),
   ]),
 ]);

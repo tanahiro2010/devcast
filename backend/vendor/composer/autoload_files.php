@@ -23,4 +23,5 @@ return array(
     'b33e3d135e5d9e47d845c576147bda89' => $vendorDir . '/php-di/php-di/src/functions.php',
     '7b11c4dc42b3b3023073cb14e519683c' => $vendorDir . '/ralouphie/getallheaders/src/getallheaders.php',
     'ef65a1626449d89d0811cf9befce46f0' => $vendorDir . '/illuminate/events/functions.php',
+    'd92f49fe138fde4e7a3ec6f988960524' => $vendorDir . '/stripe/stripe-php/lib/version_check.php',
 );
