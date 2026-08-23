@@ -1,12 +1,9 @@
-import type { Profile } from "../../types/profile"
-import { createContext } from "react"
 import { Outlet } from "react-router-dom"
 import { useQuery } from "@tanstack/react-query"
 import { Sidebar } from "../../components/layout/Sidebar"
 import { Loading } from "../../components/screen/Loading"
 import { client } from "../../lib/api"
-
-const ProfileContext = createContext<undefined | Profile>("profile")
+import { ProfileContext } from "../../contexts/ProfileContext"
 
 const Layout = () => {
   const { data, isPending, error } = useQuery({
@@ -32,4 +29,3 @@ const Layout = () => {
 }
 
 export default Layout
-export { ProfileContext }
