@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material"
 import { Loading } from "../components/screen/Loading"
-import { GitHubIcon } from "../components/icons/github"
+import { GitHubIcon } from "../components/icons/GitHub"
 import { useEffect } from "react"
 
 const Auth = () => {
