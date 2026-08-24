@@ -17,10 +17,10 @@ const Layout = () => {
   )
 
   return (
-    <section>
+    <section className="flex min-h-screen">
       <ProfileContext.Provider value={data}>
         <Sidebar />
-        <main>
+        <main className="flex-1 min-w-0 bg-[#0a0a0a]">
           <Outlet />
         </main>
       </ProfileContext.Provider>
