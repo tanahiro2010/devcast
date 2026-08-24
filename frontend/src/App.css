@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+@theme {
+	--color-accent: #ff5a1f;
+}
+
+.kicker {
+	letter-spacing: 0.12em;
+}
