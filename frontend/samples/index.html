@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>DevCast - デザインサンプル一覧</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>body{font-family:'Inter',sans-serif}</style>
+</head>
+<body class="bg-neutral-50 min-h-screen p-10">
+  <h1 class="text-2xl font-bold mb-2">DevCast デザインサンプル</h1>
+  <p class="text-neutral-500 mb-8 text-sm">管理画面のトーン検討用モックです。どれもTailwind CSS + HTML単体で動きます。</p>
+  <div class="grid grid-cols-2 gap-6 max-w-4xl">
+    <a href="sample-01-minimal.html" class="block bg-white border border-neutral-200 rounded-xl p-6 hover:shadow-md transition">
+      <h2 class="font-semibold text-lg mb-1">01. Minimal</h2>
+      <p class="text-sm text-neutral-500">白ベース・落ち着いたモノトーン。Notion/Linear系のクリーンな管理画面。</p>
+    </a>
+    <a href="sample-02-dark.html" class="block bg-neutral-900 border border-neutral-800 rounded-xl p-6 hover:shadow-md transition text-white">
+      <h2 class="font-semibold text-lg mb-1">02. Dark Developer</h2>
+      <p class="text-sm text-neutral-400">ダークテーマ・等幅フォント。CLI/ターミナル的な開発者向けの雰囲気。</p>
+    </a>
+    <a href="sample-03-vibrant.html" class="block bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-100 rounded-xl p-6 hover:shadow-md transition">
+      <h2 class="font-semibold text-lg mb-1">03. Vibrant SaaS</h2>
+      <p class="text-sm text-neutral-500">グラデーション・角丸多め。今どきのSaaSプロダクト風で親しみやすい。</p>
+    </a>
+    <a href="sample-04-dense.html" class="block bg-slate-900 border border-slate-800 rounded-xl p-6 hover:shadow-md transition text-white">
+      <h2 class="font-semibold text-lg mb-1">04. Dense Enterprise</h2>
+      <p class="text-sm text-slate-400">情報密度重視のテーブル管理画面。運用・管理者向けの実務的なUI。</p>
+    </a>
+  </div>
+
+  <h2 class="text-lg font-bold mt-12 mb-2">LPのトーンに合わせたサンプル</h2>
+  <p class="text-neutral-500 mb-6 text-sm">Inter + IBM Plex Mono、アクセントカラー #ff5a1f、hairlineボーダーなどLPの意匠に統一。</p>
+  <div class="grid grid-cols-2 gap-6 max-w-4xl">
+    <a href="sample-05-lp-match.html" class="block bg-white border border-[#ececec] rounded-lg p-6 hover:shadow-md transition">
+      <h2 class="font-semibold text-lg mb-1">05. LP Match (Light)</h2>
+      <p class="text-sm text-neutral-500">LPのHero/Headerと同じ意匠。編集的でミニマル、オレンジアクセント。</p>
+    </a>
+    <a href="sample-06-lp-match-dark.html" class="block bg-[#0a0a0a] border border-white/10 rounded-lg p-6 hover:shadow-md transition text-white">
+      <h2 class="font-semibold text-lg mb-1">06. LP Match (Dark)</h2>
+      <p class="text-sm text-neutral-400">同じ意匠のダークモード版。LPのダークテーマ切り替えと一貫性あり。</p>
+    </a>
+  </div>
+
+  <h2 class="text-lg font-bold mt-12 mb-2">Material Design（MUI）を活かしたサンプル</h2>
+  <p class="text-neutral-500 mb-6 text-sm">Material 3のトーナルカラー・エレベーション・ナビゲーションレールを使用。MUIコンポーネントへの移植を想定。</p>
+  <div class="grid grid-cols-2 gap-6 max-w-4xl">
+    <a href="sample-07-material-light.html" class="block rounded-2xl p-6 hover:shadow-md transition" style="background-color:#fffbff;border:1px solid #d8c2b8;">
+      <h2 class="font-semibold text-lg mb-1">07. Material You (Light)</h2>
+      <p class="text-sm text-neutral-500">Material 3準拠。ナビゲーションレール、FAB、トーナルカラーのカード。</p>
+    </a>
+    <a href="sample-08-material-dark.html" class="block rounded-2xl p-6 hover:shadow-md transition text-[#f0dfd9]" style="background-color:#181210;border:1px solid #53433c;">
+      <h2 class="font-semibold text-lg mb-1">08. Material You (Dark)</h2>
+      <p class="text-sm" style="color:#d8c2b8">同じMaterial 3デザインのダークテーマ版。</p>
+    </a>
+  </div>
+</body>
+</html>

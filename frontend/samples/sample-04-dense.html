@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>DevCast - Dense Enterprise</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>body{font-family:'Inter',sans-serif}</style>
+</head>
+<body class="bg-slate-100 text-slate-800 text-sm">
+<div class="flex min-h-screen">
+  <aside class="w-52 bg-slate-900 text-slate-300 flex flex-col">
+    <div class="h-12 flex items-center px-4 border-b border-slate-800 text-white font-bold text-sm">DevCast Admin</div>
+    <nav class="flex-1 py-2">
+      <a class="flex items-center gap-2 px-4 py-2 bg-slate-800 text-white border-l-2 border-sky-400 text-xs font-medium" href="#">記事一覧</a>
+      <a class="flex items-center gap-2 px-4 py-2 hover:bg-slate-800 text-xs" href="#">配信キュー</a>
+      <a class="flex items-center gap-2 px-4 py-2 hover:bg-slate-800 text-xs" href="#">配信先設定</a>
+      <a class="flex items-center gap-2 px-4 py-2 hover:bg-slate-800 text-xs" href="#">タグ管理</a>
+      <a class="flex items-center gap-2 px-4 py-2 hover:bg-slate-800 text-xs" href="#">ユーザー管理</a>
+      <a class="flex items-center gap-2 px-4 py-2 hover:bg-slate-800 text-xs" href="#">監査ログ</a>
+      <a class="flex items-center gap-2 px-4 py-2 hover:bg-slate-800 text-xs" href="#">設定</a>
+    </nav>
+    <div class="px-4 py-3 border-t border-slate-800 text-xs text-slate-500">API稼働率 99.98%</div>
+  </aside>
+
+  <main class="flex-1 flex flex-col">
+    <header class="h-12 bg-white border-b border-slate-200 flex items-center justify-between px-4">
+      <div class="flex items-center gap-3">
+        <h1 class="font-semibold text-slate-900">記事一覧</h1>
+        <span class="text-xs text-slate-400">/ articles</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <input class="border border-slate-200 rounded px-3 py-1.5 text-xs w-56" placeholder="記事を検索..." />
+        <button class="bg-sky-600 text-white text-xs px-3 py-1.5 rounded font-medium hover:bg-sky-700">新規記事</button>
+      </div>
+    </header>
+
+    <div class="p-4 grid grid-cols-6 gap-3">
+      <div class="col-span-1 bg-white border border-slate-200 rounded p-3">
+        <p class="text-[11px] text-slate-400 uppercase">公開中</p>
+        <p class="text-xl font-bold text-slate-900">42</p>
+      </div>
+      <div class="col-span-1 bg-white border border-slate-200 rounded p-3">
+        <p class="text-[11px] text-slate-400 uppercase">下書き</p>
+        <p class="text-xl font-bold text-slate-900">7</p>
+      </div>
+      <div class="col-span-1 bg-white border border-slate-200 rounded p-3">
+        <p class="text-[11px] text-slate-400 uppercase">配信失敗</p>
+        <p class="text-xl font-bold text-red-600">2</p>
+      </div>
+      <div class="col-span-1 bg-white border border-slate-200 rounded p-3">
+        <p class="text-[11px] text-slate-400 uppercase">配信待ち</p>
+        <p class="text-xl font-bold text-amber-600">5</p>
+      </div>
+      <div class="col-span-1 bg-white border border-slate-200 rounded p-3">
+        <p class="text-[11px] text-slate-400 uppercase">配信先数</p>
+        <p class="text-xl font-bold text-slate-900">3</p>
+      </div>
+      <div class="col-span-1 bg-white border border-slate-200 rounded p-3">
+        <p class="text-[11px] text-slate-400 uppercase">今月配信</p>
+        <p class="text-xl font-bold text-slate-900">18</p>
+      </div>
+    </div>
+
+    <div class="px-4 pb-4 flex-1">
+      <div class="bg-white border border-slate-200 rounded overflow-hidden">
+        <table class="w-full text-xs">
+          <thead class="bg-slate-50 text-slate-500 border-b border-slate-200">
+            <tr>
+              <th class="text-left px-3 py-2 font-medium w-8"><input type="checkbox" /></th>
+              <th class="text-left px-3 py-2 font-medium">ID</th>
+              <th class="text-left px-3 py-2 font-medium">タイトル</th>
+              <th class="text-left px-3 py-2 font-medium">著者</th>
+              <th class="text-left px-3 py-2 font-medium">配信先</th>
+              <th class="text-left px-3 py-2 font-medium">ステータス</th>
+              <th class="text-left px-3 py-2 font-medium">閲覧数</th>
+              <th class="text-left px-3 py-2 font-medium">更新日</th>
+              <th class="text-left px-3 py-2 font-medium"></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <tr class="hover:bg-slate-50">
+              <td class="px-3 py-2"><input type="checkbox" /></td>
+              <td class="px-3 py-2 text-slate-400">#1042</td>
+              <td class="px-3 py-2 font-medium text-slate-900">React 19のCompilerを試してみた</td>
+              <td class="px-3 py-2">under18.dev</td>
+              <td class="px-3 py-2"><span class="inline-flex gap-1"><span class="px-1.5 py-0.5 bg-green-50 text-green-700 border border-green-200 rounded text-[10px]">Qiita</span><span class="px-1.5 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 rounded text-[10px]">DEV</span></span></td>
+              <td class="px-3 py-2"><span class="px-1.5 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded text-[10px] font-medium">公開済み</span></td>
+              <td class="px-3 py-2">1,204</td>
+              <td class="px-3 py-2 text-slate-400">08-20 14:02</td>
+              <td class="px-3 py-2 text-sky-600 cursor-pointer">編集</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="px-3 py-2"><input type="checkbox" /></td>
+              <td class="px-3 py-2 text-slate-400">#1041</td>
+              <td class="px-3 py-2 font-medium text-slate-900">PHP-DIとSlim Frameworkの設計指針</td>
+              <td class="px-3 py-2">under18.dev</td>
+              <td class="px-3 py-2"><span class="px-1.5 py-0.5 bg-pink-50 text-pink-700 border border-pink-200 rounded text-[10px]">はてな</span></td>
+              <td class="px-3 py-2"><span class="px-1.5 py-0.5 bg-amber-50 text-amber-700 border border-amber-200 rounded text-[10px] font-medium">下書き</span></td>
+              <td class="px-3 py-2">-</td>
+              <td class="px-3 py-2 text-slate-400">08-19 09:11</td>
+              <td class="px-3 py-2 text-sky-600 cursor-pointer">編集</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="px-3 py-2"><input type="checkbox" /></td>
+              <td class="px-3 py-2 text-slate-400">#1039</td>
+              <td class="px-3 py-2 font-medium text-slate-900">配信失敗: Qiita APIトークン期限切れ</td>
+              <td class="px-3 py-2">under18.dev</td>
+              <td class="px-3 py-2"><span class="px-1.5 py-0.5 bg-green-50 text-green-700 border border-green-200 rounded text-[10px]">Qiita</span></td>
+              <td class="px-3 py-2"><span class="px-1.5 py-0.5 bg-red-50 text-red-700 border border-red-200 rounded text-[10px] font-medium">配信失敗</span></td>
+              <td class="px-3 py-2">-</td>
+              <td class="px-3 py-2 text-slate-400">08-18 22:47</td>
+              <td class="px-3 py-2 text-sky-600 cursor-pointer">編集</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="px-3 py-2"><input type="checkbox" /></td>
+              <td class="px-3 py-2 text-slate-400">#1035</td>
+              <td class="px-3 py-2 font-medium text-slate-900">Multi-Publisher CMSを設計する</td>
+              <td class="px-3 py-2">under18.dev</td>
+              <td class="px-3 py-2"><span class="inline-flex gap-1"><span class="px-1.5 py-0.5 bg-green-50 text-green-700 border border-green-200 rounded text-[10px]">Qiita</span><span class="px-1.5 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 rounded text-[10px]">DEV</span><span class="px-1.5 py-0.5 bg-pink-50 text-pink-700 border border-pink-200 rounded text-[10px]">はてな</span></span></td>
+              <td class="px-3 py-2"><span class="px-1.5 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded text-[10px] font-medium">公開済み</span></td>
+              <td class="px-3 py-2">3,880</td>
+              <td class="px-3 py-2 text-slate-400">08-15 11:30</td>
+              <td class="px-3 py-2 text-sky-600 cursor-pointer">編集</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
