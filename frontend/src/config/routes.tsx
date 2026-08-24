@@ -1,11 +1,11 @@
 import type { Route } from "@util-tools/react-router-dsl"
+import { Navigate } from "react-router-dom"
 import AuthMiddleware from "../middleware/auth"
 import Layout from "../app/(home)/layout"
 import NotFound from "../app/not-found"
 import Callback from "../app/_auth/callback"
 import Auth from "../app/auth"
 import Home from "../app/(home)/home"
-import { Navigate } from "react-router-dom"
 
 const routes: Route[] = [
   { type: "page", path: "*", index: false, element: <NotFound /> },
