@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>DevCast - Material You (Dark)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+<style>
+  body{font-family:'Roboto',sans-serif}
+  :root{
+    --md-primary:#ffb59d;
+    --md-on-primary:#5f1600;
+    --md-primary-container:#7d2c0b;
+    --md-on-primary-container:#ffdbcb;
+    --md-surface:#181210;
+    --md-surface-container:#251b17;
+    --md-surface-container-high:#302420;
+    --md-on-surface:#f0dfd9;
+    --md-on-surface-variant:#d8c2b8;
+    --md-outline:#a08b82;
+    --md-outline-variant:#53433c;
+  }
+  .elevation-1{ box-shadow:0 1px 3px rgba(0,0,0,0.5); }
+  .elevation-2{ box-shadow:0 2px 8px rgba(0,0,0,0.6); }
+  .state-layer{ position:relative; overflow:hidden; }
+  .state-layer:hover::after{ content:''; position:absolute; inset:0; background:currentColor; opacity:0.12; }
+</style>
+</head>
+<body style="background-color:var(--md-surface); color:var(--md-on-surface)">
+<div class="flex min-h-screen">
+  <aside class="w-24 flex flex-col items-center py-6 gap-1" style="background-color:var(--md-surface)">
+    <button class="state-layer flex flex-col items-center gap-1 w-full py-1">
+      <span class="w-16 h-8 rounded-full flex items-center justify-center" style="background-color:var(--md-primary-container); color:var(--md-on-primary-container)">
+        <span class="material-icons-outlined text-[20px]">description</span>
+      </span>
+      <span class="text-xs font-medium">記事</span>
+    </button>
+    <button class="state-layer flex flex-col items-center gap-1 w-full py-1 mt-2" style="color:var(--md-on-surface-variant)">
+      <span class="w-16 h-8 rounded-full flex items-center justify-center"><span class="material-icons-outlined text-[20px]">send</span></span>
+      <span class="text-xs font-medium">配信先</span>
+    </button>
+    <button class="state-layer flex flex-col items-center gap-1 w-full py-1 mt-2" style="color:var(--md-on-surface-variant)">
+      <span class="w-16 h-8 rounded-full flex items-center justify-center"><span class="material-icons-outlined text-[20px]">sell</span></span>
+      <span class="text-xs font-medium">タグ</span>
+    </button>
+    <button class="state-layer flex flex-col items-center gap-1 w-full py-1 mt-2" style="color:var(--md-on-surface-variant)">
+      <span class="w-16 h-8 rounded-full flex items-center justify-center"><span class="material-icons-outlined text-[20px]">bar_chart</span></span>
+      <span class="text-xs font-medium">分析</span>
+    </button>
+
+    <div class="mt-6">
+      <button class="w-14 h-14 rounded-2xl flex items-center justify-center elevation-2 state-layer" style="background-color:var(--md-primary-container); color:var(--md-on-primary-container)">
+        <span class="material-icons-outlined">add</span>
+      </button>
+    </div>
+
+    <div class="mt-auto">
+      <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium" style="background-color:var(--md-primary); color:var(--md-on-primary)">U8</div>
+    </div>
+  </aside>
+
+  <main class="flex-1 flex flex-col">
+    <header class="h-16 flex items-center justify-between px-6">
+      <h1 class="text-[22px] font-normal">記事一覧</h1>
+      <div class="flex items-center gap-2">
+        <button class="w-10 h-10 rounded-full flex items-center justify-center state-layer" style="color:var(--md-on-surface-variant)">
+          <span class="material-icons-outlined">search</span>
+        </button>
+        <button class="w-10 h-10 rounded-full flex items-center justify-center state-layer" style="color:var(--md-on-surface-variant)">
+          <span class="material-icons-outlined">notifications</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="px-6 pb-6 flex-1 overflow-auto">
+      <div class="grid grid-cols-4 gap-4 mb-6">
+        <div class="rounded-2xl p-5" style="background-color:var(--md-surface-container)">
+          <p class="text-sm mb-1" style="color:var(--md-on-surface-variant)">公開中の記事</p>
+          <p class="text-3xl font-medium">42</p>
+        </div>
+        <div class="rounded-2xl p-5" style="background-color:var(--md-surface-container)">
+          <p class="text-sm mb-1" style="color:var(--md-on-surface-variant)">下書き</p>
+          <p class="text-3xl font-medium">7</p>
+        </div>
+        <div class="rounded-2xl p-5" style="background-color:var(--md-surface-container)">
+          <p class="text-sm mb-1" style="color:var(--md-on-surface-variant)">配信先</p>
+          <p class="text-3xl font-medium">3</p>
+        </div>
+        <div class="rounded-2xl p-5" style="background-color:var(--md-primary-container); color:var(--md-on-primary-container)">
+          <p class="text-sm mb-1 opacity-80">今月の配信数</p>
+          <p class="text-3xl font-medium">18</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 mb-4">
+        <button class="px-4 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5" style="background-color:var(--md-primary-container); color:var(--md-on-primary-container)">
+          <span class="material-icons-outlined text-[16px]">check</span> すべて
+        </button>
+        <button class="px-4 py-1.5 rounded-lg text-sm font-medium border" style="border-color:var(--md-outline-variant); color:var(--md-on-surface-variant)">公開済み</button>
+        <button class="px-4 py-1.5 rounded-lg text-sm font-medium border" style="border-color:var(--md-outline-variant); color:var(--md-on-surface-variant)">下書き</button>
+        <button class="px-4 py-1.5 rounded-lg text-sm font-medium border" style="border-color:var(--md-outline-variant); color:var(--md-on-surface-variant)">配信失敗</button>
+      </div>
+
+      <div class="rounded-2xl overflow-hidden elevation-1" style="background-color:var(--md-surface-container)">
+        <div class="flex items-center justify-between px-5 py-4" style="border-bottom:1px solid var(--md-outline-variant)">
+          <div class="flex items-center gap-4">
+            <span class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color:var(--md-primary-container); color:var(--md-on-primary-container)">
+              <span class="material-icons-outlined text-[18px]">article</span>
+            </span>
+            <div>
+              <p class="font-medium">React 19のCompilerを試してみた</p>
+              <p class="text-sm" style="color:var(--md-on-surface-variant)">Qiita · DEV.to へ配信中</p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-medium" style="background-color:#3d4a29; color:#d3e8ad">公開済み</span>
+        </div>
+        <div class="flex items-center justify-between px-5 py-4" style="border-bottom:1px solid var(--md-outline-variant)">
+          <div class="flex items-center gap-4">
+            <span class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color:var(--md-surface-container-high); color:var(--md-on-surface-variant)">
+              <span class="material-icons-outlined text-[18px]">edit_note</span>
+            </span>
+            <div>
+              <p class="font-medium">PHP-DIとSlim Frameworkの設計指針</p>
+              <p class="text-sm" style="color:var(--md-on-surface-variant)">はてなブログ 向け下書き</p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-medium" style="background-color:#4d3c17; color:#f5cf74">下書き</span>
+        </div>
+        <div class="flex items-center justify-between px-5 py-4">
+          <div class="flex items-center gap-4">
+            <span class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color:var(--md-primary-container); color:var(--md-on-primary-container)">
+              <span class="material-icons-outlined text-[18px]">article</span>
+            </span>
+            <div>
+              <p class="font-medium">Multi-Publisher CMSを設計する</p>
+              <p class="text-sm" style="color:var(--md-on-surface-variant)">Qiita · DEV.to · はてな へ配信中</p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-medium" style="background-color:#3d4a29; color:#d3e8ad">公開済み</span>
+        </div>
+      </div>
+
+      <div class="flex justify-end mt-6">
+        <button class="px-6 py-2.5 rounded-full text-sm font-medium flex items-center gap-2 elevation-1 state-layer" style="background-color:var(--md-primary); color:var(--md-on-primary)">
+          <span class="material-icons-outlined text-[18px]">add</span> 新規記事を作成
+        </button>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

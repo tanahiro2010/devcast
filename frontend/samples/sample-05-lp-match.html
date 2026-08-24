@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>DevCast - LP Match (Light)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Inter',sans-serif}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .accent{color:#ff5a1f}
+  .bg-accent{background-color:#ff5a1f}
+  .border-hairline{border-color:#ececec}
+  .kicker{letter-spacing:0.12em}
+</style>
+</head>
+<body class="bg-white text-neutral-900">
+<div class="flex min-h-screen">
+  <!-- Sidebar -->
+  <aside class="w-60 border-r border-hairline flex flex-col">
+    <div class="h-16 flex items-center px-6 border-b border-hairline">
+      <span class="font-semibold tracking-tight text-[15px]">DevCast</span>
+    </div>
+    <nav class="flex-1 px-3 py-5 space-y-0.5 text-[13px] font-medium">
+      <a class="flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-50 text-neutral-900" href="#">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent"></span> 記事一覧
+      </a>
+      <a class="flex items-center gap-2 px-3 py-2 rounded-md text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50" href="#">配信先設定</a>
+      <a class="flex items-center gap-2 px-3 py-2 rounded-md text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50" href="#">タグ管理</a>
+      <a class="flex items-center gap-2 px-3 py-2 rounded-md text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50" href="#">分析</a>
+      <a class="flex items-center gap-2 px-3 py-2 rounded-md text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50" href="#">設定</a>
+    </nav>
+    <div class="p-5 border-t border-hairline">
+      <p class="kicker text-[10px] uppercase text-neutral-400 mb-2">Signed in as</p>
+      <p class="text-[13px] font-medium">under18.dev</p>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="flex-1">
+    <header class="h-16 border-b border-hairline flex items-center justify-between px-10">
+      <h1 class="text-[15px] font-semibold tracking-tight">記事一覧</h1>
+      <a href="#" class="link-lift bg-neutral-900 text-white text-[13px] font-medium px-5 py-2.5 rounded-md hover:bg-neutral-700 transition">＋ 新規記事</a>
+    </header>
+
+    <div class="px-10 py-10 max-w-4xl">
+      <p class="kicker text-[11px] font-semibold accent uppercase mb-3">Publishing overview</p>
+      <h2 class="text-[1.6rem] font-semibold tracking-tight leading-tight mb-8">今日も、書いたら配信するだけ。</h2>
+
+      <div class="grid grid-cols-4 gap-0 border border-hairline rounded-lg overflow-hidden mb-10">
+        <div class="p-5 border-r border-hairline">
+          <p class="kicker text-[10px] uppercase text-neutral-400 mb-2">Published</p>
+          <p class="text-2xl font-semibold">42</p>
+        </div>
+        <div class="p-5 border-r border-hairline">
+          <p class="kicker text-[10px] uppercase text-neutral-400 mb-2">Drafts</p>
+          <p class="text-2xl font-semibold">7</p>
+        </div>
+        <div class="p-5 border-r border-hairline">
+          <p class="kicker text-[10px] uppercase text-neutral-400 mb-2">Targets</p>
+          <p class="text-2xl font-semibold">3</p>
+        </div>
+        <div class="p-5">
+          <p class="kicker text-[10px] uppercase text-neutral-400 mb-2">Synced today</p>
+          <p class="text-2xl font-semibold">18</p>
+        </div>
+      </div>
+
+      <div class="border border-hairline rounded-lg overflow-hidden">
+        <div class="grid grid-cols-2">
+          <div class="p-8 border-b md:border-b-0 md:border-r border-hairline">
+            <p class="kicker text-[11px] text-neutral-400 uppercase mb-4">Article</p>
+            <p class="font-semibold mb-1">React 19のCompilerを試してみた</p>
+            <p class="text-sm text-neutral-400 mb-6">revision 5 · updated 3時間前</p>
+            <div class="mono text-[13px] text-neutral-500 leading-6 bg-neutral-50 rounded-md p-4">
+              # React 19のCompilerを試してみた<br />
+              <span class="text-neutral-400">tags: react, frontend</span>
+            </div>
+          </div>
+          <div class="p-8">
+            <p class="kicker text-[11px] text-neutral-400 uppercase mb-4">Publication status</p>
+            <div class="space-y-3 mono text-[13px]">
+              <div class="flex justify-between items-center">
+                <span>Qiita</span><span class="text-emerald-600">✔ Latest</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span>DEV.to</span><span class="text-emerald-600">✔ Latest</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span>はてなブログ</span><span class="accent">⚠ Update available</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-10 border border-hairline rounded-lg overflow-hidden">
+        <table class="w-full text-[13px]">
+          <thead class="text-neutral-400 kicker text-[10px] uppercase border-b border-hairline">
+            <tr>
+              <th class="text-left px-6 py-3 font-medium">Title</th>
+              <th class="text-left px-6 py-3 font-medium">Targets</th>
+              <th class="text-left px-6 py-3 font-medium">Status</th>
+              <th class="text-left px-6 py-3 font-medium">Updated</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-hairline">
+            <tr>
+              <td class="px-6 py-4 font-medium">PHP-DIとSlim Frameworkの設計指針</td>
+              <td class="px-6 py-4 mono text-neutral-500">hatena</td>
+              <td class="px-6 py-4"><span class="accent">● draft</span></td>
+              <td class="px-6 py-4 text-neutral-400">2026-08-19</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 font-medium">Multi-Publisher CMSを設計する</td>
+              <td class="px-6 py-4 mono text-neutral-500">qiita, dev.to, hatena</td>
+              <td class="px-6 py-4"><span class="text-emerald-600">● published</span></td>
+              <td class="px-6 py-4 text-neutral-400">2026-08-15</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

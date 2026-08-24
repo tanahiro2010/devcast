@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>DevCast - Dark Developer</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>body{font-family:'Inter',sans-serif} .mono{font-family:'JetBrains Mono',monospace}</style>
+</head>
+<body class="bg-[#0b0e14] text-neutral-200">
+<div class="flex min-h-screen">
+  <aside class="w-64 bg-[#0f131b] border-r border-white/5 flex flex-col">
+    <div class="h-16 flex items-center px-6 border-b border-white/5">
+      <span class="text-lg font-semibold text-white mono">&gt; devcast</span>
+    </div>
+    <nav class="flex-1 px-3 py-4 space-y-1 text-sm mono">
+      <a class="flex items-center gap-2 px-3 py-2 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" href="#"># articles</a>
+      <a class="flex items-center gap-2 px-3 py-2 rounded-md text-neutral-400 hover:bg-white/5" href="#"># targets</a>
+      <a class="flex items-center gap-2 px-3 py-2 rounded-md text-neutral-400 hover:bg-white/5" href="#"># tags</a>
+      <a class="flex items-center gap-2 px-3 py-2 rounded-md text-neutral-400 hover:bg-white/5" href="#"># analytics</a>
+      <a class="flex items-center gap-2 px-3 py-2 rounded-md text-neutral-400 hover:bg-white/5" href="#"># settings</a>
+    </nav>
+    <div class="p-4 border-t border-white/5 text-xs text-neutral-500 mono">
+      v1.4.2 · connected: qiita, dev.to, hatena
+    </div>
+  </aside>
+
+  <main class="flex-1">
+    <header class="h-16 border-b border-white/5 flex items-center justify-between px-8">
+      <h1 class="text-lg font-semibold text-white mono">$ articles --all</h1>
+      <button class="bg-emerald-500 text-black text-sm px-4 py-2 rounded-md font-medium hover:bg-emerald-400 transition mono">+ new_article</button>
+    </header>
+
+    <div class="p-8 space-y-6">
+      <div class="grid grid-cols-4 gap-4">
+        <div class="bg-[#11161f] border border-white/5 rounded-lg p-5">
+          <p class="text-xs text-neutral-500 mono">PUBLISHED</p>
+          <p class="text-2xl font-semibold mt-1 text-emerald-400 mono">42</p>
+        </div>
+        <div class="bg-[#11161f] border border-white/5 rounded-lg p-5">
+          <p class="text-xs text-neutral-500 mono">DRAFTS</p>
+          <p class="text-2xl font-semibold mt-1 text-amber-400 mono">07</p>
+        </div>
+        <div class="bg-[#11161f] border border-white/5 rounded-lg p-5">
+          <p class="text-xs text-neutral-500 mono">TARGETS</p>
+          <p class="text-2xl font-semibold mt-1 text-sky-400 mono">03</p>
+        </div>
+        <div class="bg-[#11161f] border border-white/5 rounded-lg p-5">
+          <p class="text-xs text-neutral-500 mono">SYNCED_TODAY</p>
+          <p class="text-2xl font-semibold mt-1 text-fuchsia-400 mono">18</p>
+        </div>
+      </div>
+
+      <div class="bg-[#11161f] border border-white/5 rounded-lg overflow-hidden">
+        <table class="w-full text-sm mono">
+          <thead class="bg-black/20 text-neutral-500 text-xs uppercase">
+            <tr>
+              <th class="text-left px-5 py-3 font-medium">title</th>
+              <th class="text-left px-5 py-3 font-medium">targets</th>
+              <th class="text-left px-5 py-3 font-medium">status</th>
+              <th class="text-left px-5 py-3 font-medium">updated_at</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/5">
+            <tr class="hover:bg-white/[0.03]">
+              <td class="px-5 py-4 text-white">react-19-compiler-notes.md</td>
+              <td class="px-5 py-4"><span class="inline-flex gap-1"><span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded text-xs">qiita</span><span class="px-2 py-0.5 bg-sky-500/10 text-sky-400 rounded text-xs">dev.to</span></span></td>
+              <td class="px-5 py-4"><span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded text-xs">● published</span></td>
+              <td class="px-5 py-4 text-neutral-500">2026-08-20</td>
+            </tr>
+            <tr class="hover:bg-white/[0.03]">
+              <td class="px-5 py-4 text-white">php-di-slim-design.md</td>
+              <td class="px-5 py-4"><span class="px-2 py-0.5 bg-pink-500/10 text-pink-400 rounded text-xs">hatena</span></td>
+              <td class="px-5 py-4"><span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 rounded text-xs">○ draft</span></td>
+              <td class="px-5 py-4 text-neutral-500">2026-08-19</td>
+            </tr>
+            <tr class="hover:bg-white/[0.03]">
+              <td class="px-5 py-4 text-white">multi-publisher-cms.md</td>
+              <td class="px-5 py-4"><span class="inline-flex gap-1"><span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded text-xs">qiita</span><span class="px-2 py-0.5 bg-sky-500/10 text-sky-400 rounded text-xs">dev.to</span><span class="px-2 py-0.5 bg-pink-500/10 text-pink-400 rounded text-xs">hatena</span></span></td>
+              <td class="px-5 py-4"><span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded text-xs">● published</span></td>
+              <td class="px-5 py-4 text-neutral-500">2026-08-15</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
