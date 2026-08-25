@@ -82,7 +82,7 @@ const Sidebar = () => {
         </nav>
         <div className="p-5 border-t border-white/10">
           <p className="kicker text-[10px] uppercase text-neutral-500 mb-2">Signed in as</p>
-          <p className="text-[13px] font-medium text-white">{profile.email}</p>
+          <p className="text-[13px] font-medium text-white">{profile.username}</p>
         </div>
       </aside>
     </>
