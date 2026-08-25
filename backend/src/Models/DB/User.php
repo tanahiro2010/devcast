@@ -4,6 +4,7 @@ use App\Models\DB\BaseModel;
 use App\Models\DB\Subscriptions;
 use App\Models\DB\Credential;
 use App\Models\DB\Session;
+use App\Models\DB\ProviderToken;
 use App\Libraries\Crypto;
 use App\Libraries\Algorithm;
 use App\Config\Config;
@@ -128,5 +129,18 @@ class User extends BaseModel {
 
   public function activeSubscription(): ?Subscriptions {
     return Subscriptions::findActiveByUserId($this->id);
+  }
+
+  public function providers(): array {
+    return $this->hasMany(ProviderToken::class, 'user_id');
+  }
+
+  public function registerProvider(string $provider, string $token, \DateTime $expiresAt): ProviderToken {
+    return ProviderToken::create([
+      'user_id' => $this->id,
+      'provider' => $provider,
+      'token' => $token,
+      'expires_at' => $expiresAt->format('Y-m-d H:i:s'),
+    ]);
   }
 }
