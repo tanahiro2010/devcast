@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react"
-import type { Profile } from "../types/profile"
+import type { Profile } from "../types/api"
 
 const ProfileContext = createContext<Profile | undefined>(undefined)
 
