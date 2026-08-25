@@ -10,6 +10,8 @@ use App\Futures\Auth\AccessToken\AccessTokenController;
 use App\Futures\Auth\RefreshToken\RefreshTokenController;
 use App\Futures\Auth\Callback\CallbackController;
 use App\Futures\Auth\Profile\ProfileController;
+use App\Futures\Version1\Version1Controller;
+use App\Futures\Version1\Providers\ProvidersController;
 
 
 $routes = new Routes([
@@ -30,6 +32,13 @@ $routes = new Routes([
     ]),
 
     Route::get('/callback', [new CallbackController(), 'callback']),
+  ]),
+
+  Route::middleware(new AuthMiddleware(), [
+    Route::group('/v1', [
+      Route::get('/', [new Version1Controller(), 'version1']),
+      Route::get('/providers', [new ProvidersController(), 'getProviders'])
+    ])
   ]),
 
 
