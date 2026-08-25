@@ -2,6 +2,7 @@
 
 @theme {
 	--color-accent: #ff5a1f;
+	--font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", monospace;
 }
 
 .kicker {

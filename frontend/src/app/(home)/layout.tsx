@@ -20,7 +20,7 @@ const Layout = () => {
     <section className="flex min-h-screen">
       <ProfileContext.Provider value={data}>
         <Sidebar />
-        <main className="flex-1 min-w-0 bg-[#0a0a0a]">
+        <main className="flex-1 min-w-0 bg-[#0a0a0a] text-neutral-100 flex flex-col items-center">
           <Outlet />
         </main>
       </ProfileContext.Provider>
