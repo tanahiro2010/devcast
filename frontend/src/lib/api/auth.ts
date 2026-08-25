@@ -1,4 +1,4 @@
-import type { Profile } from "../../types/profile"
+import type { Profile } from "../../types/api"
 import { apiFetch } from "./client"
 
 class AuthApi {
