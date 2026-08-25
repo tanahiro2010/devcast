@@ -8,6 +8,7 @@ class ProfileService {
       'id' => $user->id,
       'username' => $user->username,
       'email' => $user->email,
+      'tokens' => $user->providers(),
       'created_at' => $user->created_at,
       'updated_at' => $user->updated_at,
     ];
