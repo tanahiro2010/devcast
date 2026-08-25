@@ -8,7 +8,6 @@ use App\Helpers\ApiResponseHelper;
 use App\Models\Response\Code as ErrorCode;
 use App\Models\Response\Status as ErrorStatus;
 use App\Models\DB\User;
-use App\Models\DB\RefreshToken;
 
 class ProfileController
 {
