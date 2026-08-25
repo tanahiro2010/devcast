@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { NavLink } from "react-router-dom"
+import { useProfile } from "../../contexts/ProfileContext"
 
 const navItems = [
   { label: "記事一覧", to: "/" },
@@ -11,6 +12,7 @@ const navItems = [
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const profile = useProfile()
 
   return (
     <>
@@ -80,7 +82,7 @@ const Sidebar = () => {
         </nav>
         <div className="p-5 border-t border-white/10">
           <p className="kicker text-[10px] uppercase text-neutral-500 mb-2">Signed in as</p>
-          <p className="text-[13px] font-medium text-white">under18.dev</p>
+          <p className="text-[13px] font-medium text-white">{profile.email}</p>
         </div>
       </aside>
     </>
