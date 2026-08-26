@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DevCast - ログイン (Dark, MUI)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  html, body, #root { height: 100%; margin: 0; }
+  body { font-family: 'Roboto', sans-serif; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<!--
+  This example renders the real @mui/material component library (via ESM
+  CDN imports) with a dark ThemeProvider, so it's a faithful preview of
+  what Auth.tsx would look like with dark mode applied — not a Tailwind
+  mockup imitating MUI's look.
+-->
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.3.1",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
+    "@mui/material": "https://esm.sh/@mui/material@5.16.7?deps=react@18.3.1,react-dom@18.3.1",
+    "@emotion/react": "https://esm.sh/@emotion/react@11.13.3?deps=react@18.3.1",
+    "@emotion/styled": "https://esm.sh/@emotion/styled@11.13.0?deps=react@18.3.1"
+  }
+}
+</script>
+<script type="module">
+import React from "react";
+import { createRoot } from "react-dom/client";
+import {
+  ThemeProvider,
+  createTheme,
+  CssBaseline,
+  Box,
+  Container,
+  Stack,
+  Typography,
+  Button,
+  Divider,
+} from "@mui/material";
+
+const h = React.createElement;
+
+// Same accent (#ff5a1f) and near-black surface used by the dark Sidebar /
+// Home screen, expressed as a proper MUI dark palette instead of raw
+// Tailwind utility classes.
+const theme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: { main: "#ff5a1f" },
+    background: { default: "#0a0a0a", paper: "#111111" },
+    divider: "rgba(255,255,255,0.1)",
+    text: { primary: "#f5f5f5", secondary: "#a3a3a3" },
+  },
+  shape: { borderRadius: 8 },
+  typography: {
+    fontFamily: "'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif",
+  },
+  components: {
+    MuiButton: {
+      defaultProps: { disableElevation: true },
+      styleOverrides: {
+        root: { textTransform: "none", fontSize: 15, borderRadius: 8 },
+        sizeLarge: { padding: "12px 24px" },
+      },
+    },
+  },
+});
+
+const GitHubIcon = (props) =>
+  h(
+    "svg",
+    { width: 20, height: 20, viewBox: "0 0 24 24", fill: "currentColor", ...props },
+    h("path", {
+      d: "M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.06.78 2.14 0 1.55-.01 2.79-.01 3.17 0 .31.21.66.79.55A11.5 11.5 0 0 0 23.5 12c0-6.27-5.23-11.5-11.5-11.5z",
+    })
+  );
+
+const App = () =>
+  h(
+    ThemeProvider,
+    { theme },
+    h(CssBaseline),
+    h(
+      Box,
+      { sx: { bgcolor: "background.default", minHeight: "100vh", display: "flex", alignItems: "center" } },
+      h(
+        Container,
+        { maxWidth: "xs" },
+        h(
+          Stack,
+          { spacing: 4, sx: { alignItems: "center" } },
+          h(
+            Typography,
+            {
+              variant: "overline",
+              sx: { letterSpacing: "0.12em", color: "primary.main", fontWeight: 600 },
+            },
+            "DevCast"
+          ),
+          h(
+            Stack,
+            { spacing: 1, sx: { alignItems: "center", textAlign: "center", width: "100%" } },
+            h(Typography, { variant: "h4", component: "h1", sx: { fontWeight: 600 } }, "DevCast にログイン"),
+            h(Typography, { variant: "body1", color: "text.secondary" }, "続行するには GitHub アカウントを使用してください")
+          ),
+          h(
+            Button,
+            {
+              component: "a",
+              href: "#",
+              variant: "contained",
+              color: "primary",
+              fullWidth: true,
+              size: "large",
+              startIcon: h(GitHubIcon),
+            },
+            "GitHub でログイン"
+          ),
+          h(Divider, { flexItem: true, sx: { width: "100%" } }),
+          h(
+            Typography,
+            { variant: "caption", color: "text.secondary", sx: { textAlign: "center", width: "100%" } },
+            "ログインすることで、DevCast の利用規約に同意したものとみなされます。"
+          )
+        )
+      )
+    )
+  );
+
+createRoot(document.getElementById("root")).render(h(App));
+</script>
+</body>
+</html>
