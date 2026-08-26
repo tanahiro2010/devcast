@@ -48,3 +48,5 @@ class ProvidersApi implements _ProvidersApi {
     }
   }
 }
+
+export { ProvidersApi }
