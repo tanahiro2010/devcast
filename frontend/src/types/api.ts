@@ -22,4 +22,4 @@ type Profile = {
   providers: Provider[]
 }
 
-export type { Profile }
+export type { Profile, Subscription, Provider }
