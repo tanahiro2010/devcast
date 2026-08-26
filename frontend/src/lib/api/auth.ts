@@ -9,6 +9,8 @@ type _AuthApi = {
 }
 
 class AuthApi implements _AuthApi {
+  constructor() {}
+
   async getAuthUrl(): Promise<string> {
     const response = await apiFetch('/auth')
     const data = await response.json()
