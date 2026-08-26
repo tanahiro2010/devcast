@@ -5,9 +5,12 @@
   "description": "TypeSpec definitions for the DevCast backend API, compiled to OpenAPI 3.1",
   "scripts": {
     "build": "tsp compile .",
-    "watch": "tsp compile . --watch"
+    "watch": "tsp compile . --watch",
+    "build:html": "redocly build-docs tsp-output/openapi/devcast-api.yaml -o tsp-output/openapi/devcast-api.html",
+    "build:all": "bun run build && bun run build:html"
   },
   "devDependencies": {
+    "@redocly/cli": "^2.48.0",
     "@typespec/compiler": "^1.15.0",
     "@typespec/http": "^1.15.0",
     "@typespec/openapi": "^1.15.0",
