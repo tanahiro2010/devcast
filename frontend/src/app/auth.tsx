@@ -29,8 +29,12 @@ const Auth = () => {
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", display: "flex", alignItems: "center" }}>
       <Container maxWidth="xs">
         <Stack spacing={4} sx={{ alignItems: "center" }}>
-          <Stack spacing={1} sx={{ alignItems: "center", textAlign: "center", width: "100%", fontWeight: "bold" }}>
-            <Typography variant="h4" component="h1">
+          <Typography variant="overline" sx={{ letterSpacing: "0.12em", color: "primary.main", fontWeight: 600 }}>
+            DevCast
+          </Typography>
+
+          <Stack spacing={1} sx={{ alignItems: "center", textAlign: "center", width: "100%" }}>
+            <Typography variant="h4" component="h1" sx={{ fontWeight: 600 }}>
               DevCast にログイン
             </Typography>
             <Typography variant="body1" color="text.secondary">

@@ -1,10 +1,16 @@
 import type { Profile } from "../../types/api"
 import { apiFetch } from "./client"
 
-class AuthApi {
-  constructor() {
+type _AuthApi = {
+  getAuthUrl: () => Promise<string>
+  getRefreshToken: () => Promise<{ refreshToken: string, accessToken: string }>
+  getAccessToken: () => Promise<string>
+  getProfile: () => Promise<Profile>
+}
 
-  }
+class AuthApi implements _AuthApi {
+  constructor() {}
+
   async getAuthUrl(): Promise<string> {
     const response = await apiFetch('/auth')
     const data = await response.json()
