@@ -2,17 +2,19 @@ import { createTheme } from "@mui/material/styles"
 
 const theme = createTheme({
   palette: {
+    mode: "dark",
     primary: {
-      main: "#1a73e8",
+      main: "#ff5a1f",
     },
     text: {
-      primary: "#202124",
-      secondary: "#5f6368",
+      primary: "#f5f5f5",
+      secondary: "#a3a3a3",
     },
     background: {
-      default: "#f8f9fa",
+      default: "#0a0a0a",
+      paper: "#111111",
     },
-    divider: "#dadce0",
+    divider: "rgba(255, 255, 255, 0.1)",
   },
   shape: {
     borderRadius: 8,
@@ -30,7 +32,7 @@ const theme = createTheme({
           borderRadius: 28,
         },
         outlined: {
-          borderColor: "#dadce0",
+          borderColor: "rgba(255, 255, 255, 0.1)",
         },
       },
     },
