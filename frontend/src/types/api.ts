@@ -8,11 +8,18 @@ type Subscription = {
   current_period_end:   Date
 }
 
+type Provider = {
+  id: number
+  provider: string
+  expires_at: Date
+}
+
 type Profile = {
   id:       number
   username: string
   email:    string
   subscription: Subscription | null
+  providers: Provider[]
 }
 
 export type { Profile }
