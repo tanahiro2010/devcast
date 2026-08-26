@@ -22,4 +22,20 @@ type Profile = {
   providers: Provider[]
 }
 
-export type { Profile, Subscription, Provider }
+type Article = {
+  id: number
+  
+  title: string
+  tags: string[]
+  content: string
+
+  status: {
+    provider: string
+    status: "published" | "draft" | "pending"
+  }[]
+
+  updated_at: Date
+  created_at: Date
+}
+
+export type { Profile, Subscription, Provider, Article }
