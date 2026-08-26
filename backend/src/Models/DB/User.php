@@ -132,7 +132,18 @@ class User extends BaseModel {
   }
 
   public function providers(): array {
-    return $this->hasMany(ProviderToken::class, 'user_id');
+    $providers = $this->hasMany(ProviderToken::class, 'user_id');
+    return array_map(function($provider) {
+      return [
+        'id' => $provider->id,
+        'provider' => $provider->provider,
+        'expires_at' => $provider->expires_at
+      ];
+    }, $providers);
+  }
+
+  public function provider(string $provider): ?ProviderToken {
+    return ProviderToken::findByUserIdAndProvider($this->id, $provider);
   }
 
   public function registerProvider(string $provider, string $token, \DateTime $expiresAt): ProviderToken {
