@@ -17,8 +17,10 @@ Treat it as the source of truth for the HTTP contract going forward.
 
 ```bash
 bun install
-bun run build   # compiles to tsp-output/openapi/devcast-api.yaml
-bun run watch   # recompile on change
+bun run build       # compiles to tsp-output/openapi/devcast-api.yaml
+bun run watch       # recompile on change
+bun run build:html  # renders a static Redoc HTML page from the YAML
+bun run build:all   # build + build:html
 ```
 
 ## Known gaps / follow-ups
