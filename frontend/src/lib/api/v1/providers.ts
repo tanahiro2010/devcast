@@ -3,6 +3,7 @@ import { apiFetch } from "../client"
 
 type _ProvidersApi = {
   getProviders: () => Promise<Provider[]>
+  getProvider: (provider: string) => Promise<Provider | null>
   registerProvider: (provider: string, token: string, expireAt: Date) => Promise<void>
   deleteProvider: (provider: number) => Promise<void>
 }
