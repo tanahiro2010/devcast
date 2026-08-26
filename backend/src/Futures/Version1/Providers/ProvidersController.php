@@ -11,6 +11,7 @@ use App\Models\DB\User;
 
 class ProvidersController {
   public function getProviders(Request $request, Response $response) {
+    /** @var User $user */
     $user = $request->getAttribute('user');
     $providers = $user->providers();
 

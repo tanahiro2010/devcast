@@ -23,7 +23,15 @@ class ProviderToken extends BaseModel {
   }
 
   public static function findByUserId(int $userId) {
-    return self::firstWhere(['user_id' => $userId]);
+    return self::whereAll(['user_id' => $userId]);
+  }
+
+  public static function findByUserIdAndProvider(int $userId, string $provider) {
+    return self::firstWhere(['user_id' => $userId, 'provider' => $provider]);
+  }
+
+  public function exists(string $provider): bool {
+    return self::firstWhere(['user_id' => $this->user_id, 'provider' => $provider]) !== null;
   }
 
   public function user(): ?User {
