@@ -12,6 +12,7 @@ on:
           - lp
           - frontend
           - backend
+          - docs
   push:
     branches: main
 
@@ -22,6 +23,7 @@ jobs:
       lp: ${{ (github.event_name == 'workflow_dispatch' && (inputs.target == 'all' || inputs.target == 'lp')) || (github.event_name == 'push' && steps.filter.outputs.lp == 'true') }}
       frontend: ${{ (github.event_name == 'workflow_dispatch' && (inputs.target == 'all' || inputs.target == 'frontend')) || (github.event_name == 'push' && steps.filter.outputs.frontend == 'true') }}
       backend: ${{ (github.event_name == 'workflow_dispatch' && (inputs.target == 'all' || inputs.target == 'backend')) || (github.event_name == 'push' && steps.filter.outputs.backend == 'true') }}
+      docs: ${{ (github.event_name == 'workflow_dispatch' && (inputs.target == 'all' || inputs.target == 'docs')) || (github.event_name == 'push' && steps.filter.outputs.docs == 'true') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -37,6 +39,8 @@ jobs:
               - 'frontend/**'
             backend:
               - 'backend/**'
+            docs:
+              - 'backend/docs/**'
 
   LandingPage:
     needs: changes
@@ -147,3 +151,31 @@ jobs:
              DB_USER='${{ secrets.DB_USER }}' \
              DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
              /usr/bin/php8.5 scripts/migrate.php"
+
+  ApiDocs:
+    needs: changes
+    if: needs.changes.outputs.docs == 'true'
+    runs-on: ubuntu-latest
+    steps: # FTP Deploy
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install Dependencies
+        working-directory: ./backend/docs
+        run: bun install
+
+      - name: Build OpenAPI spec + HTML docs
+        working-directory: ./backend/docs
+        run: bun run build:all
+
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./backend/docs/dist/
+          server-dir: /devcast.work/public_html/docs.devcast.work/api/
