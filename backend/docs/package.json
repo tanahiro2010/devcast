@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsp compile .",
     "watch": "tsp compile . --watch",
-    "build:html": "redocly build-docs tsp-output/openapi/devcast-api.yaml -o tsp-output/openapi/devcast-api.html",
+    "build:html": "mkdir -p dist && cp tsp-output/openapi/devcast-api.yaml dist/openapi.yaml && redocly build-docs dist/openapi.yaml -o dist/index.html",
     "build:all": "bun run build && bun run build:html"
   },
   "devDependencies": {

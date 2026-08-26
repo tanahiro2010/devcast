@@ -19,9 +19,18 @@ Treat it as the source of truth for the HTTP contract going forward.
 bun install
 bun run build       # compiles to tsp-output/openapi/devcast-api.yaml
 bun run watch       # recompile on change
-bun run build:html  # renders a static Redoc HTML page from the YAML
+bun run build:html  # renders dist/index.html + dist/openapi.yaml from the compiled spec
 bun run build:all   # build + build:html
 ```
+
+## CI/CD
+
+`.github/workflows/deploy.yml` has an `ApiDocs` job that runs `bun run
+build:all` on any push to `main` touching `backend/docs/**` (or via manual
+`workflow_dispatch` with target `docs`/`all`), then FTP-deploys `dist/` to
+`docs.devcast.work/api/`. Update the `.tsp` files whenever the backend
+contract changes so the published docs stay accurate — nothing generates
+them automatically from the PHP source.
 
 ## Known gaps / follow-ups
 
