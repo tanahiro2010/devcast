@@ -38,4 +38,11 @@ type Article = {
   created_at: Date
 }
 
-export type { Profile, Subscription, Provider, Article }
+type ArticleMetadata = {
+  total_count: number
+  published_count: number
+  draft_count: number
+  pending_count: number
+}
+
+export type { Profile, Subscription, Provider, Article, ArticleMetadata }
