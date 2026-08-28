@@ -1,4 +1,4 @@
-import type { Article, ArticleMetadata, Provider } from "../../types/api"
+import type { Provider } from "../../types/api"
 import type { ArticlesWithMetadata } from "../../lib/api/v1/articles"
 import type { Stat } from "../../components/ui/StatCard"
 import type { PublicationStatus } from "../../components/screen/home/PublicationStatusList"
