@@ -1,5 +1,5 @@
 <?php
-use App\Config\Database;
+use App\Database\Database;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -17,7 +17,7 @@ if (!$schema->hasTable('migrations')) {
 
 $ran = $capsule->table('migrations')->pluck('migration')->all();
 
-$files = glob(__DIR__ . '/../src/database/migrations/*.php');
+$files = glob(__DIR__ . '/../src/Database/migrations/*.php');
 sort($files);
 
 foreach ($files as $file) {

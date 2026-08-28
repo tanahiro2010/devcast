@@ -1,5 +1,6 @@
 <?php
-namespace App\Config;
+namespace App\Database;
+use App\Config\Config;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Database
