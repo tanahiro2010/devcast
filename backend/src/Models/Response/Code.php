@@ -80,4 +80,7 @@ enum Code: string {
   case TOKEN_INVALID = "TOKEN_INVALID";
   case TOKEN_MISSING = "TOKEN_MISSING";
   case TOKEN_REVOKED = "TOKEN_REVOKED";
+
+  // Provider Codes
+  case PROVIDER_NOT_FOUND = "PROVIDER_NOT_FOUND";
 }
