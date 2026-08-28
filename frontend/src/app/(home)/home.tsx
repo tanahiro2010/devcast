@@ -9,13 +9,14 @@ import { ArticleSummaryCard } from "../../components/screen/home/ArticleSummaryC
 import { ArticleTable } from "../../components/screen/home/ArticleTable"
 import { Loading } from "../../components/screen/Loading"
 import { client } from "../../lib/api"
+import { useMemo } from "react"
 
 
-const publicationStatus: PublicationStatus[] = [
-  { platform: "Qiita", state: "synced" },
-  { platform: "DEV.to", state: "synced" },
-  { platform: "はてなブログ", state: "pending" },
-]
+// const publicationStatus: PublicationStatus[] = [
+//   { platform: "Qiita", state: "synced" },
+//   { platform: "DEV.to", state: "synced" },
+//   { platform: "はてなブログ", state: "pending" },
+// ]
 
 const Home = () => {
   const { data, isPending, error } = useQuery<[Provider[], ArticlesWithMetadata]>({
@@ -29,13 +30,17 @@ const Home = () => {
   if (isPending) return <Loading />
   if (error) return <div></div>
 
-  const [providers, { metadata, articles }] = data
-  const stats: Stat[] = [
+  const [providers, { metadata, articles }] = useMemo(() => data, [isPending, data])
+  const stats: Stat[] = useMemo(() => [
     { label: "Publish", value: metadata.published_count },
     { label: "Drafts",  value: metadata.draft_count },
     { label: "Targets", value: providers.length },
     { label: "Total",   value: metadata.total_count }
-  ]
+  ], [isPending, data])
+  const publicationStatus: PublicationStatus[] = providers.map((provider: Provider) => ({
+    platform: provider.provider,
+    state: provider.expires_at < new Date() ? "active" : "inactive"
+  }))
 
   return (
     <>
