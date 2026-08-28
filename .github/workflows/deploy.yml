@@ -62,13 +62,17 @@ jobs:
         run: bun run build
 
       - name: FTP Deploy
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        uses: Wandalen/wretry.action@v3
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./lp/dist/
-          server-dir: /devcast.work/public_html/
+          action: SamKirkland/FTP-Deploy-Action@4.0.0
+          attempt_limit: 3
+          attempt_delay: 5000
+          with: |
+            server: ${{ secrets.FTP_SERVER }}
+            username: ${{ secrets.FTP_USERNAME }}
+            password: ${{ secrets.FTP_PASSWORD }}
+            local-dir: ./lp/dist/
+            server-dir: /devcast.work/public_html/
 
   ServicePage:
     needs: changes
@@ -95,13 +99,17 @@ jobs:
         run: bun run build
 
       - name: FTP Deploy
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        uses: Wandalen/wretry.action@v3
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./frontend/dist/
-          server-dir: /devcast.work/public_html/app.devcast.work/
+          action: SamKirkland/FTP-Deploy-Action@4.0.0
+          attempt_limit: 3
+          attempt_delay: 5000
+          with: |
+            server: ${{ secrets.FTP_SERVER }}
+            username: ${{ secrets.FTP_USERNAME }}
+            password: ${{ secrets.FTP_PASSWORD }}
+            local-dir: ./frontend/dist/
+            server-dir: /devcast.work/public_html/app.devcast.work/
 
   ServiceAPI:
     needs: changes
@@ -172,10 +180,14 @@ jobs:
         run: bun run build:all
 
       - name: FTP Deploy
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        uses: Wandalen/wretry.action@v3
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./backend/docs/dist/
-          server-dir: /devcast.work/public_html/docs.devcast.work/api/
+          action: SamKirkland/FTP-Deploy-Action@4.0.0
+          attempt_limit: 3
+          attempt_delay: 5000
+          with: |
+            server: ${{ secrets.FTP_SERVER }}
+            username: ${{ secrets.FTP_USERNAME }}
+            password: ${{ secrets.FTP_PASSWORD }}
+            local-dir: ./backend/docs/dist/
+            server-dir: /devcast.work/public_html/docs.devcast.work/api/
