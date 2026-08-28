@@ -1,4 +1,9 @@
-import type { PublicationStatus } from "../../../types/article"
+type PublicationState = "synced" | "pending"
+
+type PublicationStatus = {
+  platform: string
+  state: PublicationState
+}
 
 type Props = { items: PublicationStatus[] }
 
@@ -16,3 +21,4 @@ const PublicationStatusList = ({ items }: Props) => (
 )
 
 export { PublicationStatusList }
+export type { PublicationState, PublicationStatus }

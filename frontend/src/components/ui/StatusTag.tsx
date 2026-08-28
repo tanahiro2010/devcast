@@ -1,12 +1,16 @@
-import type { ArticleStatus } from "../../types/article"
+import type { Article } from "../../types/api"
+
+type ArticleStatus = Article["status"][number]["status"]
 
 const label: Record<ArticleStatus, string> = {
   draft: "● draft",
+  pending: "● pending",
   published: "● published",
 }
 
 const style: Record<ArticleStatus, string> = {
-  draft: "accent",
+  draft: "text-neutral-400",
+  pending: "accent",
   published: "text-emerald-400",
 }
 
@@ -17,3 +21,4 @@ const StatusTag = ({ status }: Props) => (
 )
 
 export { StatusTag }
+export type { ArticleStatus }
