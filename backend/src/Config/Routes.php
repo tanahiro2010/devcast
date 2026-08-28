@@ -42,7 +42,8 @@ class Routes {
         Route::middleware(new AuthMiddleware(), [
           Route::group('/v1', [
             Route::get('/', [new Version1Controller(), 'version1']),
-            Route::get('/providers', [new ProvidersController(), 'getProviders'])
+            Route::get('/providers', [new ProvidersController(), 'getProviders']),
+            Route::post('/providers', [new ProvidersController(), 'registerProvider']),
           ])
         ]),
 
