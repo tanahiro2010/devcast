@@ -1,5 +1,9 @@
 import { cn } from "../../lib/utils"
-import type { Stat } from "../../types/article"
+
+type Stat = {
+  label: string
+  value: number
+}
 
 type Props = Stat & { className?: string }
 
@@ -11,3 +15,4 @@ const StatCard = ({ label, value, className = "" }: Props) => (
 )
 
 export { StatCard }
+export type { Stat }
