@@ -44,12 +44,10 @@ class Routes {
             Route::get('/', [new Version1Controller(), 'version1']),
             Route::group('/providers', [
               Route::controller(new ProvidersController(), [
-                Route::middleware(new AuthMiddleware(), [
-                  Route::get('/', 'getProviders'),
-                  Route::post('/', 'registerProvider'),
-                  Route::put('/', 'updateProvider'),
-                  Route::delete('/', 'deleteProvider'),
-                ]),
+                Route::get('/', 'getProviders'),
+                Route::post('/', 'registerProvider'),
+                Route::put('/', 'updateProvider'),
+                Route::delete('/', 'deleteProvider'),
               ]),
             ]),
           ])
