@@ -10,7 +10,6 @@ import { ArticleTable } from "../../components/screen/home/ArticleTable"
 import { Loading } from "../../components/screen/Loading"
 import { ErrorState } from "../../components/screen/ErrorState"
 import { client } from "../../lib/api"
-import { useMemo } from "react"
 
 const Home = () => {
   const { data, isPending, error, refetch } = useQuery<[Provider[], ArticlesWithMetadata]>({
@@ -24,13 +23,13 @@ const Home = () => {
   if (isPending) return <Loading />
   if (error) return <ErrorState onRetry={() => refetch()} />
 
-  const [providers, { metadata, articles }] = useMemo(() => data, [isPending, data])
-  const stats: Stat[] = useMemo(() => [
+  const [providers, { metadata, articles }] = data
+  const stats: Stat[] = [
     { label: "Publish", value: metadata.published_count },
     { label: "Drafts",  value: metadata.draft_count },
     { label: "Targets", value: providers.length },
     { label: "Total",   value: metadata.total_count }
-  ], [isPending, data])
+  ]
   const publicationStatus: PublicationStatus[] = providers.map((provider: Provider) => ({
     platform: provider.provider,
     state: provider.expires_at < new Date() ? "active" : "inactive"
