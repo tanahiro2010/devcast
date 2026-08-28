@@ -1,11 +1,11 @@
 <?php
 use Slim\Factory\AppFactory;
 use App\Middleware\CorsMiddleware;
+use App\Config\Routes;
 
 require_once __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . '/src/Config/routes.php';
 
-
+$routes = Routes::build();
 
 try {
   $routes->validate();
