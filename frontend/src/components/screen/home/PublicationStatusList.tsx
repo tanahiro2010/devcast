@@ -1,4 +1,4 @@
-type PublicationState = "synced" | "pending"
+type PublicationState = "active" | "inactive"
 
 type PublicationStatus = {
   platform: string
@@ -12,8 +12,8 @@ const PublicationStatusList = ({ items }: Props) => (
     {items.map((item) => (
       <div key={item.platform} className="flex justify-between items-center text-neutral-200">
         <span>{item.platform}</span>
-        <span className={item.state === "synced" ? "text-emerald-400" : "accent whitespace-nowrap"}>
-          {item.state === "synced" ? "✔ Latest" : "⚠ Update available"}
+        <span className={item.state === "active" ? "text-emerald-400" : "accent whitespace-nowrap"}>
+          {item.state === "active" ? "✔ Active" : "⚠ API Key Inactive"}
         </span>
       </div>
     ))}

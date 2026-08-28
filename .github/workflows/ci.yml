@@ -1,0 +1,99 @@
+name: CI
+
+on:
+  pull_request:
+    branches: main
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      lp: ${{ steps.filter.outputs.lp }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+      backend: ${{ steps.filter.outputs.backend }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Detect changed paths
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            lp:
+              - 'lp/**'
+            frontend:
+              - 'frontend/**'
+            backend:
+              - 'backend/**'
+
+  LandingPage:
+    needs: changes
+    if: needs.changes.outputs.lp == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install Dependencies
+        working-directory: ./lp
+        run: bun install
+
+      - name: Build
+        working-directory: ./lp
+        run: bun run build
+
+  ServicePage:
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install Dependencies
+        working-directory: ./frontend
+        run: bun install
+
+      - name: Lint
+        working-directory: ./frontend
+        run: bun run lint
+
+      - name: Build
+        working-directory: ./frontend
+        run: bun run build
+
+  ServiceAPI:
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+
+      - name: Install Dependencies
+        working-directory: ./backend
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Validate composer.json
+        working-directory: ./backend
+        run: composer validate --no-check-publish
+
+      - name: PHP Lint
+        working-directory: ./backend
+        run: find src scripts -name '*.php' -print0 | xargs -0 -n1 php -l
