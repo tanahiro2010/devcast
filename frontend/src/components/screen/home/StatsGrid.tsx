@@ -1,5 +1,4 @@
-import { StatCard } from "../../ui/StatCard"
-import type { Stat } from "../../../types/article"
+import { StatCard, type Stat } from "../../ui/StatCard"
 
 // Border sides drawn per grid cell so the 2x2 (mobile) / 1x4 (desktop)
 // layout keeps a single hairline between every stat, never a doubled edge.
