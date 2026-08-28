@@ -1,5 +1,4 @@
-import { PublicationStatusList } from "./PublicationStatusList"
-import type { PublicationStatus } from "../../../types/article"
+import { PublicationStatusList, type PublicationStatus } from "./PublicationStatusList"
 
 type Props = {
   title: string
