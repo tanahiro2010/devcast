@@ -1,15 +1,15 @@
+import type { Article, ArticleMetadata, Provider } from "../../types/api"
+import type { ArticlesWithMetadata } from "../../lib/api/v1/articles"
+import type { Stat } from "../../components/ui/StatCard"
+import type { PublicationStatus } from "../../components/screen/home/PublicationStatusList"
+import { useQuery } from "@tanstack/react-query"
 import { HomeHeader } from "../../components/screen/home/HomeHeader"
 import { StatsGrid } from "../../components/screen/home/StatsGrid"
 import { ArticleSummaryCard } from "../../components/screen/home/ArticleSummaryCard"
 import { ArticleTable } from "../../components/screen/home/ArticleTable"
-import type { Article, PublicationStatus, Stat } from "../../types/article"
+import { Loading } from "../../components/screen/Loading"
+import { client } from "../../lib/api"
 
-const stats: Stat[] = [
-  { label: "Published", value: 42 },
-  { label: "Drafts", value: 7 },
-  { label: "Targets", value: 3 },
-  { label: "Synced today", value: 18 },
-]
 
 const publicationStatus: PublicationStatus[] = [
   { platform: "Qiita", state: "synced" },
@@ -17,12 +17,26 @@ const publicationStatus: PublicationStatus[] = [
   { platform: "はてなブログ", state: "pending" },
 ]
 
-const articles: Article[] = [
-  { title: "PHP-DIとSlim Frameworkの設計指針", targets: "hatena", status: "draft", updated: "2026-08-19" },
-  { title: "Multi-Publisher CMSを設計する", targets: "qiita, dev.to, hatena", status: "published", updated: "2026-08-15" },
-]
-
 const Home = () => {
+  const { data, isPending, error } = useQuery<[Provider[], ArticlesWithMetadata]>({
+    queryKey: ["providers", "articles"],
+    queryFn: () => Promise.all([
+      client.v1.providers.getProviders(),
+      client.v1.articles.getArticlesWithMetadata()
+    ])
+  })
+
+  if (isPending) return <Loading />
+  if (error) return <div></div>
+
+  const [providers, { metadata, articles }] = data
+  const stats: Stat[] = [
+    { label: "Publish", value: metadata.published_count },
+    { label: "Drafts",  value: metadata.draft_count },
+    { label: "Targets", value: providers.length },
+    { label: "Total",   value: metadata.total_count }
+  ]
+
   return (
     <>
       <HomeHeader />
