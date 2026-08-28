@@ -8,18 +8,12 @@ import { StatsGrid } from "../../components/screen/home/StatsGrid"
 import { ArticleSummaryCard } from "../../components/screen/home/ArticleSummaryCard"
 import { ArticleTable } from "../../components/screen/home/ArticleTable"
 import { Loading } from "../../components/screen/Loading"
+import { ErrorState } from "../../components/screen/ErrorState"
 import { client } from "../../lib/api"
 import { useMemo } from "react"
 
-
-// const publicationStatus: PublicationStatus[] = [
-//   { platform: "Qiita", state: "synced" },
-//   { platform: "DEV.to", state: "synced" },
-//   { platform: "はてなブログ", state: "pending" },
-// ]
-
 const Home = () => {
-  const { data, isPending, error } = useQuery<[Provider[], ArticlesWithMetadata]>({
+  const { data, isPending, error, refetch } = useQuery<[Provider[], ArticlesWithMetadata]>({
     queryKey: ["providers", "articles"],
     queryFn: () => Promise.all([
       client.v1.providers.getProviders(),
@@ -28,7 +22,7 @@ const Home = () => {
   })
 
   if (isPending) return <Loading />
-  if (error) return <div></div>
+  if (error) return <ErrorState onRetry={() => refetch()} />
 
   const [providers, { metadata, articles }] = useMemo(() => data, [isPending, data])
   const stats: Stat[] = useMemo(() => [
