@@ -34,6 +34,12 @@ class ProviderToken extends BaseModel {
     return self::firstWhere(['user_id' => $this->user_id, 'provider' => $provider]) !== null;
   }
 
+  public function updateToken(string $token, \DateTime $expiresAt) {
+    $this->token = $token;
+    $this->expires_at = $expiresAt->format('Y-m-d H:i:s');
+    $this->save();
+  }
+
   public function user(): ?User {
     return $this->belongsTo(User::class, 'user_id');
   }

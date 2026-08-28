@@ -8,7 +8,7 @@ if (!$name) {
 
 $name = preg_replace('/[^a-zA-Z0-9_]+/', '_', $name);
 
-$migrationsDir = __DIR__ . '/../src/database/migrations';
+$migrationsDir = __DIR__ . '/../src/Database/migrations';
 
 $existing = glob($migrationsDir . '/*.php');
 $lastNumber = 0;
@@ -47,4 +47,4 @@ PHP;
 
 file_put_contents($path, $template);
 
-echo "Created: src/database/migrations/{$fileName}\n";
+echo "Created: src/Database/migrations/{$fileName}\n";
