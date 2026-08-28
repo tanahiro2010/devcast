@@ -1,14 +1,20 @@
-import type { Article } from "../../../types/api"
+import type { Article, ArticleMetadata } from "../../../types/api"
 import { apiFetch } from "../client"
 
 type _ArticlesApi = {
   getArticles: () => Promise<Article[]>
+  getArticlesWithMetadata: () => Promise<{ metadata: ArticleMetadata, articles: Article[] }>
   getArticle: (articleId: number) => Promise<Article | null>
   createArticle: (title: string, content: string) => Promise<Article>
   updateArticle: (articleId: number, title: string, tags: string[], content: string) => Promise<Article>
   publishArticle: (articleId: number, providers: string[]) => Promise<void>
   unpublishArticle: (articleId: number, providers: string[]) => Promise<void>
   deleteArticle: (articleId: number) => Promise<void>
+}
+
+type ArticlesWithMetadata = {
+  metadata: ArticleMetadata
+  articles: Article[]
 }
 
 class ArticlesApi implements _ArticlesApi {
@@ -23,6 +29,19 @@ class ArticlesApi implements _ArticlesApi {
     }
 
     return data.data.articles as Article[]
+  }
+
+  async getArticlesWithMetadata(): Promise<ArticlesWithMetadata> {
+    const response = await apiFetch('/v1/articles?includeMetadata=true', {
+      method: 'GET'
+    })
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(data.details.message || 'Failed to get articles')
+    }
+
+    return data.data as ArticlesWithMetadata
   }
 
   async getArticle(articleId: number): Promise<Article | null> {
@@ -102,4 +121,4 @@ class ArticlesApi implements _ArticlesApi {
   }
 }
 
-export { ArticlesApi }
+export { ArticlesApi, type ArticlesWithMetadata }
