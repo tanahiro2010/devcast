@@ -90,4 +90,56 @@ class Crypto
 
     return $payload;
   }
+
+  private const ENCRYPTION_PREFIX = 'gcm1:';
+
+  /**
+   * AES-256-GCMで値を暗号化する。DBに機微な第三者トークンを保存する際に使用する。
+   */
+  public static function encrypt(string $plaintext, string $key): string
+  {
+    $binKey = self::deriveEncryptionKey($key);
+    $iv = random_bytes(12);
+    $tag = '';
+    $ciphertext = openssl_encrypt($plaintext, 'aes-256-gcm', $binKey, OPENSSL_RAW_DATA, $iv, $tag);
+    if ($ciphertext === false) {
+      throw new \RuntimeException('Failed to encrypt value');
+    }
+
+    return self::ENCRYPTION_PREFIX . self::base64UrlEncode($iv . $tag . $ciphertext);
+  }
+
+  /**
+   * encrypt() で暗号化した値を復号する。
+   */
+  public static function decrypt(string $encoded, string $key): string
+  {
+    $binKey = self::deriveEncryptionKey($key);
+    $raw = self::base64UrlDecode(substr($encoded, strlen(self::ENCRYPTION_PREFIX)));
+    $iv = substr($raw, 0, 12);
+    $tag = substr($raw, 12, 16);
+    $ciphertext = substr($raw, 28);
+
+    $plaintext = openssl_decrypt($ciphertext, 'aes-256-gcm', $binKey, OPENSSL_RAW_DATA, $iv, $tag);
+    if ($plaintext === false) {
+      throw new \RuntimeException('Failed to decrypt value');
+    }
+
+    return $plaintext;
+  }
+
+  /**
+   * @return bool encrypt() で生成された形式の値かどうか。移行期間中に旧・平文レコードと
+   * 新・暗号化レコードを区別するために使う。
+   */
+  public static function isEncrypted(?string $value): bool
+  {
+    return $value !== null && str_starts_with($value, self::ENCRYPTION_PREFIX);
+  }
+
+  private static function deriveEncryptionKey(string $key): string
+  {
+    // CRYPTO_KEY は環境変数由来の可変長文字列のため、AES-256に必要な32バイト鍵に正規化する。
+    return hash('sha256', $key, true);
+  }
 }

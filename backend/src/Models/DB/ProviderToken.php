@@ -4,6 +4,8 @@ namespace App\Models\DB;
 
 use App\Models\DB\BaseModel;
 use App\Models\DB\User;
+use App\Config\Config;
+use App\Libraries\Crypto;
 
 class ProviderToken extends BaseModel {
   protected $table = 'tokens';
@@ -35,7 +37,7 @@ class ProviderToken extends BaseModel {
   }
 
   public function updateToken(string $token, \DateTime $expiresAt) {
-    $this->token = $token;
+    $this->token = Crypto::encrypt($token, Config::env('CRYPTO_KEY'));
     $this->expires_at = $expiresAt->format('Y-m-d H:i:s');
     $this->save();
   }
