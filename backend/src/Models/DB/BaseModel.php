@@ -27,12 +27,15 @@ class BaseModel implements \JsonSerializable {
     $instance = self::getDatabaseInstance();
     $model = new static();
 
-    $result = $instance->table($model->table)->insert($attributes);
+    $allowedKeys = array_merge($model->fillable, [$model->primaryKey]);
+    $filtered = array_intersect_key($attributes, array_flip($allowedKeys));
+
+    $result = $instance->table($model->table)->insert($filtered);
     if (!$result) {
       throw new \Exception("Failed to create record in " . static::class);
     }
 
-    $created = static::firstWhere($attributes);
+    $created = static::firstWhere($filtered);
     if ($created === null) {
       throw new \Exception("Failed to load created record in " . static::class);
     }
