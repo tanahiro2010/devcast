@@ -45,6 +45,13 @@ class AuthApi implements _AuthApi {
       throw new Error(data.details.message || 'Failed to get access token')
     }
 
+    // バックエンドはリフレッシュトークンをローテーションするため、使用済みの
+    // refresh_tokenは無効化される。レスポンスに含まれる新しいrefresh_tokenで
+    // 保存済みの値を必ず置き換える。
+    if (data.data.refresh_token) {
+      localStorage.setItem('refresh_token', data.data.refresh_token)
+    }
+
     return data.data.access_token
   }
 

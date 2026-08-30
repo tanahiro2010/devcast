@@ -103,6 +103,19 @@ class User extends BaseModel {
     }
   }
 
+  /**
+   * @return RefreshToken[]
+   */
+  public function refreshTokens(): array {
+    return $this->hasMany(RefreshToken::class, 'user_id');
+  }
+
+  public function deleteAllRefreshTokens() {
+    foreach ($this->refreshTokens() as $refreshToken) {
+      $refreshToken->destroy();
+    }
+  }
+
   public function refresh(string $ipAddress, string $userAgent): string {
     $session = $this->createSession(
       Crypto::generateRandomString(16),

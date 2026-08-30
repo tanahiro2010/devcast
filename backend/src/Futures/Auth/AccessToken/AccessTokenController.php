@@ -7,7 +7,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Helpers\ApiResponseHelper;
 use App\Models\Response\Code as ErrorCode;
 use App\Models\Response\Status as ErrorStatus;
-use App\Models\DB\User;
 use App\Models\DB\RefreshToken;
 
 
@@ -28,15 +27,18 @@ class AccessTokenController
       return ApiResponseHelper::errorResponse($response, ErrorStatus::UNAUTHORIZED, ErrorCode::TOKEN_EXPIRED, "/auth/token/access_token", "Invalid or expired refresh token");
     }
 
-    /** @var User|null $user */
-    $user = $refreshToken->user();
-
-    if (!$user) {
+    try {
+      [$newAccessToken, $newRefreshTokenValue] = $refreshToken->rotate(
+        $request->getServerParams()['REMOTE_ADDR'] ?? '',
+        $request->getHeaderLine('User-Agent')
+      );
+    } catch (\Exception $e) {
       return ApiResponseHelper::errorResponse($response, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, "/auth/token/access_token", "User not found for this refresh token");
     }
 
-    $newAccessToken = $user->refresh($request->getServerParams()['REMOTE_ADDR'] ?? '', $request->getHeaderLine('User-Agent'));
-
-    return ApiResponseHelper::successResponse($response, ['access_token' => $newAccessToken], "Access token refreshed successfully");
+    return ApiResponseHelper::successResponse($response, [
+      'access_token' => $newAccessToken,
+      'refresh_token' => $newRefreshTokenValue,
+    ], "Access token refreshed successfully");
   }
 }
