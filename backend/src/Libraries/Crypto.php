@@ -84,6 +84,10 @@ class Crypto
       throw new \InvalidArgumentException("Invalid signature");
     }
 
+    if (isset($payload['exp']) && time() >= $payload['exp']) {
+      throw new \InvalidArgumentException("Token expired");
+    }
+
     return $payload;
   }
 }
