@@ -34,8 +34,7 @@ class CallbackController
       return ApiResponseHelper::errorResponse($response, ErrorStatus::BAD_REQUEST, ErrorCode::MISSING_CODE_OR_STATE, '/auth/callback');
     }
 
-    $expectedState = AuthService::consumeIssuedState();
-    if ($expectedState === null || !hash_equals($expectedState, $state)) {
+    if (!AuthService::consumeIssuedState($state)) {
       return ApiResponseHelper::errorResponse($response, ErrorStatus::BAD_REQUEST, ErrorCode::MISSING_CODE_OR_STATE, '/auth/callback', "Invalid or expired state");
     }
 
