@@ -69,6 +69,10 @@ class Crypto
     $payload = json_decode(self::base64UrlDecode($payloadB64), true);
     $signature = self::base64UrlDecode($signatureB64);
 
+    if (!is_array($header) || !isset($header['alg']) || !is_array($payload)) {
+      throw new \InvalidArgumentException("Invalid JWT format");
+    }
+
     if ($header['alg'] !== $alg->value) {
       throw new \InvalidArgumentException("Algorithm mismatch");
     }
