@@ -10,6 +10,7 @@ use App\Config\Config;
 use App\Helpers\ApiResponseHelper;
 use App\Libraries\Crypto;
 use App\Libraries\Algorithm;
+use App\Futures\Auth\AuthService;
 
 
 
@@ -29,35 +30,44 @@ class CallbackController
     $code = $params['code'] ?? null;
     $state = $params['state'] ?? null;
 
-    if (!$code || !$state) {
+    if (!is_string($code) || $code === '' || !is_string($state) || $state === '') {
       return ApiResponseHelper::errorResponse($response, ErrorStatus::BAD_REQUEST, ErrorCode::MISSING_CODE_OR_STATE, '/auth/callback');
+    }
+
+    $expectedState = AuthService::consumeIssuedState();
+    if ($expectedState === null || !hash_equals($expectedState, $state)) {
+      return ApiResponseHelper::errorResponse($response, ErrorStatus::BAD_REQUEST, ErrorCode::MISSING_CODE_OR_STATE, '/auth/callback', "Invalid or expired state");
     }
 
     try {
       $credentials = $this->callbackService->exchangeToken($code, $state);
-      
+
       if (!isset($credentials['access_token'])) {
         return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::TOKEN_EXCHANGE_FAILED, '/auth/callback');
       }
-      
+
       $profile = $this->callbackService->getProfile($credentials['access_token']);
       $user = $this->callbackService->findOrCreateUser('github', $profile);
-      $expiredAt = isset($credentials['expires_in']) ? date('Y-m-d H:i:s', time() + $credentials['expires_in']) : null;
-      
+      // credentials.token_expires_at はGitHub側のアクセストークンの有効期限であり、
+      // アプリのセッション有効期限とは独立して管理する(GitHubがexpires_inを返さない場合でも
+      // セッションが無期限にならないようにするため)。
+      $credentialExpiredAt = isset($credentials['expires_in']) ? date('Y-m-d H:i:s', time() + $credentials['expires_in']) : null;
+
       $credential =$user->createCredential(
         'github',
-        $credentials['access_token'], 
-        $credentials['refresh_token'] ?? null, 
-        $expiredAt, 
-        $credentials['scope'] ?? null, 
+        $credentials['access_token'],
+        $credentials['refresh_token'] ?? null,
+        $credentialExpiredAt,
+        $credentials['scope'] ?? null,
         $credentials['token_type'] ?? 'Bearer'
       );
 
+      $sessionExpiresAt = date('Y-m-d H:i:s', strtotime('+7 days'));
       $session = $user->createSession(
         Crypto::generateRandomString(16), // session_id
         $request->getServerParams()['REMOTE_ADDR'] ?? null, // ip_address
         $request->getHeaderLine('User-Agent') ?? null, // user_agent
-        $expiredAt // expires_at
+        $sessionExpiresAt // expires_at
       );
 
       $jwtToken = Crypto::jwtEncode([
@@ -73,7 +83,8 @@ class CallbackController
 
       return ApiResponseHelper::redirect($response, $redirectUrl);
     } catch (\Exception $e) {
-      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::TOKEN_EXCHANGE_FAILED, '/auth/callback', $e->getMessage());
+      error_log('[auth/callback] token exchange failed: ' . $e->getMessage());
+      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::TOKEN_EXCHANGE_FAILED, '/auth/callback');
     }
   }
 }
