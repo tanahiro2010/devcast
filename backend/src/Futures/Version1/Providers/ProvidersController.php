@@ -24,7 +24,12 @@ class ProvidersController {
     $validationResult = ValidateHelper::validateRequestBody($request->getParsedBody(), [
       'provider', 'token', 'expires_at'
     ]);
-    if (!$validationResult) {
+    if (
+      !$validationResult
+      || !is_string($validationResult['provider'])
+      || !is_string($validationResult['token'])
+      || !is_string($validationResult['expires_at'])
+    ) {
       return ApiResponseHelper::errorResponse($response, ErrorStatus::BAD_REQUEST, ErrorCode::INVALID_REQUEST_BODY, "/providers", "Invalid request body");
     }
 
@@ -33,13 +38,23 @@ class ProvidersController {
 
     $provider = $validationResult['provider'];
     $token = $validationResult['token'];
-    $expiresAt = new \DateTime($validationResult['expires_at']);
+
+    try {
+      $expiresAt = new \DateTime($validationResult['expires_at']);
+    } catch (\Exception $e) {
+      return ApiResponseHelper::errorResponse($response, ErrorStatus::BAD_REQUEST, ErrorCode::INVALID_FIELD_FORMAT, "/providers", "Invalid expires_at");
+    }
+
+    if ($user->provider($provider) !== null) {
+      return ApiResponseHelper::errorResponse($response, ErrorStatus::BAD_REQUEST, ErrorCode::DUPLICATE_RECORD, "/providers", "Provider already registered. Use PUT to update it.");
+    }
 
     try {
       $user->registerProvider($provider, $token, $expiresAt);
       return ApiResponseHelper::successResponse($response, null, "Provider registered successfully");
     } catch (\Exception $e) {
-      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "/providers", "Failed to register provider: " . $e->getMessage());
+      error_log('[providers.registerProvider] ' . $e->getMessage());
+      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "/providers", "Failed to register provider");
     }
   }
 
@@ -47,7 +62,12 @@ class ProvidersController {
     $validationResult = ValidateHelper::validateRequestBody($request->getParsedBody(), [
       'provider', 'token', 'expires_at'
     ]);
-    if (!$validationResult) {
+    if (
+      !$validationResult
+      || !is_string($validationResult['provider'])
+      || !is_string($validationResult['token'])
+      || !is_string($validationResult['expires_at'])
+    ) {
       return ApiResponseHelper::errorResponse($response, ErrorStatus::BAD_REQUEST, ErrorCode::INVALID_REQUEST_BODY, "/providers", "Invalid request body");
     }
 
@@ -56,14 +76,24 @@ class ProvidersController {
 
     $provider = $validationResult['provider'];
     $token = $validationResult['token'];
-    $expiresAt = new \DateTime($validationResult['expires_at']);
 
     try {
-      $providerToken = $user->provider($provider);
+      $expiresAt = new \DateTime($validationResult['expires_at']);
+    } catch (\Exception $e) {
+      return ApiResponseHelper::errorResponse($response, ErrorStatus::BAD_REQUEST, ErrorCode::INVALID_FIELD_FORMAT, "/providers", "Invalid expires_at");
+    }
+
+    $providerToken = $user->provider($provider);
+    if (!$providerToken) {
+      return ApiResponseHelper::errorResponse($response, ErrorStatus::NOT_FOUND, ErrorCode::PROVIDER_NOT_FOUND, "/providers", "Provider not found");
+    }
+
+    try {
       $providerToken->updateToken($token, $expiresAt);
       return ApiResponseHelper::successResponse($response, null, "Provider updated successfully");
     } catch (\Exception $e) {
-      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "/providers", "Failed to update provider: " . $e->getMessage());
+      error_log('[providers.updateProvider] ' . $e->getMessage());
+      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "/providers", "Failed to update provider");
     }
   }
 
@@ -71,7 +101,7 @@ class ProvidersController {
     $validationResult = ValidateHelper::validateRequestBody($request->getParsedBody(), [
       'provider'
     ]);
-    if (!$validationResult) {
+    if (!$validationResult || !is_string($validationResult['provider'])) {
       return ApiResponseHelper::errorResponse($response, ErrorStatus::BAD_REQUEST, ErrorCode::INVALID_REQUEST_BODY, "/providers", "Invalid request body");
     }
 
@@ -88,7 +118,8 @@ class ProvidersController {
       $providerToken->destroy();
       return ApiResponseHelper::successResponse($response, null, "Provider deleted successfully");
     } catch (\Exception $e) {
-      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "/providers", "Failed to delete provider: " . $e->getMessage());
+      error_log('[providers.deleteProvider] ' . $e->getMessage());
+      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "/providers", "Failed to delete provider");
     }
   }
 }
