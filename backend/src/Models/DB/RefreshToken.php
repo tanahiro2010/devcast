@@ -44,21 +44,24 @@ class RefreshToken extends BaseModel {
     return $currentTime >= $expirationTime;
   }
 
-  public function refresh(string $ipAddress, string $userAgent) {
+  /**
+   * リフレッシュトークンを使用してアクセストークンを再発行すると同時に、
+   * このリフレッシュトークン自体を無効化し新しいものに置き換える(ローテーション)。
+   * 使用済みのリフレッシュトークンは再利用できなくなるため、漏洩時の被害を
+   * 「発覚するまで無制限に使われ続ける」状態から「1回使われたら気付ける」状態にする。
+   *
+   * @return array{0: string, 1: string} [新しいアクセストークン(JWT), 新しいリフレッシュトークン文字列]
+   */
+  public function rotate(string $ipAddress, string $userAgent): array {
     $user = $this->user();
     if (!$user) {
       throw new \Exception("User not found for this refresh token");
     }
 
-    $id = Crypto::generateRandomString(32);
+    $newAccessToken = $user->refresh($ipAddress, $userAgent);
+    $newRefreshTokenValue = $user->refreshToken();
+    $this->destroy();
 
-    $token = $user->createSession(
-      $id,
-      $ipAddress,
-      $userAgent,
-      date('Y-m-d H:i:s', strtotime('+7 days'))
-    );
-
-    return $token;
+    return [$newAccessToken, $newRefreshTokenValue];
   }
 }

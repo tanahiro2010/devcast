@@ -1,6 +1,20 @@
 CGIPassAuth On
 
 RewriteEngine On
+
+# アプリケーション内部のファイル(マイグレーション/PHPクラス/vendorライブラリ等)は
+# index.php のルーティング・認証ミドルウェアを一切経由せずに直接実行・閲覧できてしまうため、
+# フロントコントローラ(index.php)以外への直接アクセスを拒否する。
+RewriteCond %{REQUEST_URI} !^/index\.php$ [NC]
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule \.php$ - [F,L]
+
+RewriteCond %{REQUEST_URI} ^/(src|scripts|vendor|tests)(/|$) [NC]
+RewriteRule ^ - [F,L]
+
+RewriteCond %{REQUEST_URI} \.(json|lock|md|yaml|yml)$ [NC]
+RewriteRule ^ - [F,L]
+
 RewriteCond %{HTTP:Authorization} .
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 RewriteCond %{REQUEST_FILENAME} !-f

@@ -1,6 +1,11 @@
 <?php
 use App\Database\Database;
 
+if (PHP_SAPI !== 'cli') {
+    http_response_code(403);
+    exit('This script can only be run from the CLI.');
+}
+
 require __DIR__ . '/../vendor/autoload.php';
 
 $database = new Database();

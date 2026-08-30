@@ -35,11 +35,12 @@ class User extends BaseModel {
   }
 
   public function createCredential(string $provider, string $accessToken, ?string $refreshToken, ?string $expiresAt, ?string $scope, string $tokenType) {
+    $key = Config::env('CRYPTO_KEY');
     $credential = Credential::create([
       'user_id'    => $this->id,
       'provider'   => $provider,
-      'access_token'  => $accessToken,
-      'refresh_token' => $refreshToken,
+      'access_token'  => Crypto::encrypt($accessToken, $key),
+      'refresh_token' => $refreshToken !== null ? Crypto::encrypt($refreshToken, $key) : null,
       'token_expires_at' => $expiresAt,
       'scope' =>      $scope,
       'token_type' => $tokenType,
@@ -102,6 +103,19 @@ class User extends BaseModel {
     }
   }
 
+  /**
+   * @return RefreshToken[]
+   */
+  public function refreshTokens(): array {
+    return $this->hasMany(RefreshToken::class, 'user_id');
+  }
+
+  public function deleteAllRefreshTokens() {
+    foreach ($this->refreshTokens() as $refreshToken) {
+      $refreshToken->destroy();
+    }
+  }
+
   public function refresh(string $ipAddress, string $userAgent): string {
     $session = $this->createSession(
       Crypto::generateRandomString(16),
@@ -150,7 +164,7 @@ class User extends BaseModel {
     return ProviderToken::create([
       'user_id' => $this->id,
       'provider' => $provider,
-      'token' => $token,
+      'token' => Crypto::encrypt($token, Config::env('CRYPTO_KEY')),
       'expires_at' => $expiresAt->format('Y-m-d H:i:s'),
     ]);
   }

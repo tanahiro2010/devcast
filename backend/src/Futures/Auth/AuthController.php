@@ -17,6 +17,9 @@ class AuthController
       return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "/auth", "Failed to generate OAuth URL");
     }
 
-    return ApiResponseHelper::successResponse($response, ['url' => $oauthUrl], "OAuth URL generated successfully");
+    // state はリクエストごとに一意である必要があるため、プロキシ/CDN等にキャッシュされてはならない。
+    return ApiResponseHelper::successResponse($response, ['url' => $oauthUrl], "OAuth URL generated successfully")
+      ->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
+      ->withHeader('Pragma', 'no-cache');
   }
 }

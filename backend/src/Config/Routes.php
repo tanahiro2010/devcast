@@ -25,7 +25,7 @@ class Routes {
           Route::get('/', [new AuthController(), 'oauthUrl']),
 
           Route::group('/token', [
-            Route::get('/access_token', [new AccessTokenController(), 'accessToken']),
+            Route::post('/access_token', [new AccessTokenController(), 'accessToken']),
 
             Route::middleware(new AuthMiddleware(), [
               Route::get('/refresh_token', [new RefreshTokenController(), 'refresh']),

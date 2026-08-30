@@ -1,4 +1,9 @@
 <?php
+if (PHP_SAPI !== 'cli') {
+    http_response_code(403);
+    exit('This script can only be run from the CLI.');
+}
+
 $name = $argv[1] ?? null;
 
 if (!$name) {

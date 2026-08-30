@@ -22,8 +22,10 @@ class RefreshTokenController
 
     try {
       $user->deleteAllSessions();
+      $user->deleteAllRefreshTokens();
     } catch (\Exception $e) {
-      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "/auth/token/refresh_token", "Failed to delete existing sessions: " . $e->getMessage());
+      error_log('[auth/token/refresh_token] ' . $e->getMessage());
+      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "/auth/token/refresh_token", "Failed to delete existing sessions");
     }
 
     $newAccessToken = $user->refresh($request->getServerParams()['REMOTE_ADDR'], $request->getHeaderLine('User-Agent'));

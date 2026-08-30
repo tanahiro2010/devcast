@@ -35,14 +35,21 @@ class AuthApi implements _AuthApi {
       throw new Error('Refresh token not found')
     }
 
-    const path = '/auth/token/access_token?refresh_token=' + encodeURIComponent(refreshToken)
-    const response = await apiFetch(path, {
-      method: 'GET',
+    const response = await apiFetch('/auth/token/access_token', {
+      method: 'POST',
+      body: JSON.stringify({ refresh_token: refreshToken }),
     })
     const data = await response.json()
 
     if (!response.ok) {
       throw new Error(data.details.message || 'Failed to get access token')
+    }
+
+    // バックエンドはリフレッシュトークンをローテーションするため、使用済みの
+    // refresh_tokenは無効化される。レスポンスに含まれる新しいrefresh_tokenで
+    // 保存済みの値を必ず置き換える。
+    if (data.data.refresh_token) {
+      localStorage.setItem('refresh_token', data.data.refresh_token)
     }
 
     return data.data.access_token
