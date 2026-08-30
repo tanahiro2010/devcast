@@ -15,9 +15,10 @@ class AccessTokenController
 {
   public function accessToken(Request $request, Response $response)
   {
-    $refreshTokenValue = $request->getQueryParams()['refresh_token'] ?? null;
+    $body = $request->getParsedBody();
+    $refreshTokenValue = is_array($body) ? ($body['refresh_token'] ?? null) : null;
 
-    if (!$refreshTokenValue) {
+    if (!is_string($refreshTokenValue) || $refreshTokenValue === '') {
       return ApiResponseHelper::errorResponse($response, ErrorStatus::BAD_REQUEST, ErrorCode::MISSING_REQUIRED_FIELDS, "/auth/token/access_token", "Missing refresh_token");
     }
 

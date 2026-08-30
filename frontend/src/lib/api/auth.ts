@@ -35,9 +35,9 @@ class AuthApi implements _AuthApi {
       throw new Error('Refresh token not found')
     }
 
-    const path = '/auth/token/access_token?refresh_token=' + encodeURIComponent(refreshToken)
-    const response = await apiFetch(path, {
-      method: 'GET',
+    const response = await apiFetch('/auth/token/access_token', {
+      method: 'POST',
+      body: JSON.stringify({ refresh_token: refreshToken }),
     })
     const data = await response.json()
 
