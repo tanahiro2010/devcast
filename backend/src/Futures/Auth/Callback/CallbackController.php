@@ -52,7 +52,7 @@ class CallbackController
             // セッションが無期限にならないようにするため)。
             $credentialExpiredAt = isset($credentials['expires_in']) ? date('Y-m-d H:i:s', time() + $credentials['expires_in']) : null;
 
-            $credential =$user->createCredential(
+            $user->createCredential(
                 'github',
                 $credentials['access_token'],
                 $credentials['refresh_token'] ?? null,
