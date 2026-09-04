@@ -9,8 +9,10 @@ use App\Models\Response\Code as ErrorCode;
 use App\Models\Response\Status as ErrorStatus;
 use App\Models\DB\User;
 
-class ProvidersController {
-    public function getProviders(Request $request, Response $response) {
+class ProvidersController
+{
+    public function getProviders(Request $request, Response $response)
+    {
         /** @var User $user */
         $user = $request->getAttribute('user');
         $providers = $user->providers();
@@ -20,7 +22,8 @@ class ProvidersController {
         ]);
     }
 
-    public function registerProvider(Request $request, Response $response) {
+    public function registerProvider(Request $request, Response $response)
+    {
         $validationResult = ValidateHelper::validateRequestBody($request->getParsedBody(), [
             'provider', 'token', 'expires_at'
         ]);
@@ -58,7 +61,8 @@ class ProvidersController {
         }
     }
 
-    public function updateProvider(Request $request, Response $response) {
+    public function updateProvider(Request $request, Response $response)
+    {
         $validationResult = ValidateHelper::validateRequestBody($request->getParsedBody(), [
             'provider', 'token', 'expires_at'
         ]);
@@ -97,7 +101,8 @@ class ProvidersController {
         }
     }
 
-    public function deleteProvider(Request $request, Response $response) {
+    public function deleteProvider(Request $request, Response $response)
+    {
         $validationResult = ValidateHelper::validateRequestBody($request->getParsedBody(), [
             'provider'
         ]);

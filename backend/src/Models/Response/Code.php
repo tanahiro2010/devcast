@@ -1,7 +1,8 @@
 <?php
 namespace App\Models\Response;
 
-enum OAuthCode: string {
+enum OAuthCode: string
+{
     case MISSING_CODE_OR_STATE = "MISSING_CODE_OR_STATE";
     case INVALID_CODE = "INVALID_CODE";
     case INVALID_STATE = "INVALID_STATE";
@@ -14,7 +15,8 @@ enum OAuthCode: string {
     case INSUFFICIENT_SCOPE = "INSUFFICIENT_SCOPE";
 }
 
-enum AuthCode: string {
+enum AuthCode: string
+{
     case INVALID_CREDENTIALS = "INVALID_CREDENTIALS";
     case ACCOUNT_LOCKED = "ACCOUNT_LOCKED";
     case ACCOUNT_DISABLED = "ACCOUNT_DISABLED";
@@ -22,7 +24,8 @@ enum AuthCode: string {
 }
 
 
-enum Code: string {
+enum Code: string
+{
     // OAuth Codes
     case INVALID_CODE = "INVALID_CODE";
     case INVALID_STATE = "INVALID_STATE";

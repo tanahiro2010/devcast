@@ -2,13 +2,15 @@
 namespace App\Libraries;
 use GuzzleHttp\Client;
 
-class GitHub {
+class GitHub
+{
     private Client $client;
     private string $clientId;
     private string $clientSecret;
     private string $redirectUri;
 
-    public function __construct(string $clientId, string $clientSecret, string $redirectUri) {
+    public function __construct(string $clientId, string $clientSecret, string $redirectUri)
+    {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->redirectUri = $redirectUri;
@@ -17,7 +19,8 @@ class GitHub {
         ]);
     }
 
-    public function getAccessToken(string $code, string $state): array {
+    public function getAccessToken(string $code, string $state): array
+    {
         $response = $this->client->post('login/oauth/access_token', [
             'form_params' => [
                 'client_id' => $this->clientId,
@@ -39,7 +42,8 @@ class GitHub {
         return $data;
     }
 
-    public function getProfile(string $accessToken): array {
+    public function getProfile(string $accessToken): array
+    {
         $response = $this->client->get('https://api.github.com/user', [
             'headers' => [
                 'Authorization' => 'Bearer ' . $accessToken,

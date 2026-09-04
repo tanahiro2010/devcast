@@ -3,24 +3,29 @@ namespace App\Models\DB;
 use App\Models\DB\BaseModel;
 use App\Models\DB\User;
 
-class Credential extends BaseModel {
+class Credential extends BaseModel
+{
     protected $table = 'credentials';
     protected $primaryKey = 'id';
     protected $fillable = ['id', 'provider', 'user_id', 'access_token', 'refresh_token', 'token_expires_at', 'scope', 'token_type', 'created_at', 'updated_at'];
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public static function findByUserId($userId) {
+    public static function findByUserId($userId)
+    {
         return self::firstWhere(['user_id' => $userId]);
     }
 
-    public function user(): ?User {
+    public function user(): ?User
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function isTokenExpired() {
+    public function isTokenExpired()
+    {
         if ($this->token_expires_at === null) {
             return true; // If there's no expiration time, consider it expired
         }
@@ -29,7 +34,8 @@ class Credential extends BaseModel {
         return $currentTime >= $expirationTime;
     }
 
-    public function updateToken($accessToken, $refreshToken, $expiresAt) {
+    public function updateToken($accessToken, $refreshToken, $expiresAt)
+    {
         $this->update([
             'access_token' => $accessToken,
             'refresh_token' => $refreshToken,
@@ -37,7 +43,8 @@ class Credential extends BaseModel {
         ]);
     }
 
-    public function refreshAccessToken() {
+    public function refreshAccessToken()
+    {
         // Implement the logic to refresh the access token using the refresh token
         // This will depend on the OAuth provider's API
         // For example, you might make an HTTP request to the provider's token endpoint

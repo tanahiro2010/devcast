@@ -1,12 +1,14 @@
 <?php
 namespace App\Models\Response\Base;
 
-class Details {
+class Details
+{
     public $instance;
     public $date;
     public $status;
 
-    public function __construct(string $instance, string | null $date = null, int $status = 400) {
+    public function __construct(string $instance, string | null $date = null, int $status = 400)
+    {
         if ($date === null) {
             $date = date('Y-m-d H:i:s');
         }
@@ -15,7 +17,8 @@ class Details {
         $this->status = $status;
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return array(
             'instance' => $this->instance,
             'date' => $this->date,

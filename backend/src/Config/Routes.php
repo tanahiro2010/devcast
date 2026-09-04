@@ -14,10 +14,12 @@ use App\Futures\Auth\Profile\ProfileController;
 use App\Futures\Version1\Version1Controller;
 use App\Futures\Version1\Providers\ProvidersController;
 
-class Routes {
+class Routes
+{
     private static ?RouterRoutes $instance = null;
 
-    public static function build(): RouterRoutes {
+    public static function build(): RouterRoutes
+    {
         if (self::$instance === null) {
             self::$instance = new RouterRoutes([
                 Route::get('/health', [new HealthController(), 'health']),

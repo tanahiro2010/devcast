@@ -3,10 +3,12 @@ namespace App\Config;
 
 use App\Models\Plan;
 
-class Pricing {
+class Pricing
+{
     private static ?array $plans = null;
 
-    public static function plans(): array {
+    public static function plans(): array
+    {
         if (self::$plans === null) {
             self::$plans = [
                 new Plan('free', 'Free', 0, null, [

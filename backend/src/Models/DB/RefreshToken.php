@@ -5,16 +5,19 @@ use App\Models\DB\BaseModel;
 use App\Models\DB\User;
 use App\Libraries\Crypto;
 
-class RefreshToken extends BaseModel {
+class RefreshToken extends BaseModel
+{
     protected $table = 'refresh_tokens';
     protected $primaryKey = 'id';
     protected $fillable = ['id', 'user_id', 'token', 'expires_at', 'created_at', 'updated_at'];
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public static function createToken(string $userId, ?string $token, ?\DateTime $expiresAt) {
+    public static function createToken(string $userId, ?string $token, ?\DateTime $expiresAt)
+    {
         if ($token === null) $token = Crypto::generateRandomString(64); // Generate a random token if not provided
 
         if ($expiresAt === null)
@@ -27,15 +30,18 @@ class RefreshToken extends BaseModel {
         ]);
     }
 
-    public static function findByToken(string $token) {
+    public static function findByToken(string $token)
+    {
         return self::firstWhere(['token' => $token]);
     }
 
-    public function user(): ?User {
+    public function user(): ?User
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function isTokenExpired() {
+    public function isTokenExpired()
+    {
         if ($this->expires_at === null) {
             return true; // If there's no expiration time, consider it expired
         }
@@ -52,7 +58,8 @@ class RefreshToken extends BaseModel {
      *
      * @return array{0: string, 1: string} [新しいアクセストークン(JWT), 新しいリフレッシュトークン文字列]
      */
-    public function rotate(string $ipAddress, string $userAgent): array {
+    public function rotate(string $ipAddress, string $userAgent): array
+    {
         $user = $this->user();
         if (!$user) {
             throw new \Exception("User not found for this refresh token");

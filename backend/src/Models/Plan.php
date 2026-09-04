@@ -1,7 +1,8 @@
 <?php
 namespace App\Models;
 
-class Plan {
+class Plan
+{
     public string $id;
     public string $name;
     public int $priceMonthly;

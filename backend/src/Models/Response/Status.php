@@ -1,7 +1,8 @@
 <?php
 namespace App\Models\Response;
 
-enum Status: int {
+enum Status: int
+{
     case BAD_REQUEST = 400;
     case UNAUTHORIZED = 401;
     case FORBIDDEN = 403;

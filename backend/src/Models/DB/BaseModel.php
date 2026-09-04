@@ -5,24 +5,28 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 
 #[\AllowDynamicProperties]
-class BaseModel implements \JsonSerializable {
+class BaseModel implements \JsonSerializable
+{
     protected $table;
     protected $primaryKey = 'id';
     protected $fillable = [];
     protected $properties = [];
     protected $database;
 
-    public function __construct() {
+    public function __construct()
+    {
         $database = new Database();
         $this->database = $database->getInstance();
     }
 
-    private static function getDatabaseInstance(): Capsule {
+    private static function getDatabaseInstance(): Capsule
+    {
         $database = new Database();
         return $database->getInstance();
     }
 
-    static function create($attributes = []): static {
+    static function create($attributes = []): static
+    {
         // Implementation for creating a new record in the database
         $instance = self::getDatabaseInstance();
         $model = new static();
@@ -43,7 +47,8 @@ class BaseModel implements \JsonSerializable {
         return $created;
     }
 
-    static function where($attributes = []) {
+    static function where($attributes = [])
+    {
         // Implementation for querying records based on a condition
         $model = new static();
         $database = self::getDatabaseInstance();
@@ -60,7 +65,8 @@ class BaseModel implements \JsonSerializable {
         return $query;
     }
 
-    static function firstWhere($attributes = []): ?static {
+    static function firstWhere($attributes = []): ?static
+    {
         $row = static::where($attributes)->first();
         if ($row === null) {
             return null;
@@ -70,7 +76,8 @@ class BaseModel implements \JsonSerializable {
         return $model->hydrate($row);
     }
 
-    public static function whereAll($attributes = []): array {
+    public static function whereAll($attributes = []): array
+    {
         $rows = static::where($attributes)->get();
         return $rows->map(function ($row) {
             $model = new static();
@@ -78,7 +85,8 @@ class BaseModel implements \JsonSerializable {
         })->all();
     }
 
-    public static function all($columns = ['*']) {
+    public static function all($columns = ['*'])
+    {
         $model = new static();
         $database = self::getDatabaseInstance();
         return $database->table($model->table)->get($columns)->map(function ($row) use ($model) {
@@ -86,7 +94,8 @@ class BaseModel implements \JsonSerializable {
         });
     }
 
-    public static function find(string | int $id) {
+    public static function find(string | int $id)
+    {
         $model = new static();
         $database = self::getDatabaseInstance();
         $row = $database->table($model->table)->where($model->primaryKey, $id)->first();
@@ -98,7 +107,8 @@ class BaseModel implements \JsonSerializable {
         return $model->hydrate($row);
     }
 
-    public function fill(array $attributes): static {
+    public function fill(array $attributes): static
+    {
         foreach ($attributes as $key => $value) {
             $this->$key = $value;
         }
@@ -106,12 +116,14 @@ class BaseModel implements \JsonSerializable {
         return $this;
     }
 
-    public function update(array $attributes): static {
+    public function update(array $attributes): static
+    {
         $this->fill($attributes)->save();
         return $this;
     }
 
-    public function destroy(): true {
+    public function destroy(): true
+    {
         $database = $this->database;
         try {
             $database->table($this->table)->where($this->primaryKey, $this->properties[$this->primaryKey])->delete();
@@ -121,14 +133,16 @@ class BaseModel implements \JsonSerializable {
         }
     }
 
-    public function __get($name) {
+    public function __get($name)
+    {
         if (array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
         throw new \Exception("Property $name does not exist on " . static::class);
     }
 
-    public function __set($name, $value) {
+    public function __set($name, $value)
+    {
         if (in_array($name, $this->fillable, true) || $name === $this->primaryKey) {
             $this->properties[$name] = $value;
         } else {
@@ -136,15 +150,18 @@ class BaseModel implements \JsonSerializable {
         }
     }
 
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return $this->properties;
     }
 
-    public function jsonSerialize(): array {
+    public function jsonSerialize(): array
+    {
         return $this->toArray();
     }
 
-    public function save(): true {
+    public function save(): true
+    {
         $database = $this->database;
         try {
             if (isset($this->properties[$this->primaryKey])) {
@@ -163,7 +180,8 @@ class BaseModel implements \JsonSerializable {
         }
     }
 
-    public function get(string $key) {
+    public function get(string $key)
+    {
         if (array_key_exists($key, $this->properties)) {
             return $this->properties[$key];
         }
@@ -174,7 +192,8 @@ class BaseModel implements \JsonSerializable {
      * @param class-string<BaseModel> $related
      * $foreignKey is a column on this model that points at $ownerKey (defaults to $related's primary key).
      */
-    protected function belongsTo(string $related, string $foreignKey, ?string $ownerKey = null): ?BaseModel {
+    protected function belongsTo(string $related, string $foreignKey, ?string $ownerKey = null): ?BaseModel
+    {
         $value = $this->properties[$foreignKey] ?? null;
         if ($value === null) {
             return null;
@@ -192,7 +211,8 @@ class BaseModel implements \JsonSerializable {
      * $foreignKey is a column on $related that points back at this model's $localKey (defaults to this model's primary key).
      * @return BaseModel[]
      */
-    protected function hasMany(string $related, string $foreignKey, ?string $localKey = null): array {
+    protected function hasMany(string $related, string $foreignKey, ?string $localKey = null): array
+    {
         $localKey ??= $this->primaryKey;
         $value = $this->properties[$localKey] ?? null;
         if ($value === null) {
@@ -206,7 +226,8 @@ class BaseModel implements \JsonSerializable {
      * @param class-string<BaseModel> $related
      * $foreignKey is a column on $related that points back at this model's $localKey (defaults to this model's primary key).
      */
-    protected function hasOne(string $related, string $foreignKey, ?string $localKey = null): ?BaseModel {
+    protected function hasOne(string $related, string $foreignKey, ?string $localKey = null): ?BaseModel
+    {
         $localKey ??= $this->primaryKey;
         $value = $this->properties[$localKey] ?? null;
         if ($value === null) {
@@ -216,7 +237,8 @@ class BaseModel implements \JsonSerializable {
         return $related::firstWhere([$foreignKey => $value]);
     }
 
-    private function hydrate(\stdClass $row): static {
+    private function hydrate(\stdClass $row): static
+    {
         foreach (get_object_vars($row) as $key => $value) {
             if (in_array($key, $this->fillable, true) || $key === $this->primaryKey) {
                 $this->properties[$key] = $value;

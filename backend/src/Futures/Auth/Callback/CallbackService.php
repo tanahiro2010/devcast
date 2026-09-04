@@ -5,10 +5,12 @@ use App\Libraries\GitHub;
 use App\Config\Config;
 use App\Models\DB\User;
 
-class CallbackService {
+class CallbackService
+{
     private GitHub $github;
 
-    public function __construct() {
+    public function __construct()
+    {
         $oauthConfig = Config::oauth();
         $clientId = $oauthConfig['github']['client_id'];
         $clientSecret = $oauthConfig['github']['client_secret'];
@@ -17,7 +19,8 @@ class CallbackService {
         $this->github = new GitHub($clientId, $clientSecret, $redirectUri);
     }
 
-    public function exchangeToken(string $code, string $state): array {
+    public function exchangeToken(string $code, string $state): array
+    {
         $tokenData = $this->github->getAccessToken($code, $state);
 
         if (!isset($tokenData['access_token'])) {
@@ -27,11 +30,13 @@ class CallbackService {
         return $tokenData;
     }
 
-    public function getProfile(string $accessToken): array {
+    public function getProfile(string $accessToken): array
+    {
         return $this->github->getProfile($accessToken);
     }
 
-    public function findOrCreateUser(string $provider, array $profile): User {
+    public function findOrCreateUser(string $provider, array $profile): User
+    {
         $user = User::findByProviderId($provider, $profile['id']);
 
         if (!$user) {

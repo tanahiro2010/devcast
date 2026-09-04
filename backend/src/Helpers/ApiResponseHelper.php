@@ -30,8 +30,10 @@ const RESPONSE_CONFIG = array(
     )
 );
 
-class ApiResponseHelper {
-    static function sendResponse(Response $response, int $statusCode, array $data): Response {
+class ApiResponseHelper
+{
+    static function sendResponse(Response $response, int $statusCode, array $data): Response
+    {
         $response->getBody()->write(json_encode(
             $data,
             JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
@@ -58,12 +60,14 @@ class ApiResponseHelper {
         return self::sendResponse($response, $status->value, $errorResponse->toArray());
     }
 
-    static function successResponse(Response $response, mixed $data = null, ?string $message = null, int $status = 200): Response {
+    static function successResponse(Response $response, mixed $data = null, ?string $message = null, int $status = 200): Response
+    {
         $successResponse = new SuccessResponse($data, $message ?? "Success");
         return self::sendResponse($response, $status, $successResponse->toArray());
     }
 
-    static function redirect(Response $response, string $url, int $status = 302): Response {
+    static function redirect(Response $response, string $url, int $status = 302): Response
+    {
         return $response->withHeader('Location', $url)->withStatus($status);
     }
 }

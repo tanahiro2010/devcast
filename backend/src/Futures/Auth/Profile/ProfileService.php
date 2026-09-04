@@ -2,8 +2,10 @@
 namespace App\Futures\Auth\Profile;
 use App\Models\DB\User;
 
-class ProfileService {
-    static function getProfile(User $user) {
+class ProfileService
+{
+    static function getProfile(User $user)
+    {
         $profile = [
             'id' => $user->id,
             'username' => $user->username,

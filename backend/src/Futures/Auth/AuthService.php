@@ -5,10 +5,12 @@ use App\Config\Config;
 use App\Database\Database;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class AuthService {
+class AuthService
+{
     private const STATE_TTL_SECONDS = 600; // 10分
 
-    public static function getOauthUrl() {
+    public static function getOauthUrl()
+    {
         $oauthConfig = Config::oauth();
 
         $state = bin2hex(random_bytes(16));
@@ -39,7 +41,8 @@ class AuthService {
      * PHPネイティブセッション(Cookie)には依存できない(credentials未設定のfetchでは
      * Set-Cookieがブラウザに保存されない)。そのためstateはDBに永続化して検証する。
      */
-    public static function consumeIssuedState(string $state): bool {
+    public static function consumeIssuedState(string $state): bool
+    {
         $db = (new Database())->getInstance();
 
         $row = $db->table('oauth_states')->where('state', $state)->first();

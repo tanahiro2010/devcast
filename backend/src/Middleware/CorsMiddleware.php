@@ -7,8 +7,10 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
-class CorsMiddleware implements MiddlewareInterface {
-    public function process(Request $request, RequestHandler $handler): Response {
+class CorsMiddleware implements MiddlewareInterface
+{
+    public function process(Request $request, RequestHandler $handler): Response
+    {
         $config = Config::server();
         // Set CORS headers
         header("Access-Control-Allow-Origin: " . $config['frontend']['base_url']);

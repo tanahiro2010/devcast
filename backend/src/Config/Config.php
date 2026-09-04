@@ -1,10 +1,12 @@
 <?php
 namespace App\Config;
 
-class Config {
+class Config
+{
     private static ?array $oauth = null;
 
-    public static function env(string $name): string | false {
+    public static function env(string $name): string | false
+    {
         $value = getenv($name);
         if ($value !== false) {
             return $value;
@@ -13,7 +15,8 @@ class Config {
         return $_SERVER[$name] ?? $_ENV[$name] ?? false;
     }
 
-    public static function oauth(): array {
+    public static function oauth(): array
+    {
         $config = self::server();
         if (self::$oauth === null) {
             self::$oauth = [
@@ -30,7 +33,8 @@ class Config {
         return self::$oauth;
     }
 
-    public static function server(): array {
+    public static function server(): array
+    {
         return [
             'frontend' => [
                 'base_url' => self::env('FRONTEND_URL') ?: 'http://localhost:5174',
