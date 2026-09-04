@@ -5,14 +5,14 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Database
 {
-    private static $instance = null;
+    private static ?Capsule $instance = null;
 
     public function __construct()
     {
         self::init();
     }
 
-    public static function init()
+    public static function init(): void
     {
         if (self::$instance === null) {
             self::$instance = new Capsule();
