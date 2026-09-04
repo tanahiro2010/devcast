@@ -7,16 +7,17 @@ use App\Libraries\Crypto;
 
 class RefreshToken extends BaseModel
 {
-    protected $table = 'refresh_tokens';
-    protected $primaryKey = 'id';
-    protected $fillable = ['id', 'user_id', 'token', 'expires_at', 'created_at', 'updated_at'];
+    protected string $table = 'refresh_tokens';
+    protected string $primaryKey = 'id';
+    /** @var string[] */
+    protected array $fillable = ['id', 'user_id', 'token', 'expires_at', 'created_at', 'updated_at'];
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    public static function createToken(string $userId, ?string $token, ?\DateTime $expiresAt)
+    public static function createToken(string $userId, ?string $token, ?\DateTime $expiresAt): static
     {
         if ($token === null) $token = Crypto::generateRandomString(64); // Generate a random token if not provided
 
@@ -30,7 +31,7 @@ class RefreshToken extends BaseModel
         ]);
     }
 
-    public static function findByToken(string $token)
+    public static function findByToken(string $token): ?static
     {
         return self::firstWhere(['token' => $token]);
     }
@@ -40,7 +41,7 @@ class RefreshToken extends BaseModel
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function isTokenExpired()
+    public function isTokenExpired(): bool
     {
         if ($this->expires_at === null) {
             return true; // If there's no expiration time, consider it expired
