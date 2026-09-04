@@ -9,6 +9,7 @@ use App\Models\Response\Code as ErrorCode;
 use App\Models\Response\Error as ErrorResponse;
 use App\Models\Response\Success as SuccessResponse;
 
+/** @var array<int, array{message: string}> */
 const RESPONSE_CONFIG = array(
     ErrorStatus::BAD_REQUEST->value => array(
         'message' => 'Bad request'
