@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 #[\AllowDynamicProperties]
 class BaseModel implements \JsonSerializable
 {
-    protected ?string $table = null;
+    protected string $table;
     protected string $primaryKey = 'id';
     /** @var string[] */
     protected array $fillable = [];
