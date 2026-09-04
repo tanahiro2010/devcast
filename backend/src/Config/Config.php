@@ -3,6 +3,7 @@ namespace App\Config;
 
 class Config
 {
+    /** @var array{github: array{client_id: string, client_secret: string, redirect_uri: string, front_redirect_uri: string, scope: string[]}, providers: string[]}|null */
     private static ?array $oauth = null;
 
     public static function env(string $name): string | false
@@ -15,6 +16,9 @@ class Config
         return $_SERVER[$name] ?? $_ENV[$name] ?? false;
     }
 
+    /**
+     * @return array{github: array{client_id: string, client_secret: string, redirect_uri: string, front_redirect_uri: string, scope: string[]}, providers: string[]}
+     */
     public static function oauth(): array
     {
         $config = self::server();
@@ -33,6 +37,9 @@ class Config
         return self::$oauth;
     }
 
+    /**
+     * @return array{frontend: array{base_url: string}, backend: array{base_url: string}}
+     */
     public static function server(): array
     {
         return [
