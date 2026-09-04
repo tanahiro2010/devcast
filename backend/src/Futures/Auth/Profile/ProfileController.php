@@ -11,21 +11,21 @@ use App\Models\DB\User;
 
 class ProfileController
 {
-  public function getProfile(Request $request, Response $response)
-  {
-    /** @var User $user */
-    $user = $request->getAttribute('user');
+    public function getProfile(Request $request, Response $response)
+    {
+        /** @var User $user */
+        $user = $request->getAttribute('user');
 
-    if (!$user) {
-      return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, "User not found");
+        if (!$user) {
+            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, "User not found");
+        }
+
+        try {
+            $profile = ProfileService::getProfile($user);
+
+            return ApiResponseHelper::successResponse($response, ['profile' => $profile], "Profile retrieved successfully");
+        } catch (\Exception $e) {
+            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to retrieve profile: " . $e->getMessage());
+        }
     }
-
-    try {
-      $profile = ProfileService::getProfile($user);
-
-      return ApiResponseHelper::successResponse($response, ['profile' => $profile], "Profile retrieved successfully");
-    } catch (\Exception $e) {
-      return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to retrieve profile: " . $e->getMessage());
-    }
-  }
 }

@@ -8,10 +8,10 @@ require_once __DIR__ . '/vendor/autoload.php';
 $routes = Routes::build();
 
 try {
-  $routes->validate();
+    $routes->validate();
 } catch (Exception $e) {
-  echo 'Error: ' . $e->getMessage();
-  exit(1);
+    echo 'Error: ' . $e->getMessage();
+    exit(1);
 }
 
 $app = AppFactory::create();
