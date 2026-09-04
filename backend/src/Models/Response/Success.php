@@ -6,20 +6,21 @@ class Success
 {
     public mixed $data;
     public string $message;
-    public int $code = 200;
     public Details $details;
 
     public function __construct(mixed $data, string $message = "Success", Details $details = new Details("unknown"))
     {
         $this->data = $data;
         $this->message = $message;
+        $this->details = $details;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return array(
             'data' => $this->data,
-            'message' => $this->message
+            'message' => $this->message,
+            'details' => $this->details->toArray()
         );
     }
 }
