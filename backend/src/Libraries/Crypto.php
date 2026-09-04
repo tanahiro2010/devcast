@@ -10,17 +10,17 @@ enum Algorithm: string
 
 class Crypto
 {
-    public static function generateRandomString($length = 32)
+    public static function generateRandomString(int $length = 32): string
     {
         return bin2hex(random_bytes($length / 2));
     }
 
-    private static function base64UrlEncode(string $data)
+    private static function base64UrlEncode(string $data): string
     {
         return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
     }
 
-    private static function base64UrlDecode(string $data)
+    private static function base64UrlDecode(string $data): string
     {
         $remainder = strlen($data) % 4;
         if ($remainder) {
@@ -30,7 +30,7 @@ class Crypto
         return base64_decode(strtr($data, '-_', '+/'));
     }
 
-    private static function sign(string $data, string $secret, Algorithm $alg)
+    private static function sign(string $data, string $secret, Algorithm $alg): string
     {
         switch ($alg) {
             case Algorithm::HS256:
@@ -44,7 +44,10 @@ class Crypto
         }
     }
 
-    public static function jwtEncode(array $payload, string $secret, Algorithm $alg = Algorithm::HS256)
+    /**
+     * @param array<string, mixed> $payload
+     */
+    public static function jwtEncode(array $payload, string $secret, Algorithm $alg = Algorithm::HS256): string
     {
         $header = ['typ' => 'JWT', 'alg' => $alg];
         $segments = [
@@ -57,7 +60,10 @@ class Crypto
         return implode('.', $segments);
     }
 
-    public static function jwtDecode(string $jwt, string $secret, Algorithm $alg = Algorithm::HS256)
+    /**
+     * @return array<string, mixed>
+     */
+    public static function jwtDecode(string $jwt, string $secret, Algorithm $alg = Algorithm::HS256): array
     {
         $segments = explode('.', $jwt);
         if (count($segments) !== 3) {
