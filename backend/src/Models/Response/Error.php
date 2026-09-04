@@ -15,7 +15,10 @@ class Error
         $this->code = $code;
     }
 
-    public function toArray()
+    /**
+     * @return array{details: array{instance: string, date: string, status: int}, message: string|null, code: Code}
+     */
+    public function toArray(): array
     {
         return array(
             'details' => $this->details->toArray(),

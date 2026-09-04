@@ -4,7 +4,18 @@ use App\Models\DB\User;
 
 class ProfileService
 {
-    static function getProfile(User $user)
+    /**
+     * @return array{
+     *     id: mixed,
+     *     username: mixed,
+     *     email: mixed,
+     *     providers: array{id: mixed, provider: mixed, expires_at: mixed}[],
+     *     created_at: mixed,
+     *     updated_at: mixed,
+     *     subscription: array{stripe_subscription_id: mixed, stripe_price_id: mixed, status: mixed, current_period_start: mixed, current_period_end: mixed}|null
+     * }
+     */
+    static function getProfile(User $user): array
     {
         $profile = [
             'id' => $user->id,

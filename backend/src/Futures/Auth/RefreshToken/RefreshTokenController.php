@@ -11,7 +11,7 @@ use App\Models\DB\User;
 
 class RefreshTokenController
 {
-    public function refresh(Request $request, Response $response)
+    public function refresh(Request $request, Response $response): Response
     {
         /** @var User $user */
         $user = $request->getAttribute('user');

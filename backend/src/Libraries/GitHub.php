@@ -19,6 +19,9 @@ class GitHub
         ]);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getAccessToken(string $code, string $state): array
     {
         $response = $this->client->post('login/oauth/access_token', [
@@ -42,6 +45,9 @@ class GitHub
         return $data;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getProfile(string $accessToken): array
     {
         $response = $this->client->get('https://api.github.com/user', [

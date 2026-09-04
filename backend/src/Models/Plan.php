@@ -7,9 +7,15 @@ class Plan
     public string $name;
     public int $priceMonthly;
     public ?int $priceYearly;
+    /** @var string[] */
     public array $features;
+    /** @var array<string, int|string|bool|null> */
     public array $limits;
 
+    /**
+     * @param string[] $features
+     * @param array<string, int|string|bool|null> $limits
+     */
     public function __construct(
         string $id,
         string $name,

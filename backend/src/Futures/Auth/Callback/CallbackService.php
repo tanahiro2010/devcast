@@ -19,6 +19,9 @@ class CallbackService
         $this->github = new GitHub($clientId, $clientSecret, $redirectUri);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function exchangeToken(string $code, string $state): array
     {
         $tokenData = $this->github->getAccessToken($code, $state);
@@ -30,11 +33,17 @@ class CallbackService
         return $tokenData;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getProfile(string $accessToken): array
     {
         return $this->github->getProfile($accessToken);
     }
 
+    /**
+     * @param array<string, mixed> $profile
+     */
     public function findOrCreateUser(string $provider, array $profile): User
     {
         $user = User::findByProviderId($provider, $profile['id']);

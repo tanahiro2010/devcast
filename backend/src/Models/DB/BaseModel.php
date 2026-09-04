@@ -2,16 +2,20 @@
 namespace App\Models\DB;
 use App\Database\Database;
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Collection;
 
 
 #[\AllowDynamicProperties]
 class BaseModel implements \JsonSerializable
 {
-    protected $table;
-    protected $primaryKey = 'id';
-    protected $fillable = [];
-    protected $properties = [];
-    protected $database;
+    protected ?string $table = null;
+    protected string $primaryKey = 'id';
+    /** @var string[] */
+    protected array $fillable = [];
+    /** @var array<string, mixed> */
+    protected array $properties = [];
+    protected Capsule $database;
 
     public function __construct()
     {
@@ -25,7 +29,10 @@ class BaseModel implements \JsonSerializable
         return $database->getInstance();
     }
 
-    static function create($attributes = []): static
+    /**
+     * @param array<string, mixed> $attributes
+     */
+    static function create(array $attributes = []): static
     {
         // Implementation for creating a new record in the database
         $instance = self::getDatabaseInstance();
@@ -47,7 +54,10 @@ class BaseModel implements \JsonSerializable
         return $created;
     }
 
-    static function where($attributes = [])
+    /**
+     * @param array<string, mixed> $attributes
+     */
+    static function where(array $attributes = []): Builder
     {
         // Implementation for querying records based on a condition
         $model = new static();
@@ -65,7 +75,10 @@ class BaseModel implements \JsonSerializable
         return $query;
     }
 
-    static function firstWhere($attributes = []): ?static
+    /**
+     * @param array<string, mixed> $attributes
+     */
+    static function firstWhere(array $attributes = []): ?static
     {
         $row = static::where($attributes)->first();
         if ($row === null) {
@@ -76,7 +89,11 @@ class BaseModel implements \JsonSerializable
         return $model->hydrate($row);
     }
 
-    public static function whereAll($attributes = []): array
+    /**
+     * @param array<string, mixed> $attributes
+     * @return static[]
+     */
+    public static function whereAll(array $attributes = []): array
     {
         $rows = static::where($attributes)->get();
         return $rows->map(function ($row) {
@@ -85,7 +102,11 @@ class BaseModel implements \JsonSerializable
         })->all();
     }
 
-    public static function all($columns = ['*'])
+    /**
+     * @param string[] $columns
+     * @return Collection<int, static>
+     */
+    public static function all(array $columns = ['*']): Collection
     {
         $model = new static();
         $database = self::getDatabaseInstance();
@@ -94,7 +115,7 @@ class BaseModel implements \JsonSerializable
         });
     }
 
-    public static function find(string | int $id)
+    public static function find(string | int $id): ?static
     {
         $model = new static();
         $database = self::getDatabaseInstance();
@@ -133,7 +154,7 @@ class BaseModel implements \JsonSerializable
         }
     }
 
-    public function __get($name)
+    public function __get(string $name): mixed
     {
         if (array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
@@ -141,7 +162,7 @@ class BaseModel implements \JsonSerializable
         throw new \Exception("Property $name does not exist on " . static::class);
     }
 
-    public function __set($name, $value)
+    public function __set(string $name, mixed $value): void
     {
         if (in_array($name, $this->fillable, true) || $name === $this->primaryKey) {
             $this->properties[$name] = $value;
@@ -180,7 +201,7 @@ class BaseModel implements \JsonSerializable
         }
     }
 
-    public function get(string $key)
+    public function get(string $key): mixed
     {
         if (array_key_exists($key, $this->properties)) {
             return $this->properties[$key];

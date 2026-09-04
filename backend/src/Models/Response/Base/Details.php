@@ -3,9 +3,9 @@ namespace App\Models\Response\Base;
 
 class Details
 {
-    public $instance;
-    public $date;
-    public $status;
+    public string $instance;
+    public string $date;
+    public int $status;
 
     public function __construct(string $instance, string | null $date = null, int $status = 400)
     {
@@ -17,7 +17,10 @@ class Details
         $this->status = $status;
     }
 
-    public function toArray()
+    /**
+     * @return array{instance: string, date: string, status: int}
+     */
+    public function toArray(): array
     {
         return array(
             'instance' => $this->instance,

@@ -23,7 +23,7 @@ class CallbackController
         $this->callbackService = new CallbackService();
     }
 
-    public function callback(Request $request, Response $response)
+    public function callback(Request $request, Response $response): Response
     {
         // token交換処理やら
         $params = $request->getQueryParams();

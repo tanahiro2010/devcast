@@ -11,7 +11,7 @@ use App\Models\DB\User;
 
 class ProfileController
 {
-    public function getProfile(Request $request, Response $response)
+    public function getProfile(Request $request, Response $response): Response
     {
         /** @var User $user */
         $user = $request->getAttribute('user');
