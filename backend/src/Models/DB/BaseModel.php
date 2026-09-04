@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 
 #[\AllowDynamicProperties]
-class BaseModel implements \JsonSerializable
+class BaseModel implements \JsonSerializable, \ArrayAccess
 {
     protected string $table;
     protected string $primaryKey = 'id';
@@ -207,6 +207,32 @@ class BaseModel implements \JsonSerializable
             return $this->properties[$key];
         }
         throw new \Exception("Property $key does not exist on " . static::class);
+    }
+
+    public function offsetExists(mixed $offset): bool
+    {
+        return array_key_exists($offset, $this->properties);
+    }
+
+    public function offsetGet(mixed $offset): mixed
+    {
+        return $this->get($offset);
+    }
+
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        if ($offset === null) {
+            throw new \Exception("Cannot append to " . static::class . " without a key");
+        }
+        $this->$offset = $value;
+    }
+
+    public function offsetUnset(mixed $offset): void
+    {
+        if (!array_key_exists($offset, $this->properties)) {
+            throw new \Exception("Property $offset does not exist on " . static::class);
+        }
+        unset($this->properties[$offset]);
     }
 
     /**
