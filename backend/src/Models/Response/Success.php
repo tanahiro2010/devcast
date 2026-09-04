@@ -15,6 +15,9 @@ class Success
         $this->details = $details;
     }
 
+    /**
+     * @return array{data: mixed, message: string, details: array{instance: string, date: string, status: int}}
+     */
     public function toArray(): array
     {
         return array(
