@@ -9,8 +9,6 @@ use App\Helpers\ApiResponseHelper;
 
 class ErrorsController {
   public function notFound(Request $request, Response $response) {
-    $instance = $request->getUri()->getPath();
-
-    return ApiResponseHelper::errorResponse($response, ErrorStatus::NOT_FOUND, ErrorCode::RESOURCE_NOT_FOUND, $instance, "The requested resource was not found.");
+    return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::NOT_FOUND, ErrorCode::RESOURCE_NOT_FOUND, "The requested resource was not found.");
   }
 }
