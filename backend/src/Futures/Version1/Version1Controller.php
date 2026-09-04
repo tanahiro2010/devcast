@@ -8,7 +8,7 @@ use App\Helpers\ApiResponseHelper;
 
 class Version1Controller
 {
-    public function version1(Request $request, Response $response)
+    public function version1(Request $request, Response $response): Response
     {
         return ApiResponseHelper::successResponse($response, [
             'version' => '1.0.0',
