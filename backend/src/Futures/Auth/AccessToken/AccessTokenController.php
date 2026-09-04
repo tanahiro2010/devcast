@@ -12,7 +12,7 @@ use App\Models\DB\RefreshToken;
 
 class AccessTokenController
 {
-    public function accessToken(Request $request, Response $response)
+    public function accessToken(Request $request, Response $response): Response
     {
         $body = $request->getParsedBody();
         $refreshTokenValue = is_array($body) ? ($body['refresh_token'] ?? null) : null;
