@@ -10,16 +10,16 @@ use App\Models\Response\Status as ErrorStatus;
 
 class AuthController
 {
-  public function oauthUrl(Request $request, Response $response)
-  {
-    $oauthUrl = AuthService::getOauthUrl();
-    if (!$oauthUrl) {
-      return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to generate OAuth URL");
-    }
+    public function oauthUrl(Request $request, Response $response)
+    {
+        $oauthUrl = AuthService::getOauthUrl();
+        if (!$oauthUrl) {
+            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to generate OAuth URL");
+        }
 
-    // state はリクエストごとに一意である必要があるため、プロキシ/CDN等にキャッシュされてはならない。
-    return ApiResponseHelper::successResponse($response, ['url' => $oauthUrl], "OAuth URL generated successfully")
-      ->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
-      ->withHeader('Pragma', 'no-cache');
-  }
+        // state はリクエストごとに一意である必要があるため、プロキシ/CDN等にキャッシュされてはならない。
+        return ApiResponseHelper::successResponse($response, ['url' => $oauthUrl], "OAuth URL generated successfully")
+            ->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
+            ->withHeader('Pragma', 'no-cache');
+    }
 }

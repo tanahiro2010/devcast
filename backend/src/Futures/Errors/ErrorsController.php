@@ -8,7 +8,7 @@ use App\Models\Response\Code as ErrorCode;
 use App\Helpers\ApiResponseHelper;
 
 class ErrorsController {
-  public function notFound(Request $request, Response $response) {
-    return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::NOT_FOUND, ErrorCode::RESOURCE_NOT_FOUND, "The requested resource was not found.");
-  }
+    public function notFound(Request $request, Response $response) {
+        return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::NOT_FOUND, ErrorCode::RESOURCE_NOT_FOUND, "The requested resource was not found.");
+    }
 }
