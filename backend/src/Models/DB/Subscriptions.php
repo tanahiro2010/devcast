@@ -6,9 +6,10 @@ use App\Models\DB\User;
 
 class Subscriptions extends BaseModel
 {
-    protected $table = 'subscriptions';
-    protected $primaryKey = 'id';
-    protected $fillable = [
+    protected string $table = 'subscriptions';
+    protected string $primaryKey = 'id';
+    /** @var string[] */
+    protected array $fillable = [
         'user_id',
         'stripe_subscription_id',
         'stripe_price_id',
@@ -17,7 +18,7 @@ class Subscriptions extends BaseModel
         'current_period_end',
     ];
 
-    public static function findActiveByUserId(string $userId)
+    public static function findActiveByUserId(string $userId): ?static
     {
         return self::firstWhere([
             'user_id' => $userId,
@@ -25,12 +26,12 @@ class Subscriptions extends BaseModel
         ]);
     }
 
-    public static function findByStripeSubscriptionId(string $stripeSubscriptionId)
+    public static function findByStripeSubscriptionId(string $stripeSubscriptionId): ?static
     {
         return self::firstWhere(['stripe_subscription_id' => $stripeSubscriptionId]);
     }
 
-    public function user()
+    public function user(): ?User
     {
         return $this->belongsTo(User::class, 'user_id');
     }

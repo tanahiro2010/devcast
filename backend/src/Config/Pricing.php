@@ -5,8 +5,12 @@ use App\Models\Plan;
 
 class Pricing
 {
+    /** @var Plan[]|null */
     private static ?array $plans = null;
 
+    /**
+     * @return Plan[]
+     */
     public static function plans(): array
     {
         if (self::$plans === null) {

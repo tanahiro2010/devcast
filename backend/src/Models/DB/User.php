@@ -11,26 +11,27 @@ use App\Config\Config;
 
 class User extends BaseModel
 {
-    protected $table = 'users';
-    protected $primaryKey = 'id';
-    protected $fillable = ['id', 'provider', 'provider_id', 'username', 'name', 'email', 'avatar_url', 'created_at', 'updated_at'];
+    protected string $table = 'users';
+    protected string $primaryKey = 'id';
+    /** @var string[] */
+    protected array $fillable = ['id', 'provider', 'provider_id', 'username', 'name', 'email', 'avatar_url', 'created_at', 'updated_at'];
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    public static function findByProviderId(string $provider, string $providerId)
+    public static function findByProviderId(string $provider, string $providerId): ?static
     {
         return self::firstWhere(['provider' => $provider, 'provider_id' => $providerId]);
     }
 
-    public static function findById(int $id)
+    public static function findById(int $id): ?static
     {
         return self::firstWhere(['id' => $id]);
     }
 
-    public static function findByUsername(string $username)
+    public static function findByUsername(string $username): ?static
     {
         return self::firstWhere(['username' => $username]);
     }
@@ -40,7 +41,7 @@ class User extends BaseModel
         return $this->hasMany(Credential::class, 'user_id');
     }
 
-    public function createCredential(string $provider, string $accessToken, ?string $refreshToken, ?string $expiresAt, ?string $scope, string $tokenType)
+    public function createCredential(string $provider, string $accessToken, ?string $refreshToken, ?string $expiresAt, ?string $scope, string $tokenType): Credential
     {
         $key = Config::env('CRYPTO_KEY');
         $credential = Credential::create([
@@ -64,7 +65,7 @@ class User extends BaseModel
         return $this->hasMany(Session::class, 'user_id');
     }
 
-    public function createSession(string $sessionId, string $ipAddress, string $userAgent, ?string $expiresAt)
+    public function createSession(string $sessionId, string $ipAddress, string $userAgent, ?string $expiresAt): Session
     {
         $session = Session::create([
             'user_id'    => $this->id,
@@ -94,12 +95,12 @@ class User extends BaseModel
         ], Config::env('JWT_SECRET'), Algorithm::HS256);
     }
 
-    public function createRefreshToken(?string $token, ?\DateTime $expiresAt)
+    public function createRefreshToken(?string $token, ?\DateTime $expiresAt): RefreshToken
     {
         return RefreshToken::createToken($this->id, $token, $expiresAt);
     }
 
-    public function createSubscription(string $priceId)
+    public function createSubscription(string $priceId): Subscriptions
     {
         return Subscriptions::create([
             'user_id' => $this->id,
@@ -108,7 +109,7 @@ class User extends BaseModel
         ]);
     }
 
-    public function deleteAllSessions()
+    public function deleteAllSessions(): void
     {
         $sessions = $this->sessions();
         foreach ($sessions as $session) {
@@ -124,7 +125,7 @@ class User extends BaseModel
         return $this->hasMany(RefreshToken::class, 'user_id');
     }
 
-    public function deleteAllRefreshTokens()
+    public function deleteAllRefreshTokens(): void
     {
         foreach ($this->refreshTokens() as $refreshToken) {
             $refreshToken->destroy();
@@ -164,6 +165,9 @@ class User extends BaseModel
         return Subscriptions::findActiveByUserId($this->id);
     }
 
+    /**
+     * @return array{id: mixed, provider: mixed, expires_at: mixed}[]
+     */
     public function providers(): array
     {
         $providers = $this->hasMany(ProviderToken::class, 'user_id');

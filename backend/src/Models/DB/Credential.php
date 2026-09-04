@@ -5,16 +5,17 @@ use App\Models\DB\User;
 
 class Credential extends BaseModel
 {
-    protected $table = 'credentials';
-    protected $primaryKey = 'id';
-    protected $fillable = ['id', 'provider', 'user_id', 'access_token', 'refresh_token', 'token_expires_at', 'scope', 'token_type', 'created_at', 'updated_at'];
+    protected string $table = 'credentials';
+    protected string $primaryKey = 'id';
+    /** @var string[] */
+    protected array $fillable = ['id', 'provider', 'user_id', 'access_token', 'refresh_token', 'token_expires_at', 'scope', 'token_type', 'created_at', 'updated_at'];
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    public static function findByUserId($userId)
+    public static function findByUserId(int $userId): ?static
     {
         return self::firstWhere(['user_id' => $userId]);
     }
@@ -24,7 +25,7 @@ class Credential extends BaseModel
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function isTokenExpired()
+    public function isTokenExpired(): bool
     {
         if ($this->token_expires_at === null) {
             return true; // If there's no expiration time, consider it expired
@@ -34,7 +35,7 @@ class Credential extends BaseModel
         return $currentTime >= $expirationTime;
     }
 
-    public function updateToken($accessToken, $refreshToken, $expiresAt)
+    public function updateToken(string $accessToken, ?string $refreshToken, ?string $expiresAt): void
     {
         $this->update([
             'access_token' => $accessToken,
@@ -43,7 +44,7 @@ class Credential extends BaseModel
         ]);
     }
 
-    public function refreshAccessToken()
+    public function refreshAccessToken(): void
     {
         // Implement the logic to refresh the access token using the refresh token
         // This will depend on the OAuth provider's API

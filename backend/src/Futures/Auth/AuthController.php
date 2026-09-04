@@ -10,7 +10,7 @@ use App\Models\Response\Status as ErrorStatus;
 
 class AuthController
 {
-    public function oauthUrl(Request $request, Response $response)
+    public function oauthUrl(Request $request, Response $response): Response
     {
         $oauthUrl = AuthService::getOauthUrl();
         if (!$oauthUrl) {

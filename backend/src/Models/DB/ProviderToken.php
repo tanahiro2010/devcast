@@ -9,9 +9,10 @@ use App\Libraries\Crypto;
 
 class ProviderToken extends BaseModel
 {
-    protected $table = 'tokens';
-    protected $primaryKey = 'id';
-    protected $fillable = [
+    protected string $table = 'tokens';
+    protected string $primaryKey = 'id';
+    /** @var string[] */
+    protected array $fillable = [
         'id',
         'user_id',
         'provider',
@@ -26,12 +27,15 @@ class ProviderToken extends BaseModel
         parent::__construct();
     }
 
-    public static function findByUserId(int $userId)
+    /**
+     * @return static[]
+     */
+    public static function findByUserId(int $userId): array
     {
         return self::whereAll(['user_id' => $userId]);
     }
 
-    public static function findByUserIdAndProvider(int $userId, string $provider)
+    public static function findByUserIdAndProvider(int $userId, string $provider): ?static
     {
         return self::firstWhere(['user_id' => $userId, 'provider' => $provider]);
     }
@@ -41,7 +45,7 @@ class ProviderToken extends BaseModel
         return self::firstWhere(['user_id' => $this->user_id, 'provider' => $provider]) !== null;
     }
 
-    public function updateToken(string $token, \DateTime $expiresAt)
+    public function updateToken(string $token, \DateTime $expiresAt): void
     {
         $this->token = Crypto::encrypt($token, Config::env('CRYPTO_KEY'));
         $this->expires_at = $expiresAt->format('Y-m-d H:i:s');
@@ -53,7 +57,7 @@ class ProviderToken extends BaseModel
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function isTokenExpired()
+    public function isTokenExpired(): bool
     {
         if ($this->expires_at === null) {
             return true; // If there's no expiration time, consider it expired
