@@ -9,7 +9,7 @@ class AuthService
 {
     private const STATE_TTL_SECONDS = 600; // 10分
 
-    public static function getOauthUrl()
+    public static function getOauthUrl(): string
     {
         $oauthConfig = Config::oauth();
 
