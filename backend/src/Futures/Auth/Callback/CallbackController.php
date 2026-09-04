@@ -31,18 +31,18 @@ class CallbackController
     $state = $params['state'] ?? null;
 
     if (!is_string($code) || $code === '' || !is_string($state) || $state === '') {
-      return ApiResponseHelper::errorResponse($response, ErrorStatus::BAD_REQUEST, ErrorCode::MISSING_CODE_OR_STATE, '/auth/callback');
+      return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::MISSING_CODE_OR_STATE);
     }
 
     if (!AuthService::consumeIssuedState($state)) {
-      return ApiResponseHelper::errorResponse($response, ErrorStatus::BAD_REQUEST, ErrorCode::MISSING_CODE_OR_STATE, '/auth/callback', "Invalid or expired state");
+      return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::MISSING_CODE_OR_STATE, "Invalid or expired state");
     }
 
     try {
       $credentials = $this->callbackService->exchangeToken($code, $state);
 
       if (!isset($credentials['access_token'])) {
-        return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::TOKEN_EXCHANGE_FAILED, '/auth/callback');
+        return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::TOKEN_EXCHANGE_FAILED);
       }
 
       $profile = $this->callbackService->getProfile($credentials['access_token']);
@@ -83,7 +83,7 @@ class CallbackController
       return ApiResponseHelper::redirect($response, $redirectUrl);
     } catch (\Exception $e) {
       error_log('[auth/callback] token exchange failed: ' . $e->getMessage());
-      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::TOKEN_EXCHANGE_FAILED, '/auth/callback');
+      return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::TOKEN_EXCHANGE_FAILED);
     }
   }
 }

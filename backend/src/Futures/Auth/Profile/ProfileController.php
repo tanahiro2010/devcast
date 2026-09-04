@@ -17,7 +17,7 @@ class ProfileController
     $user = $request->getAttribute('user');
 
     if (!$user) {
-      return ApiResponseHelper::errorResponse($response, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, "/auth/profile", "User not found");
+      return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, "User not found");
     }
 
     try {
@@ -25,7 +25,7 @@ class ProfileController
 
       return ApiResponseHelper::successResponse($response, ['profile' => $profile], "Profile retrieved successfully");
     } catch (\Exception $e) {
-      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "/auth/profile", "Failed to retrieve profile: " . $e->getMessage());
+      return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to retrieve profile: " . $e->getMessage());
     }
   }
 }

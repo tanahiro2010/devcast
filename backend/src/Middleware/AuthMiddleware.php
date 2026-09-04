@@ -46,7 +46,7 @@ class AuthMiddleware implements MiddlewareInterface
   {
     $bearerToken = $this->resolveAuthorizationHeader($request);
     if (!$bearerToken || !str_starts_with($bearerToken, 'Bearer ')) {
-      return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, $request->getUri()->getPath(), "Missing or invalid Authorization header");
+      return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, "Missing or invalid Authorization header");
     }
     
     $token = str_replace('Bearer ', '', $bearerToken);
@@ -55,30 +55,30 @@ class AuthMiddleware implements MiddlewareInterface
       $data = Crypto::jwtDecode($token, Config::env('JWT_SECRET'));
 
       if (!isset($data['iss']) || !isset($data['sub'])) {
-        return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, $request->getUri()->getPath(), "Invalid token: user_id not found");
+        return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, "Invalid token: user_id not found");
       }
     } catch (\Exception $e) {
-      return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, $request->getUri()->getPath(), "Invalid or expired token: " . $e->getMessage());
+      return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, "Invalid or expired token: " . $e->getMessage());
     }
 
     try {
       $session = Session::findBySessionId($data['iss']);
       if (!$session) {
-        return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::UNAUTHORIZED, ErrorCode::SESSION_NOT_FOUND, $request->getUri()->getPath(), "Session not found");
+        return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::UNAUTHORIZED, ErrorCode::SESSION_NOT_FOUND, "Session not found");
       }
     } catch (\Exception $e) {
-      return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, $request->getUri()->getPath(), "Failed to retrieve session: " . $e->getMessage());
+      return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to retrieve session: " . $e->getMessage());
     }
 
 
     if ($session->isExpired()) {
-      return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::BAD_REQUEST, ErrorCode::UNAUTHORIZED, $request->getUri()->getPath(), "Session expired");
+      return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::BAD_REQUEST, ErrorCode::UNAUTHORIZED, "Session expired");
     }
 
     try {
       $user = $session->user();
     } catch (\Exception $e) {
-      return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, $request->getUri()->getPath(), "Failed to retrieve user: " . $e->getMessage());
+      return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to retrieve user: " . $e->getMessage());
     }
 
     $request = $request->withAttribute('user', $user);

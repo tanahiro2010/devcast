@@ -17,7 +17,7 @@ class RefreshTokenController
     $user = $request->getAttribute('user');
 
     if (!$user) {
-      return ApiResponseHelper::errorResponse($response, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, "/auth/token/refresh_token", "User not authenticated");
+      return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, "User not authenticated");
     }
 
     try {
@@ -25,7 +25,7 @@ class RefreshTokenController
       $user->deleteAllRefreshTokens();
     } catch (\Exception $e) {
       error_log('[auth/token/refresh_token] ' . $e->getMessage());
-      return ApiResponseHelper::errorResponse($response, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "/auth/token/refresh_token", "Failed to delete existing sessions");
+      return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to delete existing sessions");
     }
 
     $newAccessToken = $user->refresh($request->getServerParams()['REMOTE_ADDR'], $request->getHeaderLine('User-Agent'));
