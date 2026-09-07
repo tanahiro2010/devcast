@@ -36,7 +36,7 @@ class AccessTokenController
             return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, "User not found for this refresh token");
         }
 
-        return ApiResponseHelper::successResponse($response, [
+        return ApiResponseHelper::successResponse($response, $request, [
             'access_token' => $newAccessToken,
             'refresh_token' => $newRefreshTokenValue,
         ], "Access token refreshed successfully");
