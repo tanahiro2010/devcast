@@ -13,6 +13,7 @@ use App\Futures\Auth\Callback\CallbackController;
 use App\Futures\Auth\Profile\ProfileController;
 use App\Futures\Version1\Version1Controller;
 use App\Futures\Version1\Providers\ProvidersController;
+use App\Futures\Version1\Articles\ArticlesController;
 
 class Routes
 {
@@ -52,6 +53,12 @@ class Routes
                                 Route::delete('/', 'deleteProvider'),
                             ]),
                         ]),
+                        Route::group('/articles', [
+                            Route::controller(new ArticlesController(), [
+                                Route::get('/', 'getArticles'),
+                                Route::post('/', 'createArticle')
+                            ])
+                        ])
                     ])
                 ]),
 
