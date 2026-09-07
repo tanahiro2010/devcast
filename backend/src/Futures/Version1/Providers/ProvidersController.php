@@ -17,7 +17,7 @@ class ProvidersController
         $user = $request->getAttribute('user');
         $providers = $user->providers();
 
-        return ApiResponseHelper::successResponse($response, [
+        return ApiResponseHelper::successResponse($response, $request, [
             'providers' => $providers
         ]);
     }
@@ -54,7 +54,7 @@ class ProvidersController
 
         try {
             $user->registerProvider($provider, $token, $expiresAt);
-            return ApiResponseHelper::successResponse($response, null, "Provider registered successfully");
+            return ApiResponseHelper::successResponse($response, $request, null, "Provider registered successfully");
         } catch (\Exception $e) {
             error_log('[providers.registerProvider] ' . $e->getMessage());
             return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to register provider");
@@ -94,7 +94,7 @@ class ProvidersController
 
         try {
             $providerToken->updateToken($token, $expiresAt);
-            return ApiResponseHelper::successResponse($response, null, "Provider updated successfully");
+            return ApiResponseHelper::successResponse($response, $request, null, "Provider updated successfully");
         } catch (\Exception $e) {
             error_log('[providers.updateProvider] ' . $e->getMessage());
             return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to update provider");
@@ -121,7 +121,7 @@ class ProvidersController
                 return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::NOT_FOUND, ErrorCode::PROVIDER_NOT_FOUND, "Provider not found");
             }
             $providerToken->destroy();
-            return ApiResponseHelper::successResponse($response, null, "Provider deleted successfully");
+            return ApiResponseHelper::successResponse($response, $request, null, "Provider deleted successfully");
         } catch (\Exception $e) {
             error_log('[providers.deleteProvider] ' . $e->getMessage());
             return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to delete provider");
