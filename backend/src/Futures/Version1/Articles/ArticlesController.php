@@ -40,7 +40,7 @@ class ArticlesController
                 $result["metadata"] = $metadata;
             }
 
-            return ApiResponseHelper::successResponse($response, $result, "Success to get articles");
+            return ApiResponseHelper::successResponse($response, $request, $result, "Success to get articles");
         } catch (\Exception $e) {
             return ApiResponseHelper::errorResponse($response, $request, message: $e->getMessage());
         }
@@ -72,6 +72,6 @@ class ArticlesController
 
         $article = $user->createArticle($body);
 
-        return ApiResponseHelper::successResponse($response, $article, "Article created successfully");
+        return ApiResponseHelper::successResponse($response, $request, $article, "Article created successfully");
     }
 }

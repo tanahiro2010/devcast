@@ -10,7 +10,7 @@ class Version1Controller
 {
     public function version1(Request $request, Response $response): Response
     {
-        return ApiResponseHelper::successResponse($response, [
+        return ApiResponseHelper::successResponse($response, $request, [
             'version' => '1.0.0',
         ]);
     }

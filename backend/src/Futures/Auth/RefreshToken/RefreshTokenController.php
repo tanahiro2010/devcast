@@ -30,6 +30,6 @@ class RefreshTokenController
 
         $newAccessToken = $user->refresh($request->getServerParams()['REMOTE_ADDR'], $request->getHeaderLine('User-Agent'));
         $newRefreshToken = $user->refreshToken();
-        return ApiResponseHelper::successResponse($response, ['access_token' => $newAccessToken, 'refresh_token' => $newRefreshToken], "Access token refreshed successfully");
+        return ApiResponseHelper::successResponse($response, $request, ['access_token' => $newAccessToken, 'refresh_token' => $newRefreshToken], "Access token refreshed successfully");
     }
 }

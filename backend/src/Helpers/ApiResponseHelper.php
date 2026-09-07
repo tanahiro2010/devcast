@@ -61,9 +61,18 @@ class ApiResponseHelper
         return self::sendResponse($response, $status->value, $errorResponse->toArray());
     }
 
-    static function successResponse(Response $response, mixed $data = null, ?string $message = null, int $status = 200): Response
-    {
-        $successResponse = new SuccessResponse($data, $message ?? "Success");
+    /**
+     * @param Request|string $instance The request that produced this response, or an explicit path/identifier.
+     */
+    static function successResponse(
+        Response $response,
+        Request|string $instance,
+        mixed $data = null,
+        ?string $message = null,
+        int $status = 200
+    ): Response {
+        $path = $instance instanceof Request ? $instance->getUri()->getPath() : $instance;
+        $successResponse = new SuccessResponse($data, $message ?? "Success", $status, $path);
         return self::sendResponse($response, $status, $successResponse->toArray());
     }
 

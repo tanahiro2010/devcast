@@ -23,7 +23,7 @@ class ProfileController
         try {
             $profile = ProfileService::getProfile($user);
 
-            return ApiResponseHelper::successResponse($response, ['profile' => $profile], "Profile retrieved successfully");
+            return ApiResponseHelper::successResponse($response, $request, ['profile' => $profile], "Profile retrieved successfully");
         } catch (\Exception $e) {
             return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to retrieve profile: " . $e->getMessage());
         }

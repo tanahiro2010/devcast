@@ -8,11 +8,11 @@ class Success
     public string $message;
     public Details $details;
 
-    public function __construct(mixed $data, string $message = "Success", Details $details = new Details("unknown"))
+    public function __construct(mixed $data, string $message = "Success", int $status = 200, string $instance = "unknown")
     {
         $this->data = $data;
         $this->message = $message;
-        $this->details = $details;
+        $this->details = new Details($instance, null, $status);
     }
 
     /**
