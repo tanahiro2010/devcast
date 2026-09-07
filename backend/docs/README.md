@@ -9,9 +9,9 @@ Treat it as the source of truth for the HTTP contract going forward.
 
 - `main.tsp` — service info, servers, catch-all 404
 - `common.tsp` — shared success/error envelope (`ApiSuccess<T>` / `ApiError`), mirrors `App\Models\Response\*`
-- `models.tsp` — domain models (`Profile`, `Provider`, `Subscription`)
+- `models.tsp` — domain models (`Profile`, `Provider`, `Subscription`, `Article`, `ArticlesMetadata`)
 - `auth.tsp` — `/health`, `/auth`, `/auth/token/*`, `/auth/profile`, `/auth/callback`
-- `v1.tsp` — `/v1`, `/v1/providers`
+- `v1.tsp` — `/v1`, `/v1/providers` (CRUD), `/v1/articles`
 
 ## Usage
 
@@ -34,6 +34,10 @@ them automatically from the PHP source.
 
 ## Known gaps / follow-ups
 
-- `POST /v1/providers` (`ProvidersController::registerProvider`) is
-  implemented but not yet registered in `routes.php` — documented ahead of
-  wiring so the contract is agreed before it ships.
+- `Article.tags` is documented as a JSON-encoded string, not a `string[]`,
+  because `Article::toArray()` returns the raw `jsonb` column value
+  un-decoded (see `backend/src/Models/DB/Article.php`). Fix on the backend
+  if this should be a real array in the response.
+- Article update/delete endpoints (`PUT`/`DELETE /v1/articles/{id}`) and
+  publish-status endpoints aren't implemented yet — only list and create
+  exist today.
