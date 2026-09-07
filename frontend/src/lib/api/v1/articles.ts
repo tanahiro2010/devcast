@@ -32,7 +32,7 @@ class ArticlesApi implements _ArticlesApi {
   }
 
   async getArticlesWithMetadata(): Promise<ArticlesWithMetadata> {
-    const response = await apiFetch('/v1/articles?includeMetadata=true', {
+    const response = await apiFetch('/v1/articles?metadata=true', {
       method: 'GET'
     })
     const data = await response.json()

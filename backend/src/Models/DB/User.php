@@ -109,6 +109,22 @@ class User extends BaseModel
         ]);
     }
 
+    /**
+     * @param array{title: string, body: string, tags: string[]} $data
+     */
+    public function createArticle(array $data): Article
+    {
+        return Article::createArticle($this, $data);
+    }
+
+    /**
+     * @return Article[]
+     */
+    public function getArticles(): array
+    {
+        return Article::findByUserId($this['id']);
+    }
+
     public function deleteAllSessions(): void
     {
         $sessions = $this->sessions();
