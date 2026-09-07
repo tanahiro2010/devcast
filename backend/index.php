@@ -17,6 +17,7 @@ try {
 $app = AppFactory::create();
 $routes->deploy($app);
 $app->addMiddleware(new CorsMiddleware());
+$app->addBodyParsingMiddleware();
 
 $displayErrorDetails = getenv('APP_DEBUG') === '1';
 $app->addErrorMiddleware($displayErrorDetails, true, true);

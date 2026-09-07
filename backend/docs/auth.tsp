@@ -29,8 +29,8 @@ model OAuthUrlData {
   url: string;
 }
 
-model AccessTokenData {
-  access_token: string;
+model AccessTokenBody {
+  refresh_token: string;
 }
 
 model RefreshTokenData {
@@ -54,22 +54,24 @@ interface Auth {
   oauthUrl(): ApiSuccess<OAuthUrlData> | ApiInternalServerErrorResponse;
 
   /**
-   * Exchanges a refresh token (as a query parameter) for a new access
-   * token. Distinct from `refreshToken`, which requires a bearer JWT and
-   * also rotates the refresh token.
-   * backend/src/Futures/Auth/AccessToken/AccessTokenController.php:16
+   * Exchanges a refresh token (in the request body) for a new access +
+   * refresh token pair, rotating the refresh token in the process.
+   * Distinct from `refreshToken`, which requires a bearer JWT and also
+   * tears down all of the user's existing sessions.
+   * backend/src/Futures/Auth/AccessToken/AccessTokenController.php:15
    */
-  @get
+  @post
   @route("/token/access_token")
   @useAuth(NoAuth)
-  accessToken(@query("refresh_token") refreshToken: string):
-    | ApiSuccess<AccessTokenData>
+  accessToken(@body body: AccessTokenBody):
+    | ApiSuccess<RefreshTokenData>
     | ApiBadRequestResponse // MISSING_REQUIRED_FIELDS
     | ApiUnauthorizedResponse; // TOKEN_EXPIRED | UNAUTHORIZED
 
   /**
    * Requires a bearer JWT. Invalidates all of the user's existing
-   * sessions and issues a brand new access + refresh token pair.
+   * sessions and refresh tokens, then issues a brand new access +
+   * refresh token pair.
    * backend/src/Futures/Auth/RefreshToken/RefreshTokenController.php:14
    */
   @get
