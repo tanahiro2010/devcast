@@ -30,6 +30,11 @@ class ArticleRevision extends BaseModel
         return $revisions[0];
     }
 
+    static function countByArticleId(int $articleId): int
+    {
+        return self::where(['article_id' => $articleId])->count();
+    }
+
     static function findLatestVersion(int $articleId): int
     {
         $revisions = self::findByArticleId($articleId);

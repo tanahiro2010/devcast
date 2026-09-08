@@ -13,24 +13,41 @@ class Article extends BaseModel
     /** @var string[] */
     protected array $fillable = ['id', 'user_id', 'title', 'slug', 'body', 'tags', 'created_at', 'updated_at'];
 
+    /** @var array<string, string> Maps an include key to the attach method it triggers */
+    protected array $includes = [
+        'revisions_count' => 'attachRevisionsCount',
+    ];
 
-    static function findBySlug(string $slug): ?Article
+    /**
+     * @param string[] $include
+     */
+    static function findBySlug(string $slug, array $include = []): ?Article
     {
-        return self::firstWhere(['slug' => $slug]);
+        return self::firstWhere(['slug' => $slug], $include);
     }
 
-    static function findById(int $id): ?Article
+    /**
+     * @param string[] $include
+     */
+    static function findById(int $id, array $include = []): ?Article
     {
-        return self::firstWhere(['id' => $id]);
+        return self::firstWhere(['id' => $id], $include);
     }
 
     /**
      * @param int $userId
+     * @param string[] $include
      * @return Article[]
      */
-    static function findByUserId(int $userId): array
+    static function findByUserId(int $userId, array $include = []): array
     {
-        return self::whereAll(['user_id' => $userId]);
+        return self::whereAll(['user_id' => $userId], $include);
+    }
+
+    private function attachRevisionsCount(): static
+    {
+        $this->properties['revisions_count'] = ArticleRevision::countByArticleId($this['id']);
+        return $this;
     }
 
     /**
