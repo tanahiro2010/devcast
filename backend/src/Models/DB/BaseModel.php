@@ -16,6 +16,8 @@ class BaseModel implements \JsonSerializable, \ArrayAccess
     /** @var array<string, mixed> */
     protected array $properties = [];
     protected Capsule $database;
+    /** @var array<string, string> Maps an include key to the instance method that attaches it */
+    protected array $includes = [];
 
     public function __construct()
     {
@@ -77,8 +79,9 @@ class BaseModel implements \JsonSerializable, \ArrayAccess
 
     /**
      * @param array<string, mixed> $attributes
+     * @param string[] $include
      */
-    static function firstWhere(array $attributes = []): ?static
+    static function firstWhere(array $attributes = [], array $include = []): ?static
     {
         $row = static::where($attributes)->first();
         if ($row === null) {
@@ -86,36 +89,41 @@ class BaseModel implements \JsonSerializable, \ArrayAccess
         }
 
         $model = new static();
-        return $model->hydrate($row);
+        return $model->hydrate($row)->applyIncludes($include);
     }
 
     /**
      * @param array<string, mixed> $attributes
+     * @param string[] $include
      * @return static[]
      */
-    public static function whereAll(array $attributes = []): array
+    public static function whereAll(array $attributes = [], array $include = []): array
     {
         $rows = static::where($attributes)->get();
-        return $rows->map(function ($row) {
+        return $rows->map(function ($row) use ($include) {
             $model = new static();
-            return $model->hydrate($row);
+            return $model->hydrate($row)->applyIncludes($include);
         })->all();
     }
 
     /**
      * @param string[] $columns
+     * @param string[] $include
      * @return Collection<int, static>
      */
-    public static function all(array $columns = ['*']): Collection
+    public static function all(array $columns = ['*'], array $include = []): Collection
     {
         $model = new static();
         $database = self::getDatabaseInstance();
-        return $database->table($model->table)->get($columns)->map(function ($row) use ($model) {
-            return $model->hydrate($row);
+        return $database->table($model->table)->get($columns)->map(function ($row) use ($model, $include) {
+            return $model->hydrate($row)->applyIncludes($include);
         });
     }
 
-    public static function find(string | int $id): ?static
+    /**
+     * @param string[] $include
+     */
+    public static function find(string | int $id, array $include = []): ?static
     {
         $model = new static();
         $database = self::getDatabaseInstance();
@@ -125,7 +133,22 @@ class BaseModel implements \JsonSerializable, \ArrayAccess
             return null;
         }
 
-        return $model->hydrate($row);
+        return $model->hydrate($row)->applyIncludes($include);
+    }
+
+    /**
+     * @param string[] $include
+     */
+    protected function applyIncludes(array $include): static
+    {
+        foreach ($include as $key) {
+            $method = $this->includes[$key] ?? null;
+            if ($method !== null && method_exists($this, $method)) {
+                $this->$method();
+            }
+        }
+
+        return $this;
     }
 
     public function fill(array $attributes): static
