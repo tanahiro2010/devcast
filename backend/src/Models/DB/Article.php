@@ -4,6 +4,7 @@ namespace App\Models\DB;
 
 use App\Models\DB\BaseModel;
 use App\Models\DB\User;
+use App\Models\DB\ArticleRevision;
 
 class Article extends BaseModel
 {
@@ -56,6 +57,8 @@ class Article extends BaseModel
             ]);
         }
 
+        ArticleRevision::createRevision($article, $user, $data);
+
         return $article;
     }
 
@@ -63,13 +66,32 @@ class Article extends BaseModel
      * @param array{title?: string, body?: string, tags?: string[]} $data
      * @return Article
      */
-    public function updateArticle(array $data): Article
+    public function updateArticle(User $user, array $data): Article
     {
+        ArticleRevision::createRevision($this, $user, [
+            'title' => $data['title'] ?? $this['title'],
+            'body'  => $data['body'] ?? $this['body'],
+            'tags'  => $data['tags'] ?? json_decode($this['tags'], true),
+        ]);
+
         if (isset($data['tags'])) {
             $data['tags'] = json_encode($data['tags']);
         }
 
         return $this->update($data);
+    }
+
+    /**
+     * @return ArticleRevision[]
+     */
+    public function revisions(): array
+    {
+        return $this->hasMany(ArticleRevision::class, 'article_id');
+    }
+
+    public function latestRevision(): ArticleRevision | null
+    {
+        return ArticleRevision::findLatestRevisionByArticleId($this['id']);
     }
 
     public function deleteArticle(): true
