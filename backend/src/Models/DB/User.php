@@ -118,11 +118,12 @@ class User extends BaseModel
     }
 
     /**
+     * @param string[] $include
      * @return Article[]
      */
-    public function getArticles(): array
+    public function getArticles(array $include = []): array
     {
-        return Article::findByUserId($this['id']);
+        return Article::findByUserId($this['id'], $include);
     }
 
     public function deleteAllSessions(): void

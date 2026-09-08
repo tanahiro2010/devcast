@@ -12,11 +12,12 @@ class ArticlesService
     }
 
     /**
+     * @param string[] $include
      * @return Article[]
      */
-    public function getArticles(User $user): array
+    public function getArticles(User $user, array $include = []): array
     {
-        return $user->getArticles();
+        return $user->getArticles($include);
     }
 
     /**

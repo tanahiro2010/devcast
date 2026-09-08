@@ -30,8 +30,9 @@ class ArticlesController
 
         $params = $request->getQueryParams();
         $includeMetadata = $params['metadata'] === "true";
+        $include = !empty($params['include']) ? explode(',', $params['include']) : [];
         try {
-            $articles = $this->articlesService->getArticles($user);
+            $articles = $this->articlesService->getArticles($user, $include);
 
             $result = ["articles" => $articles];
 
