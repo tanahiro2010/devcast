@@ -26,9 +26,9 @@ const Home = () => {
   const [providers, { metadata, articles }] = data
   const stats: Stat[] = [
     { label: "Publish", value: metadata.published_count },
-    { label: "Drafts",  value: metadata.draft_count },
+    { label: "Drafts", value: metadata.draft_count },
     { label: "Targets", value: providers.length },
-    { label: "Total",   value: metadata.total_count }
+    { label: "Total", value: metadata.total_count }
   ]
   const publicationStatus: PublicationStatus[] = providers.map((provider: Provider) => ({
     platform: provider.provider,
@@ -45,13 +45,20 @@ const Home = () => {
         </h2>
 
         <StatsGrid stats={stats} />
-        <ArticleSummaryCard
-          title="React 19のCompilerを試してみた"
-          revision={5}
-          updatedAt="3時間前"
-          tags={["react", "frontend"]}
-          publicationStatus={publicationStatus}
-        />
+        {articles.length > 0 ? (
+          <ArticleSummaryCard
+            title="React 19のCompilerを試してみた"
+            revision={5}
+            updatedAt="3時間前"
+            tags={["react", "frontend"]}
+            publicationStatus={publicationStatus}
+          />
+        ) : (
+            <div>
+
+            </div>
+        )}
+
         <ArticleTable articles={articles} />
       </div>
     </>
