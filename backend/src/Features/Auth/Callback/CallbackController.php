@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Futures\Auth\Callback;
+namespace App\Features\Auth\Callback;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -8,9 +8,9 @@ use App\Models\Response\Status as ErrorStatus;
 use App\Models\Response\Code as ErrorCode;
 use App\Config\Config;
 use App\Helpers\ApiResponseHelper;
-use App\Libraries\Crypto;
-use App\Libraries\Algorithm;
-use App\Futures\Auth\AuthService;
+use App\Shared\Crypto;
+use App\Shared\Algorithm;
+use App\Features\Auth\AuthService;
 
 
 

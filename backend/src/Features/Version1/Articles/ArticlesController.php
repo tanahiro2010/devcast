@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Futures\Version1\Articles;
+namespace App\Features\Version1\Articles;
 
 
 use App\Helpers\ApiResponseHelper;

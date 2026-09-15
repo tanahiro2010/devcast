@@ -1,5 +1,5 @@
 <?php
-namespace App\Futures\Version1\Providers;
+namespace App\Features\Version1\Providers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

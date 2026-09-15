@@ -1,7 +1,7 @@
 <?php
-namespace App\Futures\Auth\Callback;
+namespace App\Features\Auth\Callback;
 
-use App\Libraries\GitHub;
+use App\Infrastructure\GitHub;
 use App\Config\Config;
 use App\Models\DB\User;
 

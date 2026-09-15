@@ -1,5 +1,5 @@
 <?php
-namespace App\Futures\Version1\Articles;
+namespace App\Features\Version1\Articles;
 
 use App\Models\DB\Article;
 use App\Models\DB\User;

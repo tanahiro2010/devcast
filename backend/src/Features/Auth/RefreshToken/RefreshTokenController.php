@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Futures\Auth\RefreshToken;
+namespace App\Features\Auth\RefreshToken;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

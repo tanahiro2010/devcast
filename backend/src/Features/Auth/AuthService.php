@@ -1,5 +1,5 @@
 <?php
-namespace App\Futures\Auth;
+namespace App\Features\Auth;
 
 use App\Config\Config;
 use App\Database\Database;

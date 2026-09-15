@@ -1,5 +1,5 @@
 <?php
-namespace App\Libraries;
+namespace App\Shared;
 
 enum Algorithm: string
 {

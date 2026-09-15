@@ -5,8 +5,8 @@ use App\Models\DB\Subscriptions;
 use App\Models\DB\Credential;
 use App\Models\DB\Session;
 use App\Models\DB\ProviderToken;
-use App\Libraries\Crypto;
-use App\Libraries\Algorithm;
+use App\Shared\Crypto;
+use App\Shared\Algorithm;
 use App\Config\Config;
 
 class User extends BaseModel

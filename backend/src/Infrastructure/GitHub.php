@@ -1,5 +1,5 @@
 <?php
-namespace App\Libraries;
+namespace App\Infrastructure;
 use GuzzleHttp\Client;
 
 class GitHub

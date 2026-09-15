@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Futures\Auth;
+namespace App\Features\Auth;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

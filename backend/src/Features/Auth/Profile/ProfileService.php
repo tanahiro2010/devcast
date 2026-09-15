@@ -1,5 +1,5 @@
 <?php
-namespace App\Futures\Auth\Profile;
+namespace App\Features\Auth\Profile;
 use App\Models\DB\User;
 
 class ProfileService
