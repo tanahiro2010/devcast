@@ -16,16 +16,23 @@ const derivePrimaryStatus = (statuses: Article["status"]): ArticleStatus => {
 
 const formatDate = (date: Date) => new Date(date).toLocaleDateString("sv-SE")
 
+const HEADER_ITEMS = [
+  "Title", "Targets", "Status", "Updated"
+]
+
 const ArticleTable = ({ articles }: Props) => (
   <div className="mt-6 sm:mt-10 border border-white/10 rounded-lg overflow-hidden">
     <div className="overflow-x-auto">
       <table className="w-full text-[13px] min-w-[560px]">
         <thead className="text-neutral-500 kicker text-[10px] uppercase border-b border-white/10">
           <tr>
-            <th className="text-left px-4 sm:px-6 py-3 font-medium">Title</th>
+            {HEADER_ITEMS.map((item: string) => (
+              <HeaderItem>{item}</HeaderItem>
+            ))}
+            {/* <th className="text-left px-4 sm:px-6 py-3 font-medium">Title</th>
             <th className="text-left px-4 sm:px-6 py-3 font-medium">Targets</th>
             <th className="text-left px-4 sm:px-6 py-3 font-medium">Status</th>
-            <th className="text-left px-4 sm:px-6 py-3 font-medium">Updated</th>
+            <th className="text-left px-4 sm:px-6 py-3 font-medium">Updated</th> */}
           </tr>
         </thead>
         <tbody className="divide-y divide-white/10">
@@ -45,6 +52,10 @@ const ArticleTable = ({ articles }: Props) => (
       </table>
     </div>
   </div>
+)
+
+const HeaderItem = ({ children }: { children: string }) => (
+  <th className="text-left px-4 sm:px-6 py-3 font-medium">{ children }</th>
 )
 
 export { ArticleTable }
