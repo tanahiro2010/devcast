@@ -4,16 +4,16 @@ namespace App\Config;
 use Tanahiro2010\SlimRouterDsl\Routes as RouterRoutes;
 use Tanahiro2010\SlimRouterDsl\Route;
 use App\Middleware\AuthMiddleware;
-use App\Futures\Errors\ErrorsController;
-use App\Futures\Health\HealthController;
-use App\Futures\Auth\AuthController;
-use App\Futures\Auth\AccessToken\AccessTokenController;
-use App\Futures\Auth\RefreshToken\RefreshTokenController;
-use App\Futures\Auth\Callback\CallbackController;
-use App\Futures\Auth\Profile\ProfileController;
-use App\Futures\Version1\Version1Controller;
-use App\Futures\Version1\Providers\ProvidersController;
-use App\Futures\Version1\Articles\ArticlesController;
+use App\Features\Errors\ErrorsController;
+use App\Features\Health\HealthController;
+use App\Features\Auth\AuthController;
+use App\Features\Auth\AccessToken\AccessTokenController;
+use App\Features\Auth\RefreshToken\RefreshTokenController;
+use App\Features\Auth\Callback\CallbackController;
+use App\Features\Auth\Profile\ProfileController;
+use App\Features\Version1\Version1Controller;
+use App\Features\Version1\Providers\ProvidersController;
+use App\Features\Version1\Articles\ArticlesController;
 
 class Routes
 {

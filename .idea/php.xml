@@ -70,6 +70,13 @@
       <path value="$PROJECT_DIR$/backend/vendor/illuminate/bus" />
       <path value="$PROJECT_DIR$/backend/vendor/illuminate/reflection" />
       <path value="$PROJECT_DIR$/backend/vendor/illuminate/collections" />
+      <path value="$PROJECT_DIR$/backend/vendor/async-aws/s3" />
+      <path value="$PROJECT_DIR$/backend/vendor/async-aws/core" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/http-client" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/http-client-contracts" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/backend/vendor/psr/cache" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.5">
@@ -77,6 +84,11 @@
   </component>
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
+  </component>
+  <component name="PhpUnit">
+    <phpunit_settings>
+      <PhpUnitSettings custom_loader_path="$PROJECT_DIR$/backend/vendor/autoload.php" />
+    </phpunit_settings>
   </component>
   <component name="PsalmOptionsConfiguration">
     <option name="transferred" value="true" />

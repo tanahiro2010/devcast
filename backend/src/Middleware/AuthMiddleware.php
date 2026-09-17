@@ -11,7 +11,7 @@ use App\Helpers\ApiResponseHelper;
 use App\Models\Response\Code as ErrorCode;
 use App\Models\Response\Status as ErrorStatus;
 use App\Models\DB\Session;
-use App\Libraries\Crypto;
+use App\Shared\Crypto;
 
 class AuthMiddleware implements MiddlewareInterface
 {

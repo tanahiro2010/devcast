@@ -5,7 +5,7 @@ namespace App\Models\DB;
 use App\Models\DB\BaseModel;
 use App\Models\DB\User;
 use App\Config\Config;
-use App\Libraries\Crypto;
+use App\Shared\Crypto;
 
 class ProviderToken extends BaseModel
 {

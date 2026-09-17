@@ -5,8 +5,8 @@ use App\Models\DB\Subscriptions;
 use App\Models\DB\Credential;
 use App\Models\DB\Session;
 use App\Models\DB\ProviderToken;
-use App\Libraries\Crypto;
-use App\Libraries\Algorithm;
+use App\Shared\Crypto;
+use App\Shared\Algorithm;
 use App\Config\Config;
 
 class User extends BaseModel
@@ -118,11 +118,12 @@ class User extends BaseModel
     }
 
     /**
+     * @param string[] $include
      * @return Article[]
      */
-    public function getArticles(): array
+    public function getArticles(array $include = []): array
     {
-        return Article::findByUserId($this['id']);
+        return Article::findByUserId($this['id'], $include);
     }
 
     public function deleteAllSessions(): void

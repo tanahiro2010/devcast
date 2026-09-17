@@ -38,6 +38,20 @@ class Config
     }
 
     /**
+     * @return array{host_url: string, bucket: string, region: string, client_id: string, client_secret: string}
+     */
+    public static function s3(): array
+    {
+        return [
+            'host_url' => self::env('S3_HOST_URL') ?: '',
+            'bucket' => self::env('S3_BUCKET') ?: '',
+            'region' => self::env('S3_REGION') ?: 'us-east-1',
+            'client_id' => self::env('S3_ACCESS_KEY_ID') ?: '',
+            'client_secret' => self::env('S3_SECRET_ACCESS_KEY') ?: '',
+        ];
+    }
+
+    /**
      * @return array{frontend: array{base_url: string}, backend: array{base_url: string}}
      */
     public static function server(): array
