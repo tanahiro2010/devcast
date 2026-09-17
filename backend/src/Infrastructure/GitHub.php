@@ -1,22 +1,20 @@
 <?php
 namespace App\Infrastructure;
-use GuzzleHttp\Client;
 
-class GitHub
+use Psr\Http\Message\ResponseInterface;
+
+class GitHub extends InfraBase
 {
-    private Client $client;
     private string $clientId;
     private string $clientSecret;
     private string $redirectUri;
 
     public function __construct(string $clientId, string $clientSecret, string $redirectUri)
     {
+        parent::__construct('https://github.com/');
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->redirectUri = $redirectUri;
-        $this->client = new Client([
-            'base_uri' => 'https://github.com/'
-        ]);
     }
 
     /**
@@ -24,7 +22,7 @@ class GitHub
      */
     public function getAccessToken(string $code, string $state): array
     {
-        $response = $this->client->post('login/oauth/access_token', [
+        return $this->post('login/oauth/access_token', [
             'form_params' => [
                 'client_id' => $this->clientId,
                 'client_secret' => $this->clientSecret,
@@ -36,13 +34,6 @@ class GitHub
                 'Accept' => 'application/json'
             ]
         ]);
-
-        $data = json_decode($response->getBody()->getContents(), true);
-        if (isset($data['error'])) {
-            throw new \Exception("Error fetching access token: " . $data['error_description']);
-        }
-
-        return $data;
     }
 
     /**
@@ -50,18 +41,26 @@ class GitHub
      */
     public function getProfile(string $accessToken): array
     {
-        $response = $this->client->get('https://api.github.com/user', [
+        return $this->get('https://api.github.com/user', [
             'headers' => [
                 'Authorization' => 'Bearer ' . $accessToken,
                 'Accept' => 'application/vnd.github.v3+json'
             ]
         ]);
+    }
 
-        $data = json_decode($response->getBody()->getContents(), true);
-        if (isset($data['message'])) {
-            throw new \Exception("Error fetching user profile: " . $data['message']);
+    /**
+     * OAuth は HTTP 200 でも error フィールドでエラーを返すため、ここで拾う。
+     *
+     * @param array<string, mixed> $data
+     */
+    protected function checkError(array $data, ResponseInterface $response): void
+    {
+        if (isset($data['error'])) {
+            throw new InfrastructureException(
+                $data['error_description'] ?? $data['error'],
+                $response->getStatusCode()
+            );
         }
-
-        return $data;
     }
 }
