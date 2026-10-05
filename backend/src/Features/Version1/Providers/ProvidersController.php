@@ -5,6 +5,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Helpers\ValidateHelper;
 use App\Helpers\ApiResponseHelper;
+use App\Helpers\MessageHelper;
 use App\Models\Response\Code as ErrorCode;
 use App\Models\Response\Status as ErrorStatus;
 use App\Models\DB\User;
@@ -33,7 +34,7 @@ class ProvidersController
             || !is_string($validationResult['token'])
             || !is_string($validationResult['expires_at'])
         ) {
-            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::INVALID_REQUEST_BODY, "Invalid request body");
+            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::INVALID_REQUEST_BODY, MessageHelper::invalid('request body'));
         }
 
         /** @var User $user */
@@ -45,19 +46,19 @@ class ProvidersController
         try {
             $expiresAt = new \DateTime($validationResult['expires_at']);
         } catch (\Exception $e) {
-            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::INVALID_FIELD_FORMAT, "Invalid expires_at");
+            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::INVALID_FIELD_FORMAT, MessageHelper::invalid('expires_at'));
         }
 
         if ($user->provider($provider) !== null) {
-            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::DUPLICATE_RECORD, "Provider already registered. Use PUT to update it.");
+            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::DUPLICATE_RECORD, "Provider already registered; use PUT to update it");
         }
 
         try {
             $user->registerProvider($provider, $token, $expiresAt);
-            return ApiResponseHelper::successResponse($response, $request, null, "Provider registered successfully");
+            return ApiResponseHelper::successResponse($response, $request, null, MessageHelper::succeeded('provider', 'registered'));
         } catch (\Exception $e) {
             error_log('[providers.registerProvider] ' . $e->getMessage());
-            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to register provider");
+            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, MessageHelper::failed('register', 'provider'));
         }
     }
 
@@ -72,7 +73,7 @@ class ProvidersController
             || !is_string($validationResult['token'])
             || !is_string($validationResult['expires_at'])
         ) {
-            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::INVALID_REQUEST_BODY, "Invalid request body");
+            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::INVALID_REQUEST_BODY, MessageHelper::invalid('request body'));
         }
 
         /** @var User $user */
@@ -84,20 +85,20 @@ class ProvidersController
         try {
             $expiresAt = new \DateTime($validationResult['expires_at']);
         } catch (\Exception $e) {
-            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::INVALID_FIELD_FORMAT, "Invalid expires_at");
+            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::INVALID_FIELD_FORMAT, MessageHelper::invalid('expires_at'));
         }
 
         $providerToken = $user->provider($provider);
         if (!$providerToken) {
-            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::NOT_FOUND, ErrorCode::PROVIDER_NOT_FOUND, "Provider not found");
+            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::NOT_FOUND, ErrorCode::PROVIDER_NOT_FOUND, MessageHelper::notFound('provider'));
         }
 
         try {
             $providerToken->updateToken($token, $expiresAt);
-            return ApiResponseHelper::successResponse($response, $request, null, "Provider updated successfully");
+            return ApiResponseHelper::successResponse($response, $request, null, MessageHelper::succeeded('provider', 'updated'));
         } catch (\Exception $e) {
             error_log('[providers.updateProvider] ' . $e->getMessage());
-            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to update provider");
+            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, MessageHelper::failed('update', 'provider'));
         }
     }
 
@@ -107,7 +108,7 @@ class ProvidersController
             'provider'
         ]);
         if (!$validationResult || !is_string($validationResult['provider'])) {
-            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::INVALID_REQUEST_BODY, "Invalid request body");
+            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::INVALID_REQUEST_BODY, MessageHelper::invalid('request body'));
         }
 
         /** @var User $user */
@@ -118,13 +119,13 @@ class ProvidersController
         try {
             $providerToken = $user->provider($provider);
             if (!$providerToken) {
-                return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::NOT_FOUND, ErrorCode::PROVIDER_NOT_FOUND, "Provider not found");
+                return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::NOT_FOUND, ErrorCode::PROVIDER_NOT_FOUND, MessageHelper::notFound('provider'));
             }
             $providerToken->destroy();
-            return ApiResponseHelper::successResponse($response, $request, null, "Provider deleted successfully");
+            return ApiResponseHelper::successResponse($response, $request, null, MessageHelper::succeeded('provider', 'deleted'));
         } catch (\Exception $e) {
             error_log('[providers.deleteProvider] ' . $e->getMessage());
-            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to delete provider");
+            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, MessageHelper::failed('delete', 'provider'));
         }
     }
 }

@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use App\Helpers\ApiResponseHelper;
+use App\Helpers\MessageHelper;
 use App\Models\Response\Code as ErrorCode;
 use App\Models\Response\Status as ErrorStatus;
 use App\Models\DB\Session;
@@ -55,7 +56,7 @@ class AuthMiddleware implements MiddlewareInterface
             $data = Crypto::jwtDecode($token, Config::env('JWT_SECRET'));
 
             if (!isset($data['iss']) || !isset($data['sub'])) {
-                return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, "Invalid token: user_id not found");
+                return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, MessageHelper::invalid('token', 'missing user_id'));
             }
         } catch (\Exception $e) {
             return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED, "Invalid or expired token: " . $e->getMessage());
@@ -64,10 +65,10 @@ class AuthMiddleware implements MiddlewareInterface
         try {
             $session = Session::findBySessionId($data['iss']);
             if (!$session) {
-                return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::UNAUTHORIZED, ErrorCode::SESSION_NOT_FOUND, "Session not found");
+                return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::UNAUTHORIZED, ErrorCode::SESSION_NOT_FOUND, MessageHelper::notFound('session'));
             }
         } catch (\Exception $e) {
-            return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to retrieve session: " . $e->getMessage());
+            return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, MessageHelper::failed('retrieve', 'session') . ": " . $e->getMessage());
         }
 
 
@@ -78,7 +79,7 @@ class AuthMiddleware implements MiddlewareInterface
         try {
             $user = $session->user();
         } catch (\Exception $e) {
-            return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to retrieve user: " . $e->getMessage());
+            return ApiResponseHelper::errorResponse(new \Slim\Psr7\Response(), $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, MessageHelper::failed('retrieve', 'user') . ": " . $e->getMessage());
         }
 
         $request = $request->withAttribute('user', $user);

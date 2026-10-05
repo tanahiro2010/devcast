@@ -5,6 +5,7 @@ namespace App\Features\Auth\AccessToken;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Helpers\ApiResponseHelper;
+use App\Helpers\MessageHelper;
 use App\Models\Response\Code as ErrorCode;
 use App\Models\Response\Status as ErrorStatus;
 use App\Models\DB\RefreshToken;
@@ -18,7 +19,7 @@ class AccessTokenController
         $refreshTokenValue = is_array($body) ? ($body['refresh_token'] ?? null) : null;
 
         if (!is_string($refreshTokenValue) || $refreshTokenValue === '') {
-            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::MISSING_REQUIRED_FIELDS, "Missing refresh_token");
+            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::MISSING_REQUIRED_FIELDS, MessageHelper::missing('refresh_token'));
         }
 
         $refreshToken = RefreshToken::findByToken($refreshTokenValue);
@@ -39,6 +40,6 @@ class AccessTokenController
         return ApiResponseHelper::successResponse($response, $request, [
             'access_token' => $newAccessToken,
             'refresh_token' => $newRefreshTokenValue,
-        ], "Access token refreshed successfully");
+        ], MessageHelper::succeeded('access token', 'refreshed'));
     }
 }
