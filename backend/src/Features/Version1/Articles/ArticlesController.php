@@ -57,7 +57,7 @@ class ArticlesController
      * @param array{article_id: string} $args
      * @return Response
      */
-    function getArticle(Request $request, Response $response, array $args): Response
+    function getArticleById(Request $request, Response $response, array $args): Response
     {
         $user = $request->getAttribute("user");
         if ($user === null) return ApiResponseHelper::errorResponse(
@@ -176,5 +176,44 @@ class ArticlesController
         }
 
         return ApiResponseHelper::successResponse($response, $request, $article, MessageHelper::succeeded('article', 'updated'));
+    }
+
+    function deleteArticle(Request $request, Response $response, array $args): Response
+    {
+        /** @var User $user */
+        $user = $request->getAttribute("user");
+        if ($user === null) return ApiResponseHelper::errorResponse(
+            $response, $request, ErrorStatus::UNAUTHORIZED, ErrorCode::UNAUTHORIZED,
+            MessageHelper::unauthenticated()
+        );
+
+        $articleId = $args["article_id"];
+        if ($articleId === null) return ApiResponseHelper::errorResponse(
+            $response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::VALIDATION_FAILED,
+            MessageHelper::missing('article_id')
+        );
+
+        try {
+            $article = $this->articlesService->getArticle($articleId);
+            if ($article === null) {
+                throw new \Exception("Article not found");
+            }
+        } catch (\Exception $e) {
+            return ApiResponseHelper::errorResponse(
+                $response, $request, ErrorStatus::BAD_REQUEST, ErrorCode::VALIDATION_FAILED,
+                MessageHelper::notFound('article')
+            );
+        }
+
+        try {
+            $article->deleteArticle();
+        } catch (\Exception $e) {
+            return ApiResponseHelper::errorResponse(
+                $response, $request, ErrorStatus::BAD_REQUEST, Code::VALIDATION_FAILED,
+                MessageHelper::failed('delete', 'article')
+            );
+        }
+
+        return ApiResponseHelper::successResponse($response, $request, null, MessageHelper::succeeded('article', 'deleted'));
     }
 }
