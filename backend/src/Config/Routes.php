@@ -56,7 +56,10 @@ class Routes
                         Route::group('/articles', [
                             Route::controller(new ArticlesController(), [
                                 Route::get('/', 'getArticles'),
-                                Route::post('/', 'createArticle')
+                                Route::get('/{id}', 'getArticleById'),
+                                Route::post('/', 'createArticle'),
+                                Route::put('/{id}', 'updateArticle'),
+                                Route::delete('/{id}', 'deleteArticle'),
                             ])
                         ])
                     ])

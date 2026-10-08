@@ -30,6 +30,9 @@ class ArticleRevision extends BaseModel
         return $revisions[0];
     }
 
+    /**
+     * @throws \Exception
+     */
     static function countByArticleId(int $articleId): int
     {
         return self::where(['article_id' => $articleId])->count();
@@ -47,6 +50,7 @@ class ArticleRevision extends BaseModel
 
     /**
      * @param array{title: string, body: string, tags: string[]} $data
+     * @throws \Exception
      */
     static function createRevision(Article $article, User $user, array $data): ArticleRevision
     {
@@ -62,7 +66,7 @@ class ArticleRevision extends BaseModel
         ]);
     }
 
-    public function article(): ?Article
+    public function article(): ?User
     {
         return $this->belongsTo(Article::class, 'article_id');
     }

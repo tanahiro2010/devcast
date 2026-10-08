@@ -50,5 +50,12 @@ class ArticlesService
         ];
     }
 
-
+    /**
+     * @param int    $articleId
+     * @return Article
+     */
+    public function getArticle(int $articleId): Article
+    {
+        return Article::findById($articleId);
+    }
 }

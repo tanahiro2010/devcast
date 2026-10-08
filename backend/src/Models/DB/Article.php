@@ -44,6 +44,9 @@ class Article extends BaseModel
         return self::whereAll(['user_id' => $userId], $include);
     }
 
+    /**
+     * @throws \Exception
+     */
     private function attachRevisionsCount(): static
     {
         $this->properties['revisions_count'] = ArticleRevision::countByArticleId($this['id']);
@@ -53,6 +56,7 @@ class Article extends BaseModel
     /**
      * @param array{title: string, body: string, tags: string[]} $data
      * @return Article
+     * @throws \Exception
      */
     static function createArticle(User $user, array $data): Article
     {
@@ -82,13 +86,14 @@ class Article extends BaseModel
     /**
      * @param array{title?: string, body?: string, tags?: string[]} $data
      * @return Article
+     * @throws \Exception
      */
     public function updateArticle(User $user, array $data): Article
     {
         ArticleRevision::createRevision($this, $user, [
             'title' => $data['title'] ?? $this['title'],
             'body'  => $data['body'] ?? $this['body'],
-            'tags'  => $data['tags'] ?? json_decode($this['tags'], true),
+            'tags'  => $data['tags'] ?? json_decode((string)$this['tags'], true),
         ]);
 
         if (isset($data['tags'])) {

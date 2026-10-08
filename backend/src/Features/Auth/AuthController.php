@@ -5,6 +5,7 @@ namespace App\Features\Auth;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Helpers\ApiResponseHelper;
+use App\Helpers\MessageHelper;
 use App\Models\Response\Code as ErrorCode;
 use App\Models\Response\Status as ErrorStatus;
 
@@ -14,11 +15,11 @@ class AuthController
     {
         $oauthUrl = AuthService::getOauthUrl();
         if (!$oauthUrl) {
-            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, "Failed to generate OAuth URL");
+            return ApiResponseHelper::errorResponse($response, $request, ErrorStatus::INTERNAL_SERVER_ERROR, ErrorCode::SOMETHING_WENT_WRONG, MessageHelper::failed('generate', 'OAuth URL'));
         }
 
         // state はリクエストごとに一意である必要があるため、プロキシ/CDN等にキャッシュされてはならない。
-        return ApiResponseHelper::successResponse($response, $request, ['url' => $oauthUrl], "OAuth URL generated successfully")
+        return ApiResponseHelper::successResponse($response, $request, ['url' => $oauthUrl], MessageHelper::succeeded('OAuth URL', 'generated'))
             ->withHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
             ->withHeader('Pragma', 'no-cache');
     }
